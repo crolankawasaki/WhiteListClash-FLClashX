@@ -8,7 +8,12 @@ on:
     branches: [ main ]
     paths-ignore:
       - 'README.md'
+      - 'LICENSE'
       - '.gitignore'
+
+# Важно: даем права на запись
+permissions:
+  contents: write
 
 jobs:
   update:
@@ -27,7 +32,9 @@ jobs:
         python-version: '3.11'
     
     - name: Install dependencies
-      run: pip install requests pyyaml
+      run: |
+        python -m pip install --upgrade pip
+        pip install requests pyyaml
     
     - name: Update FLClash subscription
       run: python merger.py
@@ -37,17 +44,17 @@ jobs:
     
     - name: Commit and push changes
       run: |
-        git config --global user.name "GitHub Actions"
-        git config --global user.email "actions@github.com"
+        git config --global user.name "github-actions[bot]"
+        git config --global user.email "github-actions[bot]@users.noreply.github.com"
         
-        git add merged_flclash.yaml merged_flclash_base64.txt servers_history.json
-        
-        if git diff --staged --quiet; then
-          echo "✅ No changes to commit"
-        else
-          echo "📤 Committing changes..."
+        # Проверяем есть ли изменения
+        if [[ -n $(git status --porcelain) ]]; then
+          echo "📤 Есть изменения, коммитим..."
+          git add merged_flclash.yaml merged_flclash_base64.txt servers_history.json subscription_info.txt
           git commit -m "🔄 Auto-update $(date +'%Y-%m-%d %H:%M:%S')"
-          git push
-          echo "✅ Changes pushed successfully"
+          git push origin main
+          echo "✅ Изменения запушены"
+        else
+          echo "✅ Нет изменений для коммита"
         fi
       shell: bash
