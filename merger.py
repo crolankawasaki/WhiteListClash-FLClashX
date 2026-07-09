@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 VLESS Subscription Merger for FLClashX
-Clean names with country flags, no duplicates
+Clean names with flags based on real server location (IP geolocation)
 """
 
 import requests
@@ -13,6 +13,7 @@ import logging
 import os
 import sys
 import re
+import ipaddress
 from typing import List, Dict, Optional
 
 logging.basicConfig(
@@ -29,74 +30,126 @@ SOURCES = [
 
 OUTPUT_FILE = "merged_flclash.yaml"
 HISTORY_FILE = "servers_history.json"
+GEO_CACHE_FILE = "geo_cache.json"
 
-# Карта флагов стран
-FLAGS = {
-    'united kingdom': '🇬🇧', 'uk': '🇬🇧', 'england': '🇬🇧',
-    'united states': '🇺🇸', 'usa': '🇺🇸', 'america': '🇺🇸',
-    'germany': '🇩🇪', 'deutschland': '🇩🇪',
-    'france': '🇫🇷',
-    'netherlands': '🇳🇱', 'holland': '🇳🇱',
-    'switzerland': '🇨🇭',
-    'sweden': '🇸🇪',
-    'norway': '🇳🇴',
-    'finland': '🇫🇮',
-    'denmark': '🇩🇰',
-    'canada': '🇨🇦',
-    'australia': '🇦🇺',
-    'japan': '🇯🇵',
-    'south korea': '🇰🇷', 'korea': '🇰🇷',
-    'singapore': '🇸🇬',
-    'hong kong': '🇭🇰',
-    'taiwan': '🇹🇼',
-    'china': '🇨🇳',
-    'india': '🇮🇳',
-    'brazil': '🇧🇷',
-    'russia': '🇷🇺',
-    'italy': '🇮🇹',
-    'spain': '🇪🇸',
-    'poland': '🇵🇱',
-    'austria': '🇦🇹',
-    'belgium': '🇧🇪',
-    'ireland': '🇮🇪',
-    'portugal': '🇵🇹',
-    'turkey': '🇹🇷',
-    'uae': '🇦🇪', 'dubai': '🇦🇪',
-    'israel': '🇮🇱',
-    'romania': '🇷🇴',
-    'bulgaria': '🇧🇬',
-    'czech': '🇨🇿', 'czechia': '🇨🇿',
-    'hungary': '🇭🇺',
-    'slovakia': '🇸🇰',
-    'lithuania': '🇱🇹',
-    'latvia': '🇱🇻',
-    'estonia': '🇪🇪',
-    'ukraine': '🇺🇦',
-    'moldova': '🇲🇩',
-    'serbia': '🇷🇸',
-    'croatia': '🇭🇷',
-    'slovenia': '🇸🇮',
-    'greece': '🇬🇷',
-    'cyprus': '🇨🇾',
-    'luxembourg': '🇱🇺',
-    'iceland': '🇮🇸',
+# Коды стран → флаги
+COUNTRY_FLAGS = {
+    'GB': '🇬🇧', 'US': '🇺🇸', 'DE': '🇩🇪', 'FR': '🇫🇷',
+    'NL': '🇳🇱', 'CH': '🇨🇭', 'SE': '🇸🇪', 'NO': '🇳🇴',
+    'FI': '🇫🇮', 'DK': '🇩🇰', 'CA': '🇨🇦', 'AU': '🇦🇺',
+    'JP': '🇯🇵', 'KR': '🇰🇷', 'SG': '🇸🇬', 'HK': '🇭🇰',
+    'TW': '🇹🇼', 'CN': '🇨🇳', 'IN': '🇮🇳', 'BR': '🇧🇷',
+    'RU': '🇷🇺', 'IT': '🇮🇹', 'ES': '🇪🇸', 'PL': '🇵🇱',
+    'AT': '🇦🇹', 'BE': '🇧🇪', 'IE': '🇮🇪', 'PT': '🇵🇹',
+    'TR': '🇹🇷', 'AE': '🇦🇪', 'IL': '🇮🇱', 'RO': '🇷🇴',
+    'BG': '🇧🇬', 'CZ': '🇨🇿', 'HU': '🇭🇺', 'SK': '🇸🇰',
+    'LT': '🇱🇹', 'LV': '🇱🇻', 'EE': '🇪🇪', 'UA': '🇺🇦',
+    'MD': '🇲🇩', 'RS': '🇷🇸', 'HR': '🇭🇷', 'SI': '🇸🇮',
+    'GR': '🇬🇷', 'CY': '🇨🇾', 'LU': '🇱🇺', 'IS': '🇮🇸',
+    'KZ': '🇰🇿', 'VN': '🇻🇳', 'TH': '🇹🇭', 'MY': '🇲🇾',
+    'ID': '🇮🇩', 'PH': '🇵🇭', 'NZ': '🇳🇿', 'ZA': '🇿🇦',
+    'EG': '🇪🇬', 'NG': '🇳🇬', 'KE': '🇰🇪', 'MA': '🇲🇦',
+    'AR': '🇦🇷', 'CL': '🇨🇱', 'CO': '🇨🇴', 'MX': '🇲🇽',
+    'PE': '🇵🇪', 'UZ': '🇺🇿', 'AZ': '🇦🇿', 'GE': '🇬🇪',
+    'AM': '🇦🇲', 'BY': '🇧🇾', 'KG': '🇰🇬', 'TJ': '🇹🇯',
+}
+
+# Коды стран → названия
+COUNTRY_NAMES = {
+    'GB': 'United Kingdom', 'US': 'United States', 'DE': 'Germany',
+    'FR': 'France', 'NL': 'Netherlands', 'CH': 'Switzerland',
+    'SE': 'Sweden', 'NO': 'Norway', 'FI': 'Finland', 'DK': 'Denmark',
+    'CA': 'Canada', 'AU': 'Australia', 'JP': 'Japan', 'KR': 'South Korea',
+    'SG': 'Singapore', 'HK': 'Hong Kong', 'TW': 'Taiwan', 'CN': 'China',
+    'IN': 'India', 'BR': 'Brazil', 'RU': 'Russia', 'IT': 'Italy',
+    'ES': 'Spain', 'PL': 'Poland', 'AT': 'Austria', 'BE': 'Belgium',
+    'IE': 'Ireland', 'PT': 'Portugal', 'TR': 'Turkey', 'AE': 'UAE',
+    'IL': 'Israel', 'RO': 'Romania', 'BG': 'Bulgaria', 'CZ': 'Czechia',
+    'HU': 'Hungary', 'SK': 'Slovakia', 'LT': 'Lithuania', 'LV': 'Latvia',
+    'EE': 'Estonia', 'UA': 'Ukraine', 'MD': 'Moldova', 'RS': 'Serbia',
+    'HR': 'Croatia', 'SI': 'Slovenia', 'GR': 'Greece', 'CY': 'Cyprus',
+    'LU': 'Luxembourg', 'IS': 'Iceland', 'KZ': 'Kazakhstan', 'VN': 'Vietnam',
+    'TH': 'Thailand', 'MY': 'Malaysia', 'ID': 'Indonesia', 'PH': 'Philippines',
+    'NZ': 'New Zealand', 'ZA': 'South Africa', 'EG': 'Egypt', 'NG': 'Nigeria',
+    'KE': 'Kenya', 'MA': 'Morocco', 'AR': 'Argentina', 'CL': 'Chile',
+    'CO': 'Colombia', 'MX': 'Mexico', 'PE': 'Peru', 'UZ': 'Uzbekistan',
+    'AZ': 'Azerbaijan', 'GE': 'Georgia', 'AM': 'Armenia', 'BY': 'Belarus',
+    'KG': 'Kyrgyzstan', 'TJ': 'Tajikistan',
 }
 
 
-def get_flag(name: str) -> str:
-    """Определяет флаг по имени сервера"""
-    name_lower = name.lower()
-    for country, flag in FLAGS.items():
-        if country in name_lower:
-            return flag
-    return ''
+def load_geo_cache() -> Dict:
+    """Загружает кэш геолокации"""
+    if os.path.exists(GEO_CACHE_FILE):
+        try:
+            return json.load(open(GEO_CACHE_FILE, 'r', encoding='utf-8'))
+        except:
+            pass
+    return {}
+
+
+def save_geo_cache(cache: Dict):
+    """Сохраняет кэш геолокации"""
+    with open(GEO_CACHE_FILE, 'w', encoding='utf-8') as f:
+        json.dump(cache, f, indent=2, ensure_ascii=False)
+
+
+def get_country_by_ip(ip: str) -> Optional[str]:
+    """
+    Определяет страну по IP через ip-api.com
+    Возвращает код страны (GB, US, DE...) или None
+    """
+    # Проверяем, это IP или домен
+    try:
+        ipaddress.ip_address(ip)
+    except ValueError:
+        # Это домен, пробуем разрешить
+        try:
+            import socket
+            ip = socket.gethostbyname(ip)
+        except:
+            return None
+
+    # Проверяем кэш
+    cache = load_geo_cache()
+    if ip in cache:
+        return cache[ip]
+
+    # Запрашиваем геолокацию
+    try:
+        url = f"http://ip-api.com/json/{ip}?fields=countryCode"
+        r = requests.get(url, timeout=5)
+        if r.status_code == 200:
+            data = r.json()
+            country_code = data.get('countryCode', '')
+            if country_code:
+                cache[ip] = country_code
+                save_geo_cache(cache)
+                return country_code
+    except:
+        pass
+
+    return None
+
+
+def get_flag_and_country(ip: str) -> tuple:
+    """Возвращает (флаг, название страны) по IP"""
+    country_code = get_country_by_ip(ip)
+    if country_code and country_code in COUNTRY_FLAGS:
+        flag = COUNTRY_FLAGS[country_code]
+        name = COUNTRY_NAMES.get(country_code, country_code)
+        return flag, name
+    return '', ''
 
 
 def clean_name(name: str) -> str:
-    """Очищает имя от мусора, оставляя флаг и страну"""
-    # Убираем emoji флаги (оставим свои)
-    name = re.sub(r'[^\w\s\-.*#()\[\]@]', '', name)
-    # Убираем лишние пробелы
+    """Очищает имя от мусора"""
+    # Убираем эмодзи и спецсимволы
+    name = re.sub(r'[^\w\s\-.,()\[\]@]', '', name)
+    # Убираем теги в скобках и звездочках
+    name = re.sub(r'\[.*?\]', '', name)
+    name = re.sub(r'\*.*?\*', '', name)
+    # Чистим пробелы
     name = ' '.join(name.split())
     return name.strip()
 
@@ -230,11 +283,11 @@ class VlessParser:
 
 def fetch_and_decode(url: str) -> List[str]:
     try:
-        logger.info(f"Download: {url}")
+        logger.info(f"📥 Download: {url}")
         r = requests.get(url, timeout=30, headers={'User-Agent': 'ClashX/1.0'})
         r.raise_for_status()
         content = r.text
-        logger.info(f"  Size: {len(content)} bytes")
+        logger.info(f"   Size: {len(content)} bytes")
 
         lines = []
 
@@ -243,7 +296,7 @@ def fetch_and_decode(url: str) -> List[str]:
             pad = 4 - len(clean) % 4 if len(clean) % 4 else 0
             clean += '=' * pad
             decoded = base64.b64decode(clean).decode('utf-8', errors='ignore')
-            logger.info(f"  Base64 decoded: {len(decoded)} bytes")
+            logger.info(f"   Base64 decoded: {len(decoded)} bytes")
             for line in decoded.split('\n'):
                 line = line.strip()
                 if line.startswith('vless://'):
@@ -259,11 +312,11 @@ def fetch_and_decode(url: str) -> List[str]:
             if found:
                 lines.extend(found)
 
-        logger.info(f"  VLESS found: {len(lines)}")
+        logger.info(f"   VLESS found: {len(lines)}")
         return lines
 
     except Exception as e:
-        logger.error(f"  Error: {e}")
+        logger.error(f"   Error: {e}")
         return []
 
 
@@ -285,10 +338,10 @@ def process_all_sources() -> List[Dict]:
 
 def make_beautiful_names(nodes: List[Dict]) -> List[Dict]:
     """
-    Создает красивые уникальные имена с флагами.
-    Формат: Флаг Страна (Server) или Флаг Страна - Город
+    Создает имена на основе РЕАЛЬНОЙ геолокации по IP.
+    Формат: Флаг Страна (Город) или Флаг Страна (IP)
     """
-    # Сначала удаляем дубликаты по server:port:uuid
+    # Удаляем дубликаты по server:port:uuid
     seen = set()
     unique = []
     for node in nodes:
@@ -297,40 +350,38 @@ def make_beautiful_names(nodes: List[Dict]) -> List[Dict]:
             seen.add(nid)
             unique.append(node)
 
-    # Создаем красивые имена
+    logger.info(f"Resolving geolocation for {len(unique)} servers...")
+    
+    # Определяем страну по IP для каждого сервера
+    for i, node in enumerate(unique):
+        if (i + 1) % 10 == 0:
+            logger.info(f"  Progress: {i + 1}/{len(unique)}")
+        
+        flag, country = get_flag_and_country(node['server'])
+        
+        if flag and country:
+            # Используем реальную страну по IP
+            clean = clean_name(node['name'])
+            if clean and clean not in country:
+                node['display_name'] = f"{flag} {country} - {clean}"
+            else:
+                node['display_name'] = f"{flag} {country}"
+        else:
+            # Не удалось определить — используем оригинал
+            node['display_name'] = clean_name(node['name']) or f"{node['server']}"
+    
+    # Делаем имена уникальными
     name_pool = {}
     for node in unique:
-        original = clean_name(node['name'])
-        flag = get_flag(original)
-        
-        # Если флаг уже есть в имени - оставляем как есть
-        if flag and flag not in original:
-            # Создаем имя с флагом
-            # Убираем мусорные теги
-            clean = re.sub(r'\[.*?\]', '', original).strip()
-            clean = re.sub(r'\(.*?\)', '', clean).strip()
-            clean = re.sub(r'\*.*?\*', '', clean).strip()
-            clean = ' '.join(clean.split())
-            
-            if not clean:
-                clean = node['server']
-            
-            # Базовая часть: флаг + название
-            base = f"{flag} {clean}"
+        name = node['display_name']
+        if name in name_pool:
+            name_pool[name] += 1
+            node['name'] = f"{name} ({node['server']})"
         else:
-            base = original if original else node['server']
-        
-        # Если есть дубликат имени - добавляем адрес
-        if base in name_pool:
-            name_pool[base] += 1
-            final_name = f"{base} ({node['server']})"
-        else:
-            name_pool[base] = 1
-            final_name = base
-        
-        node['name'] = final_name
+            name_pool[name] = 1
+            node['name'] = name
 
-    logger.info(f"Unique servers: {len(unique)} (duplicates removed: {len(nodes) - len(unique)})")
+    logger.info(f"Unique servers: {len(unique)}")
     return unique
 
 
@@ -507,7 +558,7 @@ def main():
         r = len([n for n in unique if 'reality-opts' in n])
         t = len([n for n in unique if n.get('tls') and 'reality-opts' not in n])
 
-        logger.info(f"Done! Servers: {len(unique)} (Reality: {r}, TLS: {t})")
+        logger.info(f"✅ Done! Servers: {len(unique)} (Reality: {r}, TLS: {t})")
 
     except Exception as e:
         logger.error(f"Error: {e}", exc_info=True)
