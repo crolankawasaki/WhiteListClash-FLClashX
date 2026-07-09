@@ -11,7 +11,6 @@ on:
       - 'LICENSE'
       - '.gitignore'
 
-# Важно: даем права на запись
 permissions:
   contents: write
 
@@ -47,14 +46,21 @@ jobs:
         git config --global user.name "github-actions[bot]"
         git config --global user.email "github-actions[bot]@users.noreply.github.com"
         
+        # Добавляем только существующие файлы
+        git add merged_flclash.yaml merged_flclash_base64.txt servers_history.json 2>/dev/null || true
+        
+        # Проверяем существует ли subscription_info.txt
+        if [ -f subscription_info.txt ]; then
+          git add subscription_info.txt
+        fi
+        
         # Проверяем есть ли изменения
-        if [[ -n $(git status --porcelain) ]]; then
-          echo "📤 Есть изменения, коммитим..."
-          git add merged_flclash.yaml merged_flclash_base64.txt servers_history.json subscription_info.txt
+        if git diff --staged --quiet; then
+          echo "✅ No changes to commit"
+        else
+          echo "📤 Committing changes..."
           git commit -m "🔄 Auto-update $(date +'%Y-%m-%d %H:%M:%S')"
           git push origin main
-          echo "✅ Изменения запушены"
-        else
-          echo "✅ Нет изменений для коммита"
+          echo "✅ Changes pushed successfully"
         fi
       shell: bash
