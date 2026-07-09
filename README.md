@@ -1,4 +1,4 @@
-# 🚀 FLClashX Subscription Для Белых Списков
+# 🚀 FLClashX Subscription White List
 
 [![Update Subscription](https://github.com/crolankawasaki/WhiteListClash-FLClashX/actions/workflows/update-subscription.yml/badge.svg)](https://github.com/crolankawasaki/WhiteListClash-FLClashX/actions/workflows/update-subscription.yml)
 [![Servers](https://img.shields.io/badge/Updated-Every%20Hour-blue)](https://github.com/crolankawasaki/WhiteListClash-FLClashX)
