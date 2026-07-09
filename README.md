@@ -16,7 +16,7 @@ https://raw.githubusercontent.com/crolankawasaki/WhiteListClash-FLClashX/main/me
 
 ## 📱 Как установить
 
-### iOS (iPhone/iPad)
+### iOS | Android | И Другие Устройства
 
 1. Откройте **FLClashX**
 2. Перейдите в **Config** (внизу)
