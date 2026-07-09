@@ -35,13 +35,33 @@ HISTORY_FILE = "servers_history.json"
 class VlessParser:
     """Парсер VLESS URI для FLClashX"""
     
+    # Счетчик для уникальных имен
+    name_counter = {}
+    
     @staticmethod
-    def sanitize_name(name: str) -> str:
-        """Очистка имени сервера для FLClashX"""
-        name = re.sub(r'[^\w\s\-_@#]', '', name)
-        if len(name) > 50:
-            name = name[:47] + "..."
-        return name.strip() or "VLESS-Node"
+    def sanitize_name(name: str, server: str = "", port: int = 0) -> str:
+        """Очистка и создание уникального имени сервера"""
+        # Удаляем проблемные символы
+        name = re.sub(r'[^\w\s\-_@#.]', '', name)
+        
+        # Если имя пустое или слишком короткое
+        if not name or len(name.strip()) < 3:
+            name = f"VLESS-{server}-{port}"
+        
+        # Ограничиваем длину
+        if len(name) > 45:
+            name = name[:42] + "..."
+        
+        # Делаем имя уникальным
+        base_name = name.strip()
+        if base_name in VlessParser.name_counter:
+            VlessParser.name_counter[base_name] += 1
+            name = f"{base_name} #{VlessParser.name_counter[base_name]}"
+        else:
+            VlessParser.name_counter[base_name] = 0
+            name = base_name
+        
+        return name
     
     @staticmethod
     def parse_uri(uri: str) -> Optional[Dict]:
@@ -50,17 +70,18 @@ class VlessParser:
             if not uri.startswith('vless://'):
                 return None
             
+            uri_original = uri
             uri = uri[8:]
             
+            # Извлекаем имя из фрагмента
             if '#' in uri:
                 uri_part, name = uri.split('#', 1)
                 name = requests.utils.unquote(name.strip())
             else:
                 uri_part = uri
-                name = "VLESS-Node"
+                name = ""
             
-            name = VlessParser.sanitize_name(name)
-            
+            # Парсим основную часть
             if '?' in uri_part:
                 base_part, params_str = uri_part.split('?', 1)
             else:
@@ -72,8 +93,11 @@ class VlessParser:
             
             uuid_str, address_part = base_part.split('@', 1)
             
+            # Парсим адрес и порт
+            port = 443
             if ':' in address_part:
                 if address_part.count(':') > 1:
+                    # IPv6
                     if ']:' in address_part:
                         address, port_str = address_part.rsplit(']:', 1)
                         address = address[1:]
@@ -89,14 +113,46 @@ class VlessParser:
                     port = 443
             else:
                 address = address_part
-                port = 443
             
+            # Парсим параметры
             params = {}
             if params_str:
                 for param in params_str.split('&'):
                     if '=' in param:
                         key, value = param.split('=', 1)
                         params[key] = value
+            
+            # Если имя не задано, создаем из параметров
+            if not name:
+                country = params.get('country', '')
+                city = params.get('city', '')
+                if country:
+                    name = country
+                    if city:
+                        name += f" - {city}"
+                else:
+                    name = f"{address}:{port}"
+            
+            # Создаем уникальное имя
+            name = VlessParser.sanitize_name(name, address, port)
+            
+            # Добавляем префикс типа безопасности
+            security = params.get('security', '')
+            if security == 'reality':
+                if not name.startswith('[R]'):
+                    name = f"[R] {name}"
+            elif security == 'tls':
+                if not name.startswith('[T]'):
+                    name = f"[T] {name}"
+            
+            # Добавляем тип транспорта
+            network = params.get('type', 'tcp')
+            if network == 'ws':
+                if '[WS]' not in name:
+                    name = f"{name} [WS]"
+            elif network == 'grpc':
+                if '[gRPC]' not in name:
+                    name = f"{name} [gRPC]"
             
             return {
                 'uuid': uuid_str,
@@ -293,6 +349,9 @@ def fetch_and_decode(url: str) -> List[str]:
 
 def process_all_sources() -> List[Dict]:
     """Обрабатывает все источники"""
+    # Сбрасываем счетчик имен перед обработкой
+    VlessParser.name_counter = {}
+    
     all_nodes = []
     parser = VlessParser()
     
