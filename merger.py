@@ -1,8 +1,4 @@
 #!/usr/bin/env python3
-"""
-Объединение VLESS подписок в формат FLClashX
-Имена серверов — строго как в оригинале
-"""
 
 import requests
 import base64
