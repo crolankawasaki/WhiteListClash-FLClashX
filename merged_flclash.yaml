@@ -1,0 +1,165 @@
+# ===========================================
+# FLClashX Subscription
+# ===========================================
+# Обновлено: 2026-07-09 13:42:59
+# Серверов: 3
+# Reality: 0 | TLS: 3 | Другие: 0
+# ===========================================
+
+# Порт для смешанного трафика (HTTP + SOCKS5)
+mixed-port: 7890
+port: 7890
+socks-port: 7891
+
+# Разрешить подключения из LAN
+allow-lan: true
+
+# Режим: rule, global, direct
+mode: rule
+
+# Уровень логирования
+log-level: info
+
+# IPv6
+ipv6: false
+
+# Внешний контроллер
+external-controller: 127.0.0.1:9090
+
+# Секретный ключ API
+secret: ''
+
+# ===========================================
+# DNS настройки (оптимизировано для iOS)
+# ===========================================
+dns:
+  enable: true
+  ipv6: false
+  enhanced-mode: fake-ip
+  fake-ip-range: 198.18.0.1/16
+  listen: 0.0.0.0:53
+  default-nameserver:
+    - 1.1.1.1
+    - 8.8.8.8
+  nameserver:
+    - https://dns.cloudflare.com/dns-query
+    - https://dns.google/dns-query
+    - 1.1.1.1
+    - 8.8.8.8
+  fallback:
+    - https://dns.quad9.net/dns-query
+    - tls://8.8.8.8:853
+  fallback-filter:
+    geoip: true
+    ipcidr:
+      - 240.0.0.0/4
+      - 0.0.0.0/32
+
+# ===========================================
+# Прокси серверы
+# ===========================================
+proxies:
+  - name: "Germany   CIDR"
+    type: vless
+    server: 185.22.234.32
+    port: 7443
+    uuid: 57c77d07-bec3-4bf7-9b72-70ece40450f6
+    network: ws
+    udp: true
+    skip-cert-verify: true
+    tls: true
+    servername: mms-2.hysteria.ltd
+    client-fingerprint: qq
+    ws-opts:
+      path: "/ws"
+      headers:
+
+  - name: "Switzerland   CIDR"
+    type: vless
+    server: 194.55.239.181
+    port: 7443
+    uuid: 57c77d07-bec3-4bf7-9b72-70ece40450f6
+    network: ws
+    udp: true
+    skip-cert-verify: true
+    tls: true
+    servername: sw-1-al.hysteria.ltd
+    client-fingerprint: qq
+    ws-opts:
+      path: "/ws"
+      headers:
+
+  - name: "Switzerland   CIDR"
+    type: vless
+    server: 194.55.239.181
+    port: 9443
+    uuid: 57c77d07-bec3-4bf7-9b72-70ece40450f6
+    network: ws
+    udp: true
+    skip-cert-verify: true
+    tls: true
+    servername: sw-2-al.hysteria.ltd
+    client-fingerprint: qq
+    ws-opts:
+      path: "/ws"
+      headers:
+
+proxy-groups:
+  - name: 🚀 Auto
+    type: url-test
+    proxies:
+      - "Germany   CIDR"
+      - "Switzerland   CIDR"
+      - "Switzerland   CIDR"
+    url: http://www.gstatic.com/generate_204
+    interval: 300
+    tolerance: 100
+
+  - name: 📡 All Servers
+    type: select
+    proxies:
+      - 🚀 Auto
+      - DIRECT
+      - REJECT
+      - "Germany   CIDR"
+      - "Switzerland   CIDR"
+      - "Switzerland   CIDR"
+
+  - name: 🔐 TLS
+    type: select
+    proxies:
+      - 🚀 Auto
+      - "Germany   CIDR"
+      - "Switzerland   CIDR"
+      - "Switzerland   CIDR"
+
+rule-providers:
+  reject:
+    type: http
+    behavior: domain
+    url: "https://cdn.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/reject.txt"
+    path: ./ruleset/reject.yaml
+    interval: 86400
+  telegram:
+    type: http
+    behavior: domain
+    url: "https://cdn.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/telegramcidr.txt"
+    path: ./ruleset/telegram.yaml
+    interval: 86400
+
+rules:
+  # Telegram
+  - RULE-SET,telegram,🚀 Auto
+  
+  # Локальная сеть
+  - DOMAIN-SUFFIX,local,DIRECT
+  - IP-CIDR,127.0.0.0/8,DIRECT
+  - IP-CIDR,10.0.0.0/8,DIRECT
+  - IP-CIDR,172.16.0.0/12,DIRECT
+  - IP-CIDR,192.168.0.0/16,DIRECT
+  
+  # Блокировка рекламы
+  - RULE-SET,reject,REJECT
+  
+  # Основное правило
+  - MATCH,🚀 Auto
