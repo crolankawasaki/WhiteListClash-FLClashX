@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
-Объединение VLESS подписок в формат FLClashX
-Оригинальные имена. Дубликаты получают адрес в скобках.
+VLESS Subscription Merger for FLClashX
+Clean names with country flags, no duplicates
 """
 
 import requests
@@ -30,6 +30,76 @@ SOURCES = [
 OUTPUT_FILE = "merged_flclash.yaml"
 HISTORY_FILE = "servers_history.json"
 
+# Карта флагов стран
+FLAGS = {
+    'united kingdom': '🇬🇧', 'uk': '🇬🇧', 'england': '🇬🇧',
+    'united states': '🇺🇸', 'usa': '🇺🇸', 'america': '🇺🇸',
+    'germany': '🇩🇪', 'deutschland': '🇩🇪',
+    'france': '🇫🇷',
+    'netherlands': '🇳🇱', 'holland': '🇳🇱',
+    'switzerland': '🇨🇭',
+    'sweden': '🇸🇪',
+    'norway': '🇳🇴',
+    'finland': '🇫🇮',
+    'denmark': '🇩🇰',
+    'canada': '🇨🇦',
+    'australia': '🇦🇺',
+    'japan': '🇯🇵',
+    'south korea': '🇰🇷', 'korea': '🇰🇷',
+    'singapore': '🇸🇬',
+    'hong kong': '🇭🇰',
+    'taiwan': '🇹🇼',
+    'china': '🇨🇳',
+    'india': '🇮🇳',
+    'brazil': '🇧🇷',
+    'russia': '🇷🇺',
+    'italy': '🇮🇹',
+    'spain': '🇪🇸',
+    'poland': '🇵🇱',
+    'austria': '🇦🇹',
+    'belgium': '🇧🇪',
+    'ireland': '🇮🇪',
+    'portugal': '🇵🇹',
+    'turkey': '🇹🇷',
+    'uae': '🇦🇪', 'dubai': '🇦🇪',
+    'israel': '🇮🇱',
+    'romania': '🇷🇴',
+    'bulgaria': '🇧🇬',
+    'czech': '🇨🇿', 'czechia': '🇨🇿',
+    'hungary': '🇭🇺',
+    'slovakia': '🇸🇰',
+    'lithuania': '🇱🇹',
+    'latvia': '🇱🇻',
+    'estonia': '🇪🇪',
+    'ukraine': '🇺🇦',
+    'moldova': '🇲🇩',
+    'serbia': '🇷🇸',
+    'croatia': '🇭🇷',
+    'slovenia': '🇸🇮',
+    'greece': '🇬🇷',
+    'cyprus': '🇨🇾',
+    'luxembourg': '🇱🇺',
+    'iceland': '🇮🇸',
+}
+
+
+def get_flag(name: str) -> str:
+    """Определяет флаг по имени сервера"""
+    name_lower = name.lower()
+    for country, flag in FLAGS.items():
+        if country in name_lower:
+            return flag
+    return ''
+
+
+def clean_name(name: str) -> str:
+    """Очищает имя от мусора, оставляя флаг и страну"""
+    # Убираем emoji флаги (оставим свои)
+    name = re.sub(r'[^\w\s\-.*#()\[\]@]', '', name)
+    # Убираем лишние пробелы
+    name = ' '.join(name.split())
+    return name.strip()
+
 
 class VlessParser:
 
@@ -41,7 +111,6 @@ class VlessParser:
 
             uri = uri[8:]
 
-            # Имя из фрагмента (после #)
             if '#' in uri:
                 uri_part, name = uri.split('#', 1)
                 name = requests.utils.unquote(name.strip())
@@ -79,9 +148,6 @@ class VlessParser:
             else:
                 address = address_part
 
-            if not name:
-                name = f"{address}:{port}"
-
             params = {}
             if params_str:
                 for param in params_str.split('&'):
@@ -94,11 +160,11 @@ class VlessParser:
                 'address': address,
                 'port': port,
                 'params': params,
-                'name': name,
+                'name': name if name else f"{address}:{port}",
             }
 
         except Exception as e:
-            logger.error(f"Ошибка парсинга: {e}")
+            logger.error(f"Parse error: {e}")
             return None
 
     @staticmethod
@@ -142,9 +208,6 @@ class VlessParser:
             if flow:
                 node['flow'] = flow
             node['client-fingerprint'] = params.get('fp', 'chrome')
-            alpn = params.get('alpn', '')
-            if alpn:
-                node['alpn'] = [alpn]
 
         net = node['network']
 
@@ -162,33 +225,25 @@ class VlessParser:
                 'grpc-service-name': params.get('serviceName', '')
             }
 
-        elif net in ['h2', 'http']:
-            node['network'] = 'h2'
-            node['h2-opts'] = {'path': params.get('path', '/')}
-            host = params.get('host', '')
-            if host:
-                node['h2-opts']['host'] = [host]
-
         return node
 
 
 def fetch_and_decode(url: str) -> List[str]:
     try:
-        logger.info(f"📥 Загрузка: {url}")
+        logger.info(f"Download: {url}")
         r = requests.get(url, timeout=30, headers={'User-Agent': 'ClashX/1.0'})
         r.raise_for_status()
         content = r.text
-        logger.info(f"   Размер: {len(content)} байт")
+        logger.info(f"  Size: {len(content)} bytes")
 
         lines = []
 
-        # Пробуем base64
         try:
             clean = content.strip()
             pad = 4 - len(clean) % 4 if len(clean) % 4 else 0
             clean += '=' * pad
             decoded = base64.b64decode(clean).decode('utf-8', errors='ignore')
-            logger.info(f"   base64 декодирован: {len(decoded)} байт")
+            logger.info(f"  Base64 decoded: {len(decoded)} bytes")
             for line in decoded.split('\n'):
                 line = line.strip()
                 if line.startswith('vless://'):
@@ -199,18 +254,16 @@ def fetch_and_decode(url: str) -> List[str]:
                 if line.startswith('vless://'):
                     lines.append(line)
 
-        # Если не нашли — regex
         if not lines:
             found = re.findall(r'vless://[^\s]+', content)
             if found:
                 lines.extend(found)
-                logger.info(f"   Найдено через regex: {len(found)}")
 
-        logger.info(f"   Всего VLESS: {len(lines)}")
+        logger.info(f"  VLESS found: {len(lines)}")
         return lines
 
     except Exception as e:
-        logger.error(f"   Ошибка: {e}")
+        logger.error(f"  Error: {e}")
         return []
 
 
@@ -230,12 +283,12 @@ def process_all_sources() -> List[Dict]:
     return all_nodes
 
 
-def remove_duplicates(nodes: List[Dict]) -> List[Dict]:
+def make_beautiful_names(nodes: List[Dict]) -> List[Dict]:
     """
-    Удаляет дубликаты по server:port:uuid.
-    Если есть одинаковые имена — добавляет адрес только дубликатам.
+    Создает красивые уникальные имена с флагами.
+    Формат: Флаг Страна (Server) или Флаг Страна - Город
     """
-    # Удаляем дубликаты серверов
+    # Сначала удаляем дубликаты по server:port:uuid
     seen = set()
     unique = []
     for node in nodes:
@@ -244,17 +297,40 @@ def remove_duplicates(nodes: List[Dict]) -> List[Dict]:
             seen.add(nid)
             unique.append(node)
 
-    # Делаем имена уникальными
-    name_count = {}
+    # Создаем красивые имена
+    name_pool = {}
     for node in unique:
-        name = node['name']
-        if name in name_count:
-            # Дубликат имени → добавляем адрес сервера
-            node['name'] = f"{name} ({node['server']})"
+        original = clean_name(node['name'])
+        flag = get_flag(original)
+        
+        # Если флаг уже есть в имени - оставляем как есть
+        if flag and flag not in original:
+            # Создаем имя с флагом
+            # Убираем мусорные теги
+            clean = re.sub(r'\[.*?\]', '', original).strip()
+            clean = re.sub(r'\(.*?\)', '', clean).strip()
+            clean = re.sub(r'\*.*?\*', '', clean).strip()
+            clean = ' '.join(clean.split())
+            
+            if not clean:
+                clean = node['server']
+            
+            # Базовая часть: флаг + название
+            base = f"{flag} {clean}"
         else:
-            name_count[name] = 1
+            base = original if original else node['server']
+        
+        # Если есть дубликат имени - добавляем адрес
+        if base in name_pool:
+            name_pool[base] += 1
+            final_name = f"{base} ({node['server']})"
+        else:
+            name_pool[base] = 1
+            final_name = base
+        
+        node['name'] = final_name
 
-    logger.info(f"Уникальных серверов: {len(unique)} (удалено дубликатов: {len(nodes) - len(unique)})")
+    logger.info(f"Unique servers: {len(unique)} (duplicates removed: {len(nodes) - len(unique)})")
     return unique
 
 
@@ -292,8 +368,8 @@ def generate_yaml(nodes: List[Dict]) -> str:
     tls = [n for n in nodes if n.get('tls') and 'reality-opts' not in n]
 
     y = f"""# FLClashX Subscription
-# Обновлено: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}
-# Серверов: {len(nodes)} (Reality: {len(reality)}, TLS: {len(tls)})
+# Updated: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}
+# Servers: {len(nodes)} (Reality: {len(reality)}, TLS: {len(tls)})
 
 mixed-port: 7890
 port: 7890
@@ -320,7 +396,7 @@ proxies:
 """
 
     for node in nodes:
-        name = node['name']
+        name = node['name'].replace('"', '\\"')
         y += f"  - name: \"{name}\"\n"
         y += f"    type: vless\n"
         y += f"    server: {node['server']}\n"
@@ -360,7 +436,6 @@ proxies:
 
         y += "\n"
 
-    # Proxy groups
     y += "proxy-groups:\n"
     y += "  - name: 🚀 Auto\n"
     y += "    type: url-test\n"
@@ -415,15 +490,15 @@ def main():
     try:
         nodes = process_all_sources()
         if not nodes:
-            logger.error("Нет серверов!")
+            logger.error("No servers found!")
             sys.exit(1)
 
-        unique = remove_duplicates(nodes)
+        unique = make_beautiful_names(nodes)
         update_history(unique)
 
         yaml = generate_yaml(unique)
         if not yaml:
-            logger.error("Не сгенерирован конфиг!")
+            logger.error("Failed to generate config!")
             sys.exit(1)
 
         with open(OUTPUT_FILE, 'w', encoding='utf-8') as f:
@@ -432,11 +507,10 @@ def main():
         r = len([n for n in unique if 'reality-opts' in n])
         t = len([n for n in unique if n.get('tls') and 'reality-opts' not in n])
 
-        logger.info(f"✅ Готово! Серверов: {len(unique)} (Reality: {r}, TLS: {t})")
-        logger.info(f"📱 Файл: {OUTPUT_FILE}")
+        logger.info(f"Done! Servers: {len(unique)} (Reality: {r}, TLS: {t})")
 
     except Exception as e:
-        logger.error(f"Ошибка: {e}", exc_info=True)
+        logger.error(f"Error: {e}", exc_info=True)
         sys.exit(1)
 
 
