@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 VLESS Subscription Merger for FLClashX
-Final Version: Clean geo-based names, no duplicates.
+3 sources, real geo by IP, clean names, no duplicates.
 """
 
 import requests
@@ -17,7 +17,6 @@ import sys
 import re
 from typing import List, Dict, Optional
 
-# --- Configuration ---
 logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s - %(levelname)s - %(message)s',
@@ -35,7 +34,6 @@ OUTPUT_FILE = "merged_flclash.yaml"
 HISTORY_FILE = "servers_history.json"
 GEO_CACHE_FILE = "geo_cache.json"
 
-# Расширенная карта: Код страны -> (Флаг, Название)
 COUNTRY_DATA = {
     'GB': ('🇬🇧', 'United Kingdom'), 'US': ('🇺🇸', 'United States'), 'DE': ('🇩🇪', 'Germany'),
     'FR': ('🇫🇷', 'France'), 'NL': ('🇳🇱', 'Netherlands'), 'CH': ('🇨🇭', 'Switzerland'),
@@ -62,7 +60,13 @@ COUNTRY_DATA = {
     'BY': ('🇧🇾', 'Belarus'), 'KG': ('🇰🇬', 'Kyrgyzstan'), 'TJ': ('🇹🇯', 'Tajikistan'),
 }
 
-# --- Geo Utilities ---
+GARBAGE_WORDS = [
+    'vk', 'the', 'cidr', 'proxy', 'vless', 'server', 'node',
+    'free', 'vpn', 'config', 'list', 'white', 'mobile', 'rus',
+    'tls', 'ws', 'grpc', 'reality', 'xtls', 'vision'
+]
+
+
 def load_geo_cache() -> Dict:
     if os.path.exists(GEO_CACHE_FILE):
         try:
@@ -71,12 +75,13 @@ def load_geo_cache() -> Dict:
             pass
     return {}
 
+
 def save_geo_cache(cache: Dict):
     with open(GEO_CACHE_FILE, 'w', encoding='utf-8') as f:
         json.dump(cache, f, indent=2, ensure_ascii=False)
 
+
 def get_ip(server: str) -> Optional[str]:
-    """Resolve domain to IP, or return IP if already an IP."""
     try:
         ipaddress.ip_address(server)
         return server
@@ -86,8 +91,8 @@ def get_ip(server: str) -> Optional[str]:
         except:
             return None
 
+
 def get_country_by_ip(ip: str) -> Optional[str]:
-    """Try multiple services to get country code."""
     cache = load_geo_cache()
     if ip in cache:
         return cache[ip]
@@ -96,7 +101,7 @@ def get_country_by_ip(ip: str) -> Optional[str]:
         f"http://ip-api.com/json/{ip}?fields=countryCode",
         f"http://ifconfig.co/country?ip={ip}"
     ]
-    
+
     for url in services:
         try:
             r = requests.get(url, timeout=5)
@@ -105,7 +110,6 @@ def get_country_by_ip(ip: str) -> Optional[str]:
                     code = r.json().get('countryCode', '')
                 else:
                     code = r.text.strip()
-                
                 if len(code) == 2:
                     cache[ip] = code
                     save_geo_cache(cache)
@@ -114,38 +118,39 @@ def get_country_by_ip(ip: str) -> Optional[str]:
             continue
     return None
 
-# --- Name Cleaning ---
+
 def clean_original_name(name: str) -> str:
-    """Extract only useful part from original name."""
-    name = re.sub(r'[^\w\s\-.,()\[\]@]', ' ', name)
+    name = re.sub(r'[^\w\s\-.,]', ' ', name)
     name = re.sub(r'\[.*?\]', ' ', name)
-    name = re.sub(r'\*.*?\*', ' ', name)
     name = re.sub(r'\(.*?\)', ' ', name)
-    name = ' '.join(name.split())
+    name = re.sub(r'\*.*?\*', ' ', name)
+    name_lower = name.lower()
+    for word in GARBAGE_WORDS:
+        name_lower = name_lower.replace(word, ' ')
+    name = ' '.join(name_lower.split())
+    name = name.title()
     return name.strip()
 
-# --- Vless Parser ---
+
 class VlessParser:
     @staticmethod
     def parse_uri(uri: str) -> Optional[Dict]:
         try:
-            if not uri.startswith('vless://'): return None
+            if not uri.startswith('vless://'):
+                return None
             uri = uri[8:]
-            
             if '#' in uri:
                 uri_part, name = uri.split('#', 1)
                 name = requests.utils.unquote(name.strip())
             else:
                 uri_part, name = uri, ""
-                
             if '?' in uri_part:
                 base_part, params_str = uri_part.split('?', 1)
             else:
                 base_part, params_str = uri_part, ''
-                
-            if '@' not in base_part: return None
+            if '@' not in base_part:
+                return None
             uuid_str, address_part = base_part.split('@', 1)
-            
             port = 443
             if ':' in address_part:
                 if address_part.count(':') > 1:
@@ -162,14 +167,12 @@ class VlessParser:
                     port = 443
             else:
                 address = address_part
-                
             params = {}
             if params_str:
                 for param in params_str.split('&'):
                     if '=' in param:
                         key, value = param.split('=', 1)
                         params[key] = value
-                        
             return {
                 'uuid': uuid_str,
                 'address': address,
@@ -183,7 +186,8 @@ class VlessParser:
 
     @staticmethod
     def convert_to_flclash(data: Dict) -> Optional[Dict]:
-        if not data: return None
+        if not data:
+            return None
         params = data.get('params', {})
         node = {
             'server': data['address'],
@@ -201,7 +205,8 @@ class VlessParser:
                 'public-key': params.get('pbk', ''),
                 'short-id': params.get('sid', '')
             }
-            if params.get('sni'): node['servername'] = params['sni']
+            if params.get('sni'):
+                node['servername'] = params['sni']
             node['flow'] = params.get('flow', 'xtls-rprx-vision')
             node['client-fingerprint'] = params.get('fp', 'chrome')
         elif security == 'tls':
@@ -209,17 +214,16 @@ class VlessParser:
             node['servername'] = params.get('sni', data['address'])
             node['flow'] = params.get('flow', '')
             node['client-fingerprint'] = params.get('fp', 'chrome')
-
         net = node['network']
         if net == 'ws':
             node['ws-opts'] = {'path': params.get('path', '/'), 'headers': {}}
-            if params.get('host'): node['ws-opts']['headers']['Host'] = params['host']
+            if params.get('host'):
+                node['ws-opts']['headers']['Host'] = params['host']
         elif net == 'grpc':
             node['grpc-opts'] = {'grpc-service-name': params.get('serviceName', '')}
-            
         return node
 
-# --- Main Logic ---
+
 def fetch_and_decode(url: str) -> List[str]:
     try:
         logger.info(f"📥 Downloading: {url}")
@@ -241,12 +245,14 @@ def fetch_and_decode(url: str) -> List[str]:
                     lines.append(line.strip())
         if not lines:
             found = re.findall(r'vless://[^\s]+', content)
-            if found: lines.extend(found)
+            if found:
+                lines.extend(found)
         logger.info(f"   Found {len(lines)} VLESS URIs")
         return lines
     except Exception as e:
         logger.error(f"   Download error: {e}")
         return []
+
 
 def process_all_sources() -> List[Dict]:
     all_nodes = []
@@ -262,8 +268,8 @@ def process_all_sources() -> List[Dict]:
                     all_nodes.append(node)
     return all_nodes
 
+
 def finalize_names(nodes: List[Dict]) -> List[Dict]:
-    """Assign beautiful unique names based on REAL geo, with fallback to original."""
     seen = set()
     unique = []
     for node in nodes:
@@ -271,57 +277,51 @@ def finalize_names(nodes: List[Dict]) -> List[Dict]:
         if nid not in seen:
             seen.add(nid)
             unique.append(node)
-            
+
     logger.info(f"Resolving GEO for {len(unique)} servers...")
-    
+
     for i, node in enumerate(unique):
         if (i + 1) % 20 == 0:
             logger.info(f"  Progress: {i+1}/{len(unique)}")
-            
+
         ip = get_ip(node['server'])
         country_code = get_country_by_ip(ip) if ip else None
-        
+
         if country_code and country_code in COUNTRY_DATA:
             flag, country_name = COUNTRY_DATA[country_code]
             orig_clean = clean_original_name(node['original_name'])
-            
             if orig_clean and orig_clean.lower() != country_name.lower():
-                for c_name in COUNTRY_DATA.values():
-                    if c_name[1].lower() in orig_clean.lower():
-                        orig_clean = orig_clean.lower().replace(c_name[1].lower(), '').strip()
-                
-                if orig_clean:
-                    display_name = f"{flag} {country_name} - {orig_clean}"
-                else:
-                    display_name = f"{flag} {country_name}"
+                base_name = f"{flag} {country_name} - {orig_clean}"
             else:
-                display_name = f"{flag} {country_name}"
+                base_name = f"{flag} {country_name}"
         else:
-            display_name = clean_original_name(node['original_name']) or node['server']
-            if not display_name:
-                display_name = f"{node['server']}"
-                
-        node['display_name'] = display_name
+            base_name = clean_original_name(node['original_name'])
+            if not base_name:
+                base_name = node['server']
+        node['base_name'] = base_name
 
     name_counts = {}
     for node in unique:
-        name = node['display_name']
-        if name in name_counts:
-            name_counts[name] += 1
-            node['name'] = f"{name} ({node['server']})"
+        base = node['base_name']
+        if base in name_counts:
+            name_counts[base] += 1
+            node['name'] = f"{base} #{name_counts[base]}"
         else:
-            name_counts[name] = 1
-            node['name'] = name
-            
-    logger.info(f"Final unique servers: {len(unique)}")
+            name_counts[base] = 1
+            node['name'] = base
+
+    dups = sum(1 for n in unique if '#' in n['name'])
+    logger.info(f"Total: {len(unique)} | Numbered: {dups}")
     return unique
+
 
 def update_history(nodes: List[Dict]):
     history = {}
     if os.path.exists(HISTORY_FILE):
         try:
             history = json.load(open(HISTORY_FILE, 'r', encoding='utf-8'))
-        except: pass
+        except:
+            pass
     now = datetime.now().isoformat()
     for node in nodes:
         h = hashlib.md5(f"{node['server']}:{node['port']}:{node['uuid']}".encode()).hexdigest()
@@ -331,15 +331,16 @@ def update_history(nodes: List[Dict]):
             history[h]['last_seen'] = now
     json.dump(history, open(HISTORY_FILE, 'w', encoding='utf-8'), indent=2, ensure_ascii=False)
 
+
 def generate_yaml(nodes: List[Dict]) -> str:
-    if not nodes: return ""
+    if not nodes:
+        return ""
     reality = [n for n in nodes if 'reality-opts' in n]
     tls = [n for n in nodes if n.get('tls') and 'reality-opts' not in n]
-    
+
     y = f"""# FLClashX Subscription
 # Updated: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}
 # Servers: {len(nodes)} (Reality: {len(reality)}, TLS: {len(tls)})
-# Sources: 3
 
 mixed-port: 7890
 port: 7890
@@ -373,10 +374,14 @@ proxies:
         y += f"    network: {node.get('network', 'tcp')}\n"
         y += f"    udp: true\n"
         y += f"    skip-cert-verify: true\n"
-        if node.get('tls'): y += "    tls: true\n"
-        if node.get('servername'): y += f"    servername: {node['servername']}\n"
-        if node.get('flow'): y += f"    flow: {node['flow']}\n"
-        if node.get('client-fingerprint'): y += f"    client-fingerprint: {node['client-fingerprint']}\n"
+        if node.get('tls'):
+            y += "    tls: true\n"
+        if node.get('servername'):
+            y += f"    servername: {node['servername']}\n"
+        if node.get('flow'):
+            y += f"    flow: {node['flow']}\n"
+        if node.get('client-fingerprint'):
+            y += f"    client-fingerprint: {node['client-fingerprint']}\n"
         if 'reality-opts' in node:
             r = node['reality-opts']
             y += "    reality-opts:\n"
@@ -400,12 +405,12 @@ proxies:
     for n in nodes[:20]:
         y += f"      - \"{n['name']}\"\n"
     y += "    url: http://www.gstatic.com/generate_204\n    interval: 300\n\n"
-    
+
     y += "  - name: 📡 All Servers\n    type: select\n    proxies:\n      - 🚀 Auto\n"
     for n in nodes:
         y += f"      - \"{n['name']}\"\n"
     y += "\n"
-    
+
     if reality:
         y += "  - name: 🔒 Reality\n    type: select\n    proxies:\n      - 🚀 Auto\n"
         for n in reality:
@@ -416,7 +421,7 @@ proxies:
         for n in tls:
             y += f"      - \"{n['name']}\"\n"
         y += "\n"
-        
+
     y += """rules:
   - DOMAIN-SUFFIX,local,DIRECT
   - IP-CIDR,127.0.0.0/8,DIRECT
@@ -427,10 +432,10 @@ proxies:
 """
     return y
 
+
 def main():
-    logger.info("="*50)
+    logger.info("=" * 50)
     logger.info("FLClashX Subscription Merger")
-    logger.info(f"Sources: {len(SOURCES)}")
     try:
         nodes = process_all_sources()
         if not nodes:
@@ -447,6 +452,7 @@ def main():
     except Exception as e:
         logger.error(f"Fatal error: {e}", exc_info=True)
         sys.exit(1)
+
 
 if __name__ == "__main__":
     main()
