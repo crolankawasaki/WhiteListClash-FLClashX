@@ -87,9 +87,9 @@ https://raw.githubusercontent.com/crolankawasaki/WhiteListClash-FLClashX/main/me
 
 ## 🛠 Источники серверов
 
-1. **GoldCaviar** — VLESS Reality White List (Russia Mobile)
-2. **zieng2** — VLESS Universal
-
+1. GoldCaviar — VLESS Reality White List (Russia Mobile)
+2. zieng2 — VLESS Universal
+3. KiryaScript — White Lists Mirror (26.txt)
 ---
 
 ## ⚠️ Важно
