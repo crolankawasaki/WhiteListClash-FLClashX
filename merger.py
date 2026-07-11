@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 VLESS Subscription Merger for FLClashX
-Maximum geolocation accuracy: 5 services, consensus voting.
+Maximum geolocation accuracy: 6 services, consensus voting, IPv4+IPv6.
 """
 
 import requests
@@ -84,7 +84,7 @@ def save_geo_cache(cache: Dict):
 
 def get_ip(server: str) -> Optional[str]:
     try:
-        ipaddress.ip_address(server)
+        addr = ipaddress.ip_address(server)
         return server
     except ValueError:
         pass
@@ -108,7 +108,7 @@ def get_country_by_ip(ip: str) -> Optional[str]:
 
     results = []
 
-    def query(url, parser, timeout=3):
+    def query(url, parser, timeout=5):
         try:
             r = requests.get(url, timeout=timeout, headers={'User-Agent': 'Mozilla/5.0'})
             if r.status_code == 200:
@@ -118,11 +118,13 @@ def get_country_by_ip(ip: str) -> Optional[str]:
         except:
             pass
 
+    # 6 сервисов с таймаутом 5 секунд
     query(f"http://ip-api.com/json/{ip}?fields=countryCode", lambda r: r.json().get('countryCode', ''))
     query(f"https://ipapi.co/{ip}/country/", lambda r: r.text.strip())
     query(f"https://ipwhois.app/json/{ip}", lambda r: r.json().get('country_code', ''))
     query(f"https://ifconfig.co/country?ip={ip}", lambda r: r.text.strip())
     query(f"https://ipinfo.io/{ip}/json", lambda r: r.json().get('country', ''))
+    query(f"https://api.country.is/{ip}", lambda r: r.json().get('country', ''))
 
     if not results:
         return None
