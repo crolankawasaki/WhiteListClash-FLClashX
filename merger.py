@@ -1,21 +1,23 @@
 #!/usr/bin/env python3
 """
 VLESS Subscription Merger for FLClashX
-Clean names with flags based on real server location (IP geolocation)
+Final Version: Clean geo-based names, no duplicates.
 """
 
 import requests
 import base64
 import json
 import hashlib
+import ipaddress
+import socket
 from datetime import datetime
 import logging
 import os
 import sys
 import re
-import ipaddress
 from typing import List, Dict, Optional
 
+# --- Configuration ---
 logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s - %(levelname)s - %(message)s',
@@ -25,61 +27,43 @@ logger = logging.getLogger(__name__)
 
 SOURCES = [
     "https://raw.githubusercontent.com/GoldCaviar/vpn-configs-for-russia/refs/heads/main/Vless-Reality-White-Lists-Rus-Mobile.txt",
-    "https://raw.githubusercontent.com/zieng2/wl/main/vless_universal.txt"
+    "https://raw.githubusercontent.com/zieng2/wl/main/vless_universal.txt",
+    "https://github.com/KiryaScript/white-lists/raw/refs/heads/main/githubmirror/26.txt"
 ]
 
 OUTPUT_FILE = "merged_flclash.yaml"
 HISTORY_FILE = "servers_history.json"
 GEO_CACHE_FILE = "geo_cache.json"
 
-# Коды стран → флаги
-COUNTRY_FLAGS = {
-    'GB': '🇬🇧', 'US': '🇺🇸', 'DE': '🇩🇪', 'FR': '🇫🇷',
-    'NL': '🇳🇱', 'CH': '🇨🇭', 'SE': '🇸🇪', 'NO': '🇳🇴',
-    'FI': '🇫🇮', 'DK': '🇩🇰', 'CA': '🇨🇦', 'AU': '🇦🇺',
-    'JP': '🇯🇵', 'KR': '🇰🇷', 'SG': '🇸🇬', 'HK': '🇭🇰',
-    'TW': '🇹🇼', 'CN': '🇨🇳', 'IN': '🇮🇳', 'BR': '🇧🇷',
-    'RU': '🇷🇺', 'IT': '🇮🇹', 'ES': '🇪🇸', 'PL': '🇵🇱',
-    'AT': '🇦🇹', 'BE': '🇧🇪', 'IE': '🇮🇪', 'PT': '🇵🇹',
-    'TR': '🇹🇷', 'AE': '🇦🇪', 'IL': '🇮🇱', 'RO': '🇷🇴',
-    'BG': '🇧🇬', 'CZ': '🇨🇿', 'HU': '🇭🇺', 'SK': '🇸🇰',
-    'LT': '🇱🇹', 'LV': '🇱🇻', 'EE': '🇪🇪', 'UA': '🇺🇦',
-    'MD': '🇲🇩', 'RS': '🇷🇸', 'HR': '🇭🇷', 'SI': '🇸🇮',
-    'GR': '🇬🇷', 'CY': '🇨🇾', 'LU': '🇱🇺', 'IS': '🇮🇸',
-    'KZ': '🇰🇿', 'VN': '🇻🇳', 'TH': '🇹🇭', 'MY': '🇲🇾',
-    'ID': '🇮🇩', 'PH': '🇵🇭', 'NZ': '🇳🇿', 'ZA': '🇿🇦',
-    'EG': '🇪🇬', 'NG': '🇳🇬', 'KE': '🇰🇪', 'MA': '🇲🇦',
-    'AR': '🇦🇷', 'CL': '🇨🇱', 'CO': '🇨🇴', 'MX': '🇲🇽',
-    'PE': '🇵🇪', 'UZ': '🇺🇿', 'AZ': '🇦🇿', 'GE': '🇬🇪',
-    'AM': '🇦🇲', 'BY': '🇧🇾', 'KG': '🇰🇬', 'TJ': '🇹🇯',
+# Расширенная карта: Код страны -> (Флаг, Название)
+COUNTRY_DATA = {
+    'GB': ('🇬🇧', 'United Kingdom'), 'US': ('🇺🇸', 'United States'), 'DE': ('🇩🇪', 'Germany'),
+    'FR': ('🇫🇷', 'France'), 'NL': ('🇳🇱', 'Netherlands'), 'CH': ('🇨🇭', 'Switzerland'),
+    'SE': ('🇸🇪', 'Sweden'), 'NO': ('🇳🇴', 'Norway'), 'FI': ('🇫🇮', 'Finland'),
+    'DK': ('🇩🇰', 'Denmark'), 'CA': ('🇨🇦', 'Canada'), 'AU': ('🇦🇺', 'Australia'),
+    'JP': ('🇯🇵', 'Japan'), 'KR': ('🇰🇷', 'South Korea'), 'SG': ('🇸🇬', 'Singapore'),
+    'HK': ('🇭🇰', 'Hong Kong'), 'TW': ('🇹🇼', 'Taiwan'), 'CN': ('🇨🇳', 'China'),
+    'IN': ('🇮🇳', 'India'), 'BR': ('🇧🇷', 'Brazil'), 'RU': ('🇷🇺', 'Russia'),
+    'IT': ('🇮🇹', 'Italy'), 'ES': ('🇪🇸', 'Spain'), 'PL': ('🇵🇱', 'Poland'),
+    'AT': ('🇦🇹', 'Austria'), 'BE': ('🇧🇪', 'Belgium'), 'IE': ('🇮🇪', 'Ireland'),
+    'PT': ('🇵🇹', 'Portugal'), 'TR': ('🇹🇷', 'Turkey'), 'AE': ('🇦🇪', 'UAE'),
+    'IL': ('🇮🇱', 'Israel'), 'RO': ('🇷🇴', 'Romania'), 'BG': ('🇧🇬', 'Bulgaria'),
+    'CZ': ('🇨🇿', 'Czechia'), 'HU': ('🇭🇺', 'Hungary'), 'SK': ('🇸🇰', 'Slovakia'),
+    'LT': ('🇱🇹', 'Lithuania'), 'LV': ('🇱🇻', 'Latvia'), 'EE': ('🇪🇪', 'Estonia'),
+    'UA': ('🇺🇦', 'Ukraine'), 'MD': ('🇲🇩', 'Moldova'), 'RS': ('🇷🇸', 'Serbia'),
+    'HR': ('🇭🇷', 'Croatia'), 'SI': ('🇸🇮', 'Slovenia'), 'GR': ('🇬🇷', 'Greece'),
+    'CY': ('🇨🇾', 'Cyprus'), 'LU': ('🇱🇺', 'Luxembourg'), 'IS': ('🇮🇸', 'Iceland'),
+    'KZ': ('🇰🇿', 'Kazakhstan'), 'VN': ('🇻🇳', 'Vietnam'), 'TH': ('🇹🇭', 'Thailand'),
+    'MY': ('🇲🇾', 'Malaysia'), 'ID': ('🇮🇩', 'Indonesia'), 'PH': ('🇵🇭', 'Philippines'),
+    'NZ': ('🇳🇿', 'New Zealand'), 'ZA': ('🇿🇦', 'South Africa'), 'EG': ('🇪🇬', 'Egypt'),
+    'AR': ('🇦🇷', 'Argentina'), 'CL': ('🇨🇱', 'Chile'), 'CO': ('🇨🇴', 'Colombia'),
+    'MX': ('🇲🇽', 'Mexico'), 'PE': ('🇵🇪', 'Peru'), 'UZ': ('🇺🇿', 'Uzbekistan'),
+    'AZ': ('🇦🇿', 'Azerbaijan'), 'GE': ('🇬🇪', 'Georgia'), 'AM': ('🇦🇲', 'Armenia'),
+    'BY': ('🇧🇾', 'Belarus'), 'KG': ('🇰🇬', 'Kyrgyzstan'), 'TJ': ('🇹🇯', 'Tajikistan'),
 }
 
-# Коды стран → названия
-COUNTRY_NAMES = {
-    'GB': 'United Kingdom', 'US': 'United States', 'DE': 'Germany',
-    'FR': 'France', 'NL': 'Netherlands', 'CH': 'Switzerland',
-    'SE': 'Sweden', 'NO': 'Norway', 'FI': 'Finland', 'DK': 'Denmark',
-    'CA': 'Canada', 'AU': 'Australia', 'JP': 'Japan', 'KR': 'South Korea',
-    'SG': 'Singapore', 'HK': 'Hong Kong', 'TW': 'Taiwan', 'CN': 'China',
-    'IN': 'India', 'BR': 'Brazil', 'RU': 'Russia', 'IT': 'Italy',
-    'ES': 'Spain', 'PL': 'Poland', 'AT': 'Austria', 'BE': 'Belgium',
-    'IE': 'Ireland', 'PT': 'Portugal', 'TR': 'Turkey', 'AE': 'UAE',
-    'IL': 'Israel', 'RO': 'Romania', 'BG': 'Bulgaria', 'CZ': 'Czechia',
-    'HU': 'Hungary', 'SK': 'Slovakia', 'LT': 'Lithuania', 'LV': 'Latvia',
-    'EE': 'Estonia', 'UA': 'Ukraine', 'MD': 'Moldova', 'RS': 'Serbia',
-    'HR': 'Croatia', 'SI': 'Slovenia', 'GR': 'Greece', 'CY': 'Cyprus',
-    'LU': 'Luxembourg', 'IS': 'Iceland', 'KZ': 'Kazakhstan', 'VN': 'Vietnam',
-    'TH': 'Thailand', 'MY': 'Malaysia', 'ID': 'Indonesia', 'PH': 'Philippines',
-    'NZ': 'New Zealand', 'ZA': 'South Africa', 'EG': 'Egypt', 'NG': 'Nigeria',
-    'KE': 'Kenya', 'MA': 'Morocco', 'AR': 'Argentina', 'CL': 'Chile',
-    'CO': 'Colombia', 'MX': 'Mexico', 'PE': 'Peru', 'UZ': 'Uzbekistan',
-    'AZ': 'Azerbaijan', 'GE': 'Georgia', 'AM': 'Armenia', 'BY': 'Belarus',
-    'KG': 'Kyrgyzstan', 'TJ': 'Tajikistan',
-}
-
-
+# --- Geo Utilities ---
 def load_geo_cache() -> Dict:
-    """Загружает кэш геолокации"""
     if os.path.exists(GEO_CACHE_FILE):
         try:
             return json.load(open(GEO_CACHE_FILE, 'r', encoding='utf-8'))
@@ -87,101 +71,81 @@ def load_geo_cache() -> Dict:
             pass
     return {}
 
-
 def save_geo_cache(cache: Dict):
-    """Сохраняет кэш геолокации"""
     with open(GEO_CACHE_FILE, 'w', encoding='utf-8') as f:
         json.dump(cache, f, indent=2, ensure_ascii=False)
 
-
-def get_country_by_ip(ip: str) -> Optional[str]:
-    """
-    Определяет страну по IP через ip-api.com
-    Возвращает код страны (GB, US, DE...) или None
-    """
-    # Проверяем, это IP или домен
+def get_ip(server: str) -> Optional[str]:
+    """Resolve domain to IP, or return IP if already an IP."""
     try:
-        ipaddress.ip_address(ip)
+        ipaddress.ip_address(server)
+        return server
     except ValueError:
-        # Это домен, пробуем разрешить
         try:
-            import socket
-            ip = socket.gethostbyname(ip)
+            return socket.gethostbyname(server)
         except:
             return None
 
-    # Проверяем кэш
+def get_country_by_ip(ip: str) -> Optional[str]:
+    """Try multiple services to get country code."""
     cache = load_geo_cache()
     if ip in cache:
         return cache[ip]
 
-    # Запрашиваем геолокацию
-    try:
-        url = f"http://ip-api.com/json/{ip}?fields=countryCode"
-        r = requests.get(url, timeout=5)
-        if r.status_code == 200:
-            data = r.json()
-            country_code = data.get('countryCode', '')
-            if country_code:
-                cache[ip] = country_code
-                save_geo_cache(cache)
-                return country_code
-    except:
-        pass
-
+    services = [
+        f"http://ip-api.com/json/{ip}?fields=countryCode",
+        f"http://ifconfig.co/country?ip={ip}"
+    ]
+    
+    for url in services:
+        try:
+            r = requests.get(url, timeout=5)
+            if r.status_code == 200:
+                if 'ip-api' in url:
+                    code = r.json().get('countryCode', '')
+                else:
+                    code = r.text.strip()
+                
+                if len(code) == 2:
+                    cache[ip] = code
+                    save_geo_cache(cache)
+                    return code
+        except:
+            continue
     return None
 
-
-def get_flag_and_country(ip: str) -> tuple:
-    """Возвращает (флаг, название страны) по IP"""
-    country_code = get_country_by_ip(ip)
-    if country_code and country_code in COUNTRY_FLAGS:
-        flag = COUNTRY_FLAGS[country_code]
-        name = COUNTRY_NAMES.get(country_code, country_code)
-        return flag, name
-    return '', ''
-
-
-def clean_name(name: str) -> str:
-    """Очищает имя от мусора"""
-    # Убираем эмодзи и спецсимволы
-    name = re.sub(r'[^\w\s\-.,()\[\]@]', '', name)
-    # Убираем теги в скобках и звездочках
-    name = re.sub(r'\[.*?\]', '', name)
-    name = re.sub(r'\*.*?\*', '', name)
-    # Чистим пробелы
+# --- Name Cleaning ---
+def clean_original_name(name: str) -> str:
+    """Extract only useful part from original name."""
+    name = re.sub(r'[^\w\s\-.,()\[\]@]', ' ', name)
+    name = re.sub(r'\[.*?\]', ' ', name)
+    name = re.sub(r'\*.*?\*', ' ', name)
+    name = re.sub(r'\(.*?\)', ' ', name)
     name = ' '.join(name.split())
     return name.strip()
 
-
+# --- Vless Parser ---
 class VlessParser:
-
     @staticmethod
     def parse_uri(uri: str) -> Optional[Dict]:
         try:
-            if not uri.startswith('vless://'):
-                return None
-
+            if not uri.startswith('vless://'): return None
             uri = uri[8:]
-
+            
             if '#' in uri:
                 uri_part, name = uri.split('#', 1)
                 name = requests.utils.unquote(name.strip())
             else:
-                uri_part = uri
-                name = ""
-
+                uri_part, name = uri, ""
+                
             if '?' in uri_part:
                 base_part, params_str = uri_part.split('?', 1)
             else:
-                base_part = uri_part
-                params_str = ''
-
-            if '@' not in base_part:
-                return None
-
+                base_part, params_str = uri_part, ''
+                
+            if '@' not in base_part: return None
             uuid_str, address_part = base_part.split('@', 1)
-
+            
             port = 443
             if ':' in address_part:
                 if address_part.count(':') > 1:
@@ -189,141 +153,104 @@ class VlessParser:
                         address, port_str = address_part.rsplit(']:', 1)
                         address = address[1:]
                     else:
-                        address = address_part
-                        port_str = '443'
+                        address, port_str = address_part, '443'
                 else:
                     address, port_str = address_part.rsplit(':', 1)
-
                 try:
                     port = int(port_str)
                 except ValueError:
                     port = 443
             else:
                 address = address_part
-
+                
             params = {}
             if params_str:
                 for param in params_str.split('&'):
                     if '=' in param:
                         key, value = param.split('=', 1)
                         params[key] = value
-
+                        
             return {
                 'uuid': uuid_str,
                 'address': address,
                 'port': port,
                 'params': params,
-                'name': name if name else f"{address}:{port}",
+                'original_name': name,
             }
-
         except Exception as e:
             logger.error(f"Parse error: {e}")
             return None
 
     @staticmethod
     def convert_to_flclash(data: Dict) -> Optional[Dict]:
-        if not data:
-            return None
-
+        if not data: return None
         params = data.get('params', {})
-
         node = {
-            'name': data['name'],
-            'type': 'vless',
             'server': data['address'],
             'port': data['port'],
             'uuid': data['uuid'],
+            'type': 'vless',
             'network': params.get('type', 'tcp'),
             'udp': True,
             'skip-cert-verify': True
         }
-
         security = params.get('security', '')
-
         if security == 'reality':
             node['tls'] = True
             node['reality-opts'] = {
                 'public-key': params.get('pbk', ''),
                 'short-id': params.get('sid', '')
             }
-            sni = params.get('sni', '')
-            if sni:
-                node['servername'] = sni
-            flow = params.get('flow', 'xtls-rprx-vision')
-            if flow:
-                node['flow'] = flow
+            if params.get('sni'): node['servername'] = params['sni']
+            node['flow'] = params.get('flow', 'xtls-rprx-vision')
             node['client-fingerprint'] = params.get('fp', 'chrome')
-
         elif security == 'tls':
             node['tls'] = True
             node['servername'] = params.get('sni', data['address'])
-            flow = params.get('flow', '')
-            if flow:
-                node['flow'] = flow
+            node['flow'] = params.get('flow', '')
             node['client-fingerprint'] = params.get('fp', 'chrome')
 
         net = node['network']
-
         if net == 'ws':
-            node['ws-opts'] = {
-                'path': params.get('path', '/'),
-                'headers': {}
-            }
-            host = params.get('host', '')
-            if host:
-                node['ws-opts']['headers']['Host'] = host
-
+            node['ws-opts'] = {'path': params.get('path', '/'), 'headers': {}}
+            if params.get('host'): node['ws-opts']['headers']['Host'] = params['host']
         elif net == 'grpc':
-            node['grpc-opts'] = {
-                'grpc-service-name': params.get('serviceName', '')
-            }
-
+            node['grpc-opts'] = {'grpc-service-name': params.get('serviceName', '')}
+            
         return node
 
-
+# --- Main Logic ---
 def fetch_and_decode(url: str) -> List[str]:
     try:
-        logger.info(f"📥 Download: {url}")
+        logger.info(f"📥 Downloading: {url}")
         r = requests.get(url, timeout=30, headers={'User-Agent': 'ClashX/1.0'})
         r.raise_for_status()
         content = r.text
-        logger.info(f"   Size: {len(content)} bytes")
-
         lines = []
-
         try:
             clean = content.strip()
             pad = 4 - len(clean) % 4 if len(clean) % 4 else 0
             clean += '=' * pad
             decoded = base64.b64decode(clean).decode('utf-8', errors='ignore')
-            logger.info(f"   Base64 decoded: {len(decoded)} bytes")
             for line in decoded.split('\n'):
-                line = line.strip()
-                if line.startswith('vless://'):
-                    lines.append(line)
+                if line.strip().startswith('vless://'):
+                    lines.append(line.strip())
         except:
             for line in content.split('\n'):
-                line = line.strip()
-                if line.startswith('vless://'):
-                    lines.append(line)
-
+                if line.strip().startswith('vless://'):
+                    lines.append(line.strip())
         if not lines:
             found = re.findall(r'vless://[^\s]+', content)
-            if found:
-                lines.extend(found)
-
-        logger.info(f"   VLESS found: {len(lines)}")
+            if found: lines.extend(found)
+        logger.info(f"   Found {len(lines)} VLESS URIs")
         return lines
-
     except Exception as e:
-        logger.error(f"   Error: {e}")
+        logger.error(f"   Download error: {e}")
         return []
-
 
 def process_all_sources() -> List[Dict]:
     all_nodes = []
     parser = VlessParser()
-
     for url in SOURCES:
         uris = fetch_and_decode(url)
         for uri in uris:
@@ -331,17 +258,12 @@ def process_all_sources() -> List[Dict]:
             if data:
                 node = parser.convert_to_flclash(data)
                 if node and all(k in node for k in ['server', 'port', 'uuid']):
+                    node['original_name'] = data['original_name']
                     all_nodes.append(node)
-
     return all_nodes
 
-
-def make_beautiful_names(nodes: List[Dict]) -> List[Dict]:
-    """
-    Создает имена на основе РЕАЛЬНОЙ геолокации по IP.
-    Формат: Флаг Страна (Город) или Флаг Страна (IP)
-    """
-    # Удаляем дубликаты по server:port:uuid
+def finalize_names(nodes: List[Dict]) -> List[Dict]:
+    """Assign beautiful unique names based on REAL geo, with fallback to original."""
     seen = set()
     unique = []
     for node in nodes:
@@ -349,78 +271,75 @@ def make_beautiful_names(nodes: List[Dict]) -> List[Dict]:
         if nid not in seen:
             seen.add(nid)
             unique.append(node)
-
-    logger.info(f"Resolving geolocation for {len(unique)} servers...")
+            
+    logger.info(f"Resolving GEO for {len(unique)} servers...")
     
-    # Определяем страну по IP для каждого сервера
     for i, node in enumerate(unique):
-        if (i + 1) % 10 == 0:
-            logger.info(f"  Progress: {i + 1}/{len(unique)}")
+        if (i + 1) % 20 == 0:
+            logger.info(f"  Progress: {i+1}/{len(unique)}")
+            
+        ip = get_ip(node['server'])
+        country_code = get_country_by_ip(ip) if ip else None
         
-        flag, country = get_flag_and_country(node['server'])
-        
-        if flag and country:
-            # Используем реальную страну по IP
-            clean = clean_name(node['name'])
-            if clean and clean not in country:
-                node['display_name'] = f"{flag} {country} - {clean}"
+        if country_code and country_code in COUNTRY_DATA:
+            flag, country_name = COUNTRY_DATA[country_code]
+            orig_clean = clean_original_name(node['original_name'])
+            
+            if orig_clean and orig_clean.lower() != country_name.lower():
+                for c_name in COUNTRY_DATA.values():
+                    if c_name[1].lower() in orig_clean.lower():
+                        orig_clean = orig_clean.lower().replace(c_name[1].lower(), '').strip()
+                
+                if orig_clean:
+                    display_name = f"{flag} {country_name} - {orig_clean}"
+                else:
+                    display_name = f"{flag} {country_name}"
             else:
-                node['display_name'] = f"{flag} {country}"
+                display_name = f"{flag} {country_name}"
         else:
-            # Не удалось определить — используем оригинал
-            node['display_name'] = clean_name(node['name']) or f"{node['server']}"
-    
-    # Делаем имена уникальными
-    name_pool = {}
+            display_name = clean_original_name(node['original_name']) or node['server']
+            if not display_name:
+                display_name = f"{node['server']}"
+                
+        node['display_name'] = display_name
+
+    name_counts = {}
     for node in unique:
         name = node['display_name']
-        if name in name_pool:
-            name_pool[name] += 1
+        if name in name_counts:
+            name_counts[name] += 1
             node['name'] = f"{name} ({node['server']})"
         else:
-            name_pool[name] = 1
+            name_counts[name] = 1
             node['name'] = name
-
-    logger.info(f"Unique servers: {len(unique)}")
+            
+    logger.info(f"Final unique servers: {len(unique)}")
     return unique
-
 
 def update_history(nodes: List[Dict]):
     history = {}
     if os.path.exists(HISTORY_FILE):
         try:
             history = json.load(open(HISTORY_FILE, 'r', encoding='utf-8'))
-        except:
-            pass
-
+        except: pass
     now = datetime.now().isoformat()
     for node in nodes:
         h = hashlib.md5(f"{node['server']}:{node['port']}:{node['uuid']}".encode()).hexdigest()
         if h not in history:
-            history[h] = {
-                'first_seen': now,
-                'last_seen': now,
-                'name': node['name'],
-                'server': node['server'],
-                'port': node['port']
-            }
+            history[h] = {'first_seen': now, 'last_seen': now, 'name': node['name'], 'server': node['server'], 'port': node['port']}
         else:
             history[h]['last_seen'] = now
-
-    with open(HISTORY_FILE, 'w', encoding='utf-8') as f:
-        json.dump(history, f, indent=2, ensure_ascii=False)
-
+    json.dump(history, open(HISTORY_FILE, 'w', encoding='utf-8'), indent=2, ensure_ascii=False)
 
 def generate_yaml(nodes: List[Dict]) -> str:
-    if not nodes:
-        return ""
-
+    if not nodes: return ""
     reality = [n for n in nodes if 'reality-opts' in n]
     tls = [n for n in nodes if n.get('tls') and 'reality-opts' not in n]
-
+    
     y = f"""# FLClashX Subscription
 # Updated: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}
 # Servers: {len(nodes)} (Reality: {len(reality)}, TLS: {len(tls)})
+# Sources: 3
 
 mixed-port: 7890
 port: 7890
@@ -441,11 +360,9 @@ dns:
     - 8.8.8.8
   nameserver:
     - https://dns.cloudflare.com/dns-query
-    - https://dns.google/dns-query
 
 proxies:
 """
-
     for node in nodes:
         name = node['name'].replace('"', '\\"')
         y += f"  - name: \"{name}\"\n"
@@ -456,22 +373,15 @@ proxies:
         y += f"    network: {node.get('network', 'tcp')}\n"
         y += f"    udp: true\n"
         y += f"    skip-cert-verify: true\n"
-
-        if node.get('tls'):
-            y += "    tls: true\n"
-        if node.get('servername'):
-            y += f"    servername: {node['servername']}\n"
-        if node.get('flow'):
-            y += f"    flow: {node['flow']}\n"
-        if node.get('client-fingerprint'):
-            y += f"    client-fingerprint: {node['client-fingerprint']}\n"
-
+        if node.get('tls'): y += "    tls: true\n"
+        if node.get('servername'): y += f"    servername: {node['servername']}\n"
+        if node.get('flow'): y += f"    flow: {node['flow']}\n"
+        if node.get('client-fingerprint'): y += f"    client-fingerprint: {node['client-fingerprint']}\n"
         if 'reality-opts' in node:
             r = node['reality-opts']
             y += "    reality-opts:\n"
             y += f"      public-key: \"{r.get('public-key', '')}\"\n"
             y += f"      short-id: \"{r.get('short-id', '')}\"\n"
-
         if 'ws-opts' in node:
             w = node['ws-opts']
             y += "    ws-opts:\n"
@@ -480,48 +390,33 @@ proxies:
                 y += "      headers:\n"
                 for k, v in w['headers'].items():
                     y += f"        {k}: \"{v}\"\n"
-
         if 'grpc-opts' in node:
             y += "    grpc-opts:\n"
             y += f"      grpc-service-name: \"{node['grpc-opts'].get('grpc-service-name', '')}\"\n"
-
         y += "\n"
 
     y += "proxy-groups:\n"
-    y += "  - name: 🚀 Auto\n"
-    y += "    type: url-test\n"
-    y += "    proxies:\n"
+    y += "  - name: 🚀 Auto\n    type: url-test\n    proxies:\n"
     for n in nodes[:20]:
         y += f"      - \"{n['name']}\"\n"
-    y += "    url: http://www.gstatic.com/generate_204\n"
-    y += "    interval: 300\n\n"
-
-    y += "  - name: 📡 All Servers\n"
-    y += "    type: select\n"
-    y += "    proxies:\n"
-    y += "      - 🚀 Auto\n"
+    y += "    url: http://www.gstatic.com/generate_204\n    interval: 300\n\n"
+    
+    y += "  - name: 📡 All Servers\n    type: select\n    proxies:\n      - 🚀 Auto\n"
     for n in nodes:
         y += f"      - \"{n['name']}\"\n"
     y += "\n"
-
+    
     if reality:
-        y += "  - name: 🔒 Reality\n"
-        y += "    type: select\n"
-        y += "    proxies:\n"
-        y += "      - 🚀 Auto\n"
+        y += "  - name: 🔒 Reality\n    type: select\n    proxies:\n      - 🚀 Auto\n"
         for n in reality:
             y += f"      - \"{n['name']}\"\n"
         y += "\n"
-
     if tls:
-        y += "  - name: 🔐 TLS\n"
-        y += "    type: select\n"
-        y += "    proxies:\n"
-        y += "      - 🚀 Auto\n"
+        y += "  - name: 🔐 TLS\n    type: select\n    proxies:\n      - 🚀 Auto\n"
         for n in tls:
             y += f"      - \"{n['name']}\"\n"
         y += "\n"
-
+        
     y += """rules:
   - DOMAIN-SUFFIX,local,DIRECT
   - IP-CIDR,127.0.0.0/8,DIRECT
@@ -532,38 +427,26 @@ proxies:
 """
     return y
 
-
 def main():
-    logger.info("=" * 50)
+    logger.info("="*50)
     logger.info("FLClashX Subscription Merger")
-    logger.info("=" * 50)
-
+    logger.info(f"Sources: {len(SOURCES)}")
     try:
         nodes = process_all_sources()
         if not nodes:
             logger.error("No servers found!")
             sys.exit(1)
-
-        unique = make_beautiful_names(nodes)
+        unique = finalize_names(nodes)
         update_history(unique)
-
         yaml = generate_yaml(unique)
-        if not yaml:
-            logger.error("Failed to generate config!")
-            sys.exit(1)
-
         with open(OUTPUT_FILE, 'w', encoding='utf-8') as f:
             f.write(yaml)
-
         r = len([n for n in unique if 'reality-opts' in n])
         t = len([n for n in unique if n.get('tls') and 'reality-opts' not in n])
-
-        logger.info(f"✅ Done! Servers: {len(unique)} (Reality: {r}, TLS: {t})")
-
+        logger.info(f"✅ Done! Total: {len(unique)} (Reality: {r}, TLS: {t})")
     except Exception as e:
-        logger.error(f"Error: {e}", exc_info=True)
+        logger.error(f"Fatal error: {e}", exc_info=True)
         sys.exit(1)
-
 
 if __name__ == "__main__":
     main()
