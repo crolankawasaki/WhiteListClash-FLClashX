@@ -1,6 +1,6 @@
 # FLClashX Subscription
-# Updated: 2026-10-19 00:57:19
-# Servers: 47 (Reality: 9, TLS: 38)
+# Updated: 2026-10-19 05:59:08
+# Servers: 64 (Reality: 43, TLS: 21)
 
 mixed-port: 7890
 port: 7890
@@ -23,114 +23,447 @@ dns:
     - https://dns.cloudflare.com/dns-query
 
 proxies:
-  - name: "🇷🇺 Russia - Finland"
+  - name: "🇷🇺 Russia - Bulgaria"
     type: vless
-    server: 45.133.151.167
+    server: nas-01.swaginozip.fun
     port: 443
-    uuid: 68c3d665-b2b5-4ffb-9f37-9f3d8c47324d
+    uuid: aca886aa-9b51-4eb2-8d7a-12d6b89caf4d
+    network: ws
+    udp: true
+    skip-cert-verify: true
+    tls: true
+    servername: nas-01.swaginozip.fun
+    client-fingerprint: firefox
+    ws-opts:
+      path: "%2Fapi%2F53d53ac3%2Fa7fa61%2F096357bebc62"
+      headers:
+        Host: "nas-01.swaginozip.fun"
+
+  - name: "🇷🇺 Russia - Croatia"
+    type: vless
+    server: 94.103.2.232
+    port: 8466
+    uuid: a346c521-7a7f-452b-9356-a4893feb5982
     network: grpc
     udp: true
     skip-cert-verify: true
     tls: true
-    servername: www.bing.com
-    client-fingerprint: safari
+    servername: github.com
+    flow: xtls-rprx-vision
+    client-fingerprint: firefox
     reality-opts:
-      public-key: "mhIAHuZIEr2NpdGGSeOxar7VRSgEfVoNwb_G8Y0073E"
-      short-id: "3b84fc70657725af"
+      public-key: "FWitre1jinQR7qz5HQ0q2Q4Gg9xA9B0SyizCziN7Ch0"
+      short-id: "457fab2ac885dbe0"
     grpc-opts:
-      grpc-service-name: "8cb5baa18cd7"
+      grpc-service-name: "GunService"
+
+  - name: "🇷🇺 Russia - Croatia #2"
+    type: vless
+    server: 94.103.2.23
+    port: 8466
+    uuid: a346c521-7a7f-452b-9356-a4893feb5982
+    network: grpc
+    udp: true
+    skip-cert-verify: true
+    tls: true
+    servername: github.com
+    flow: xtls-rprx-vision
+    client-fingerprint: chrome
+    reality-opts:
+      public-key: "FWitre1jinQR7qz5HQ0q2Q4Gg9xA9B0SyizCziN7Ch0"
+      short-id: "457fab2ac885dbe0"
+    grpc-opts:
+      grpc-service-name: "GunService"
+
+  - name: "🇷🇺 Russia - Czechia"
+    type: vless
+    server: 1f0c1c7297521d51.wgse.info
+    port: 443
+    uuid: d78d6815-5f00-4fe3-8aae-3344aeb7783f
+    network: ws
+    udp: true
+    skip-cert-verify: true
+    tls: true
+    servername: 1f0c1c7297521d51.wgse.info
+    client-fingerprint: qq
+    ws-opts:
+      path: "%2Fws"
+      headers:
+        Host: "1f0c1c7297521d51.wgse.info"
+
+  - name: "🇷🇺 Russia - Czechia #2"
+    type: vless
+    server: 81.90.31.111
+    port: 443
+    uuid: d78d6815-5f00-4fe3-8aae-3344aeb7783f
+    network: ws
+    udp: true
+    skip-cert-verify: true
+    tls: true
+    servername: 1f0c1c7297521d51.wgse.info
+    client-fingerprint: chrome
+    ws-opts:
+      path: "%2Fws"
+      headers:
+        Host: "1f0c1c7297521d51.wgse.info"
+
+  - name: "🇷🇺 Russia - Estonia"
+    type: vless
+    server: 185.76.241.130
+    port: 8449
+    uuid: a346c521-7a7f-452b-9356-a4893feb5982
+    network: grpc
+    udp: true
+    skip-cert-verify: true
+    tls: true
+    servername: github.com
+    flow: xtls-rprx-vision
+    client-fingerprint: android
+    reality-opts:
+      public-key: "FWitre1jinQR7qz5HQ0q2Q4Gg9xA9B0SyizCziN7Ch0"
+      short-id: ""
+    grpc-opts:
+      grpc-service-name: "GunService"
+
+  - name: "🇷🇺 Russia - Estonia #2"
+    type: vless
+    server: 89.221.203.224
+    port: 8449
+    uuid: a346c521-7a7f-452b-9356-a4893feb5982
+    network: grpc
+    udp: true
+    skip-cert-verify: true
+    tls: true
+    servername: github.com
+    flow: xtls-rprx-vision
+    client-fingerprint: firefox
+    reality-opts:
+      public-key: "FWitre1jinQR7qz5HQ0q2Q4Gg9xA9B0SyizCziN7Ch0"
+      short-id: "457fab2ac885dbe0"
+    grpc-opts:
+      grpc-service-name: "GunService"
+
+  - name: "🇷🇺 Russia - Finland"
+    type: vless
+    server: 81.90.31.80
+    port: 8454
+    uuid: a346c521-7a7f-452b-9356-a4893feb5982
+    network: grpc
+    udp: true
+    skip-cert-verify: true
+    tls: true
+    servername: github.com
+    flow: xtls-rprx-vision
+    client-fingerprint: edge
+    reality-opts:
+      public-key: "FWitre1jinQR7qz5HQ0q2Q4Gg9xA9B0SyizCziN7Ch0"
+      short-id: ""
+    grpc-opts:
+      grpc-service-name: "GunService"
 
   - name: "🇷🇺 Russia - Finland #2"
     type: vless
-    server: fi-p1.h1cloud.net
-    port: 25481
-    uuid: 68c3d665-b2b5-4ffb-9f37-9f3d8c47324d
+    server: 89.221.203.210
+    port: 8453
+    uuid: a346c521-7a7f-452b-9356-a4893feb5982
     network: grpc
     udp: true
     skip-cert-verify: true
     tls: true
-    servername: www.bing.com
+    servername: github.com
     flow: xtls-rprx-vision
-    client-fingerprint: firefox
+    client-fingerprint: android
     reality-opts:
-      public-key: "mhIAHuZIEr2NpdGGSeOxar7VRSgEfVoNwb_G8Y0073E"
-      short-id: "3b84fc70657725af"
+      public-key: "FWitre1jinQR7qz5HQ0q2Q4Gg9xA9B0SyizCziN7Ch0"
+      short-id: "457fab2ac885dbe0"
     grpc-opts:
-      grpc-service-name: "8cb5baa18cd7"
+      grpc-service-name: "GunService"
 
   - name: "🇷🇺 Russia - France"
     type: vless
-    server: cdn-01.funvideos.video
-    port: 443
-    uuid: aca886aa-9b51-4eb2-8d7a-12d6b89caf4d
-    network: ws
-    udp: true
-    skip-cert-verify: true
-    tls: true
-    servername: cdn-01.funvideos.video
-    client-fingerprint: ios
-    ws-opts:
-      path: "%2Fapi%2F53d53ac3%2Fa7fa61%2F096357bebc62"
-      headers:
-        Host: "cdn-01.funvideos.video"
-
-  - name: "🇷🇺 Russia - France #2"
-    type: vless
-    server: 188.225.57.92
-    port: 443
-    uuid: aca886aa-9b51-4eb2-8d7a-12d6b89caf4d
-    network: ws
-    udp: true
-    skip-cert-verify: true
-    tls: true
-    servername: cdn-01.funvideos.video
-    client-fingerprint: firefox
-    ws-opts:
-      path: "%2Fapi%2F53d53ac3%2Fa7fa61%2F096357bebc62"
-      headers:
-        Host: "cdn-01.funvideos.video"
-
-  - name: "🇷🇺 Russia - Germany"
-    type: vless
-    server: 82.202.141.141
-    port: 9892
-    uuid: 5d16ac22-6eea-426f-b778-6f4c2961faef
+    server: 185.76.241.138
+    port: 8465
+    uuid: a346c521-7a7f-452b-9356-a4893feb5982
     network: grpc
     udp: true
     skip-cert-verify: true
     tls: true
-    servername: dl.google.com
+    servername: github.com
+    flow: xtls-rprx-vision
+    client-fingerprint: edge
+    reality-opts:
+      public-key: "FWitre1jinQR7qz5HQ0q2Q4Gg9xA9B0SyizCziN7Ch0"
+      short-id: ""
+    grpc-opts:
+      grpc-service-name: "GunService"
+
+  - name: "🇷🇺 Russia - France #2"
+    type: vless
+    server: 89.221.203.210
+    port: 8465
+    uuid: a346c521-7a7f-452b-9356-a4893feb5982
+    network: grpc
+    udp: true
+    skip-cert-verify: true
+    tls: true
+    servername: github.com
+    flow: xtls-rprx-vision
+    client-fingerprint: firefox
+    reality-opts:
+      public-key: "FWitre1jinQR7qz5HQ0q2Q4Gg9xA9B0SyizCziN7Ch0"
+      short-id: "457fab2ac885dbe0"
+    grpc-opts:
+      grpc-service-name: "GunService"
+
+  - name: "🇷🇺 Russia - France #3"
+    type: vless
+    server: 37.143.15.175
+    port: 443
+    uuid: aca886aa-9b51-4eb2-8d7a-12d6b89caf4d
+    network: ws
+    udp: true
+    skip-cert-verify: true
+    tls: true
+    servername: funvideos.video
+    client-fingerprint: android
+    ws-opts:
+      path: "%2Fapi%2F53d53ac3%2Fa7fa61%2F096357bebc62"
+      headers:
+        Host: "funvideos.video"
+
+  - name: "🇷🇺 Russia - Germany"
+    type: vless
+    server: 89.221.203.206
+    port: 8461
+    uuid: a346c521-7a7f-452b-9356-a4893feb5982
+    network: grpc
+    udp: true
+    skip-cert-verify: true
+    tls: true
+    servername: github.com
+    flow: xtls-rprx-vision
+    client-fingerprint: firefox
+    reality-opts:
+      public-key: "FWitre1jinQR7qz5HQ0q2Q4Gg9xA9B0SyizCziN7Ch0"
+      short-id: "457fab2ac885dbe0"
+    grpc-opts:
+      grpc-service-name: "GunService"
+
+  - name: "🇷🇺 Russia - Germany #2"
+    type: vless
+    server: 94.103.2.109
+    port: 8459
+    uuid: a346c521-7a7f-452b-9356-a4893feb5982
+    network: grpc
+    udp: true
+    skip-cert-verify: true
+    tls: true
+    servername: github.com
+    flow: xtls-rprx-vision
+    client-fingerprint: firefox
+    reality-opts:
+      public-key: "FWitre1jinQR7qz5HQ0q2Q4Gg9xA9B0SyizCziN7Ch0"
+      short-id: "457fab2ac885dbe0"
+    grpc-opts:
+      grpc-service-name: "GunService"
+
+  - name: "🇷🇺 Russia - Germany #3"
+    type: vless
+    server: 94.103.2.109
+    port: 8460
+    uuid: a346c521-7a7f-452b-9356-a4893feb5982
+    network: grpc
+    udp: true
+    skip-cert-verify: true
+    tls: true
+    servername: github.com
+    flow: xtls-rprx-vision
+    client-fingerprint: firefox
+    reality-opts:
+      public-key: "FWitre1jinQR7qz5HQ0q2Q4Gg9xA9B0SyizCziN7Ch0"
+      short-id: ""
+    grpc-opts:
+      grpc-service-name: "GunService"
+
+  - name: "🇷🇺 Russia - Germany #4"
+    type: vless
+    server: 94.103.2.232
+    port: 8462
+    uuid: a346c521-7a7f-452b-9356-a4893feb5982
+    network: grpc
+    udp: true
+    skip-cert-verify: true
+    tls: true
+    servername: github.com
+    flow: xtls-rprx-vision
+    client-fingerprint: firefox
+    reality-opts:
+      public-key: "FWitre1jinQR7qz5HQ0q2Q4Gg9xA9B0SyizCziN7Ch0"
+      short-id: "457fab2ac885dbe0"
+    grpc-opts:
+      grpc-service-name: "GunService"
+
+  - name: "🇷🇺 Russia - Germany #5"
+    type: vless
+    server: 94.103.2.23
+    port: 8459
+    uuid: a346c521-7a7f-452b-9356-a4893feb5982
+    network: grpc
+    udp: true
+    skip-cert-verify: true
+    tls: true
+    servername: github.com
     flow: xtls-rprx-vision
     client-fingerprint: chrome
     reality-opts:
-      public-key: "Dfgu8Ey0M8Hz4gXGZAwQ3H9jLt2HByVsjAOTWiuKDB0"
+      public-key: "FWitre1jinQR7qz5HQ0q2Q4Gg9xA9B0SyizCziN7Ch0"
+      short-id: "457fab2ac885dbe0"
+    grpc-opts:
+      grpc-service-name: "GunService"
+
+  - name: "🇷🇺 Russia - Germany #6"
+    type: vless
+    server: 94.103.2.23
+    port: 8460
+    uuid: a346c521-7a7f-452b-9356-a4893feb5982
+    network: grpc
+    udp: true
+    skip-cert-verify: true
+    tls: true
+    servername: github.com
+    flow: xtls-rprx-vision
+    client-fingerprint: firefox
+    reality-opts:
+      public-key: "FWitre1jinQR7qz5HQ0q2Q4Gg9xA9B0SyizCziN7Ch0"
+      short-id: "457fab2ac885dbe0"
+    grpc-opts:
+      grpc-service-name: "GunService"
+
+  - name: "🇷🇺 Russia - Germany #7"
+    type: vless
+    server: 94.103.2.23
+    port: 8462
+    uuid: a346c521-7a7f-452b-9356-a4893feb5982
+    network: grpc
+    udp: true
+    skip-cert-verify: true
+    tls: true
+    servername: github.com
+    flow: xtls-rprx-vision
+    client-fingerprint: chrome
+    reality-opts:
+      public-key: "FWitre1jinQR7qz5HQ0q2Q4Gg9xA9B0SyizCziN7Ch0"
       short-id: ""
     grpc-opts:
-      grpc-service-name: "grpc-tunnel"
+      grpc-service-name: "GunService"
 
-  - name: "🇷🇺 Russia - Lithuania"
+  - name: "🇷🇺 Russia - Latvia"
     type: vless
-    server: 78.24.92.70
-    port: 443
-    uuid: cb5d9bb5-c2f9-46cf-9555-9ead6b30c7b7
-    network: xhttp
+    server: 94.103.2.109
+    port: 8457
+    uuid: a346c521-7a7f-452b-9356-a4893feb5982
+    network: grpc
     udp: true
     skip-cert-verify: true
     tls: true
-    servername: lt69.cdnfern.org
+    servername: github.com
+    flow: xtls-rprx-vision
+    client-fingerprint: edge
+    reality-opts:
+      public-key: "FWitre1jinQR7qz5HQ0q2Q4Gg9xA9B0SyizCziN7Ch0"
+      short-id: ""
+    grpc-opts:
+      grpc-service-name: "GunService"
+
+  - name: "🇷🇺 Russia - Latvia #2"
+    type: vless
+    server: 94.103.2.109
+    port: 8463
+    uuid: a346c521-7a7f-452b-9356-a4893feb5982
+    network: grpc
+    udp: true
+    skip-cert-verify: true
+    tls: true
+    servername: github.com
+    flow: xtls-rprx-vision
+    client-fingerprint: edge
+    reality-opts:
+      public-key: "FWitre1jinQR7qz5HQ0q2Q4Gg9xA9B0SyizCziN7Ch0"
+      short-id: ""
+    grpc-opts:
+      grpc-service-name: "GunService"
+
+  - name: "🇷🇺 Russia - Latvia #3"
+    type: vless
+    server: 94.103.2.232
+    port: 8457
+    uuid: a346c521-7a7f-452b-9356-a4893feb5982
+    network: grpc
+    udp: true
+    skip-cert-verify: true
+    tls: true
+    servername: github.com
+    flow: xtls-rprx-vision
     client-fingerprint: firefox
+    reality-opts:
+      public-key: "FWitre1jinQR7qz5HQ0q2Q4Gg9xA9B0SyizCziN7Ch0"
+      short-id: ""
+    grpc-opts:
+      grpc-service-name: "GunService"
 
-  - name: "🇷🇺 Russia - Lithuania #2"
+  - name: "🇷🇺 Russia - Latvia #4"
     type: vless
-    server: lt69.cdnfern.org
-    port: 443
-    uuid: cb5d9bb5-c2f9-46cf-9555-9ead6b30c7b7
-    network: xhttp
+    server: 94.103.2.232
+    port: 8463
+    uuid: a346c521-7a7f-452b-9356-a4893feb5982
+    network: grpc
     udp: true
     skip-cert-verify: true
     tls: true
-    servername: lt69.cdnfern.org
-    client-fingerprint: chrome
+    servername: github.com
+    flow: xtls-rprx-vision
+    client-fingerprint: firefox
+    reality-opts:
+      public-key: "FWitre1jinQR7qz5HQ0q2Q4Gg9xA9B0SyizCziN7Ch0"
+      short-id: ""
+    grpc-opts:
+      grpc-service-name: "GunService"
+
+  - name: "🇷🇺 Russia - Latvia #5"
+    type: vless
+    server: 94.103.2.23
+    port: 8457
+    uuid: a346c521-7a7f-452b-9356-a4893feb5982
+    network: grpc
+    udp: true
+    skip-cert-verify: true
+    tls: true
+    servername: github.com
+    flow: xtls-rprx-vision
+    client-fingerprint: firefox
+    reality-opts:
+      public-key: "FWitre1jinQR7qz5HQ0q2Q4Gg9xA9B0SyizCziN7Ch0"
+      short-id: "457fab2ac885dbe0"
+    grpc-opts:
+      grpc-service-name: "GunService"
+
+  - name: "🇷🇺 Russia - Latvia #6"
+    type: vless
+    server: 94.103.2.23
+    port: 8463
+    uuid: a346c521-7a7f-452b-9356-a4893feb5982
+    network: grpc
+    udp: true
+    skip-cert-verify: true
+    tls: true
+    servername: github.com
+    flow: xtls-rprx-vision
+    client-fingerprint: android
+    reality-opts:
+      public-key: "FWitre1jinQR7qz5HQ0q2Q4Gg9xA9B0SyizCziN7Ch0"
+      short-id: "457fab2ac885dbe0"
+    grpc-opts:
+      grpc-service-name: "GunService"
 
   - name: "🇷🇺 Russia - Poland"
     type: vless
@@ -156,41 +489,9 @@ proxies:
     skip-cert-verify: true
     tls: true
     servername: ru1.radiolumens.uk
-    client-fingerprint: firefox
+    client-fingerprint: edge
     grpc-opts:
       grpc-service-name: "beru-pl"
-
-  - name: "🇷🇺 Russia - Sweden"
-    type: vless
-    server: 45.10.246.169
-    port: 443
-    uuid: aca886aa-9b51-4eb2-8d7a-12d6b89caf4d
-    network: ws
-    udp: true
-    skip-cert-verify: true
-    tls: true
-    servername: cluster1.s3.infitycloudswagovo.best
-    client-fingerprint: firefox
-    ws-opts:
-      path: "%2Fapi%2F53d53ac3%2Fa7fa61%2F096357bebc62"
-      headers:
-        Host: "cluster1.s3.infitycloudswagovo.best"
-
-  - name: "🇷🇺 Russia - Sweden #2"
-    type: vless
-    server: cluster1.s3.infitycloudswagovo.best
-    port: 443
-    uuid: aca886aa-9b51-4eb2-8d7a-12d6b89caf4d
-    network: ws
-    udp: true
-    skip-cert-verify: true
-    tls: true
-    servername: cluster1.s3.infitycloudswagovo.best
-    client-fingerprint: chrome
-    ws-opts:
-      path: "%2Fapi%2F53d53ac3%2Fa7fa61%2F096357bebc62"
-      headers:
-        Host: "cluster1.s3.infitycloudswagovo.best"
 
   - name: "🇷🇺 Russia - Ne Rlands"
     type: vless
@@ -202,7 +503,7 @@ proxies:
     skip-cert-verify: true
     tls: true
     servername: ru-auto-02.10media.top
-    client-fingerprint: chrome
+    client-fingerprint: edge
     grpc-opts:
       grpc-service-name: "northfeed"
 
@@ -216,27 +517,245 @@ proxies:
     skip-cert-verify: true
     tls: true
     servername: ru-auto-02.10media.top
-    client-fingerprint: edge
+    client-fingerprint: chrome
     grpc-opts:
       grpc-service-name: "northfeed"
 
   - name: "🇷🇺 Russia - Ne Rlands #3"
     type: vless
-    server: 189.74.114.135
-    port: 443
-    uuid: 88737cd7-fc18-4209-b22a-b0429e81b9a3
+    server: 94.103.2.109
+    port: 8444
+    uuid: a346c521-7a7f-452b-9356-a4893feb5982
     network: grpc
     udp: true
     skip-cert-verify: true
     tls: true
-    servername: api.mediaplotina.cc
-    client-fingerprint: chrome
+    servername: github.com
+    flow: xtls-rprx-vision
+    client-fingerprint: firefox
+    reality-opts:
+      public-key: "FWitre1jinQR7qz5HQ0q2Q4Gg9xA9B0SyizCziN7Ch0"
+      short-id: "457fab2ac885dbe0"
     grpc-opts:
-      grpc-service-name: "3e99d50d5740985d"
+      grpc-service-name: "GunService"
+
+  - name: "🇷🇺 Russia - Ne Rlands #4"
+    type: vless
+    server: 94.103.2.109
+    port: 8450
+    uuid: a346c521-7a7f-452b-9356-a4893feb5982
+    network: grpc
+    udp: true
+    skip-cert-verify: true
+    tls: true
+    servername: github.com
+    flow: xtls-rprx-vision
+    client-fingerprint: edge
+    reality-opts:
+      public-key: "FWitre1jinQR7qz5HQ0q2Q4Gg9xA9B0SyizCziN7Ch0"
+      short-id: "457fab2ac885dbe0"
+    grpc-opts:
+      grpc-service-name: "GunService"
+
+  - name: "🇷🇺 Russia - Ne Rlands #5"
+    type: vless
+    server: 94.103.2.109
+    port: 8451
+    uuid: a346c521-7a7f-452b-9356-a4893feb5982
+    network: grpc
+    udp: true
+    skip-cert-verify: true
+    tls: true
+    servername: github.com
+    flow: xtls-rprx-vision
+    client-fingerprint: edge
+    reality-opts:
+      public-key: "FWitre1jinQR7qz5HQ0q2Q4Gg9xA9B0SyizCziN7Ch0"
+      short-id: ""
+    grpc-opts:
+      grpc-service-name: "GunService"
+
+  - name: "🇷🇺 Russia - Ne Rlands #6"
+    type: vless
+    server: 94.103.2.109
+    port: 8464
+    uuid: a346c521-7a7f-452b-9356-a4893feb5982
+    network: grpc
+    udp: true
+    skip-cert-verify: true
+    tls: true
+    servername: github.com
+    flow: xtls-rprx-vision
+    client-fingerprint: firefox
+    reality-opts:
+      public-key: "FWitre1jinQR7qz5HQ0q2Q4Gg9xA9B0SyizCziN7Ch0"
+      short-id: "457fab2ac885dbe0"
+    grpc-opts:
+      grpc-service-name: "GunService"
+
+  - name: "🇷🇺 Russia - Ne Rlands #7"
+    type: vless
+    server: 94.103.2.232
+    port: 8444
+    uuid: a346c521-7a7f-452b-9356-a4893feb5982
+    network: grpc
+    udp: true
+    skip-cert-verify: true
+    tls: true
+    servername: github.com
+    flow: xtls-rprx-vision
+    client-fingerprint: android
+    reality-opts:
+      public-key: "FWitre1jinQR7qz5HQ0q2Q4Gg9xA9B0SyizCziN7Ch0"
+      short-id: ""
+    grpc-opts:
+      grpc-service-name: "GunService"
+
+  - name: "🇷🇺 Russia - Ne Rlands #8"
+    type: vless
+    server: 94.103.2.232
+    port: 8450
+    uuid: a346c521-7a7f-452b-9356-a4893feb5982
+    network: grpc
+    udp: true
+    skip-cert-verify: true
+    tls: true
+    servername: github.com
+    flow: xtls-rprx-vision
+    client-fingerprint: edge
+    reality-opts:
+      public-key: "FWitre1jinQR7qz5HQ0q2Q4Gg9xA9B0SyizCziN7Ch0"
+      short-id: "457fab2ac885dbe0"
+    grpc-opts:
+      grpc-service-name: "GunService"
+
+  - name: "🇷🇺 Russia - Ne Rlands #9"
+    type: vless
+    server: 94.103.2.23
+    port: 8444
+    uuid: a346c521-7a7f-452b-9356-a4893feb5982
+    network: grpc
+    udp: true
+    skip-cert-verify: true
+    tls: true
+    servername: github.com
+    flow: xtls-rprx-vision
+    client-fingerprint: firefox
+    reality-opts:
+      public-key: "FWitre1jinQR7qz5HQ0q2Q4Gg9xA9B0SyizCziN7Ch0"
+      short-id: ""
+    grpc-opts:
+      grpc-service-name: "GunService"
+
+  - name: "🇷🇺 Russia - Ne Rlands #10"
+    type: vless
+    server: 94.103.2.23
+    port: 8445
+    uuid: a346c521-7a7f-452b-9356-a4893feb5982
+    network: grpc
+    udp: true
+    skip-cert-verify: true
+    tls: true
+    servername: github.com
+    flow: xtls-rprx-vision
+    client-fingerprint: edge
+    reality-opts:
+      public-key: "FWitre1jinQR7qz5HQ0q2Q4Gg9xA9B0SyizCziN7Ch0"
+      short-id: "457fab2ac885dbe0"
+    grpc-opts:
+      grpc-service-name: "GunService"
+
+  - name: "🇷🇺 Russia - Ne Rlands #11"
+    type: vless
+    server: 94.103.2.23
+    port: 8451
+    uuid: a346c521-7a7f-452b-9356-a4893feb5982
+    network: grpc
+    udp: true
+    skip-cert-verify: true
+    tls: true
+    servername: github.com
+    flow: xtls-rprx-vision
+    client-fingerprint: firefox
+    reality-opts:
+      public-key: "FWitre1jinQR7qz5HQ0q2Q4Gg9xA9B0SyizCziN7Ch0"
+      short-id: ""
+    grpc-opts:
+      grpc-service-name: "GunService"
+
+  - name: "🇷🇺 Russia - Ne Rlands #12"
+    type: vless
+    server: 94.103.2.23
+    port: 8464
+    uuid: a346c521-7a7f-452b-9356-a4893feb5982
+    network: grpc
+    udp: true
+    skip-cert-verify: true
+    tls: true
+    servername: github.com
+    flow: xtls-rprx-vision
+    client-fingerprint: firefox
+    reality-opts:
+      public-key: "FWitre1jinQR7qz5HQ0q2Q4Gg9xA9B0SyizCziN7Ch0"
+      short-id: ""
+    grpc-opts:
+      grpc-service-name: "GunService"
+
+  - name: "🇷🇺 Russia - Ne Rlands Ya"
+    type: vless
+    server: 84.201.146.8
+    port: 443
+    uuid: 1e2b9c0c-4f9b-56f5-a062-1c4f2d2aa200
+    network: xhttp
+    udp: true
+    skip-cert-verify: true
+    tls: true
+    servername: max.ru
+    flow: xtls-rprx-vision
+    client-fingerprint: chrome
+    reality-opts:
+      public-key: "biyXF3Egpu0ul4Jyf04Vh1Zl6u3JGXJ2k5y5y7pDjgo"
+      short-id: ""
+
+  - name: "🇷🇺 Russia - Turkey"
+    type: vless
+    server: 157.22.241.124
+    port: 8456
+    uuid: a346c521-7a7f-452b-9356-a4893feb5982
+    network: grpc
+    udp: true
+    skip-cert-verify: true
+    tls: true
+    servername: github.com
+    flow: xtls-rprx-vision
+    client-fingerprint: firefox
+    reality-opts:
+      public-key: "FWitre1jinQR7qz5HQ0q2Q4Gg9xA9B0SyizCziN7Ch0"
+      short-id: "457fab2ac885dbe0"
+    grpc-opts:
+      grpc-service-name: "GunService"
+
+  - name: "🇷🇺 Russia - Turkey #2"
+    type: vless
+    server: 185.76.241.137
+    port: 8456
+    uuid: a346c521-7a7f-452b-9356-a4893feb5982
+    network: grpc
+    udp: true
+    skip-cert-verify: true
+    tls: true
+    servername: github.com
+    flow: xtls-rprx-vision
+    client-fingerprint: firefox
+    reality-opts:
+      public-key: "FWitre1jinQR7qz5HQ0q2Q4Gg9xA9B0SyizCziN7Ch0"
+      short-id: "457fab2ac885dbe0"
+    grpc-opts:
+      grpc-service-name: "GunService"
 
   - name: "🇷🇺 Russia - United Kingdom"
     type: vless
-    server: ru3.radiolumens.uk
+    server: 77.232.135.122
     port: 8444
     uuid: 36cf792c-f07d-4500-97ea-a395e5178deb
     network: grpc
@@ -244,7 +763,7 @@ proxies:
     skip-cert-verify: true
     tls: true
     servername: ru3.radiolumens.uk
-    client-fingerprint: chrome
+    client-fingerprint: firefox
     grpc-opts:
       grpc-service-name: "beru-uk"
 
@@ -272,155 +791,13 @@ proxies:
     skip-cert-verify: true
     tls: true
     servername: ru1.radiolumens.uk
-    client-fingerprint: firefox
+    client-fingerprint: chrome
     grpc-opts:
       grpc-service-name: "beru-uk"
 
-  - name: "🇷🇺 Russia - United States"
+  - name: "🇷🇺 Russia - United Kingdom #4"
     type: vless
-    server: 78.24.218.228
-    port: 2096
-    uuid: e667f5c7-6b38-48ef-ab89-40519713afb0
-    network: grpc
-    udp: true
-    skip-cert-verify: true
-    tls: true
-    servername: id.vk.com
-    flow: xtls-rprx-vision
-    client-fingerprint: chrome
-    reality-opts:
-      public-key: "SbVKOEMjK0sIlbwg4akyBg5mL5KZwwB-ed4eEE7YnRc"
-      short-id: ""
-    grpc-opts:
-      grpc-service-name: "vless-grpc-reality"
-
-  - name: "🇷🇺 Russia - Anycast-Ip"
-    type: vless
-    server: 147.45.109.59
-    port: 443
-    uuid: 274c70c5-2167-483d-b847-977498d97843
-    network: tcp
-    udp: true
-    skip-cert-verify: true
-    tls: true
-    servername: ru.api.nurcloud.org
-    flow: xtls-rprx-vision
-    client-fingerprint: chrome
-    reality-opts:
-      public-key: "iEn05nrDTTyNqlV2Brol7NQDZVRtyDw92o7FtkbJcF8"
-      short-id: "fb28c3048bd6e18a"
-
-  - name: "🇷🇺 Russia - Anycast-Ip #2"
-    type: vless
-    server: ru.api.nurcloud.org
-    port: 443
-    uuid: 274c70c5-2167-483d-b847-977498d97843
-    network: tcp
-    udp: true
-    skip-cert-verify: true
-    tls: true
-    servername: ru.api.nurcloud.org
-    flow: xtls-rprx-vision
-    client-fingerprint: chrome
-    reality-opts:
-      public-key: "iEn05nrDTTyNqlV2Brol7NQDZVRtyDw92o7FtkbJcF8"
-      short-id: "fb28c3048bd6e18a"
-
-  - name: "🇷🇺 Russia - Anycast-Ip #3"
-    type: vless
-    server: 121.127.37.211
-    port: 443
-    uuid: 5e610f80-fc6a-479d-8621-b672355b96a1
-    network: ws
-    udp: true
-    skip-cert-verify: true
-    tls: true
-    servername: cf-1rm.pages.dev
-    client-fingerprint: chrome
-    ws-opts:
-      path: "%2F"
-      headers:
-        Host: "cf-1rm.pages.dev"
-
-  - name: "🇷🇺 Russia - Anycast-Ip #4"
-    type: vless
-    server: 121.127.37.211
-    port: 443
-    uuid: 9784bb19-3833-43ad-83b0-27ef8fc04ef2
-    network: ws
-    udp: true
-    skip-cert-verify: true
-    tls: true
-    servername: 20664.pages.dev
-    client-fingerprint: edge
-    ws-opts:
-      path: "%2F%3Fed%3D2048"
-      headers:
-        Host: "20664.pages.dev"
-
-  - name: "🇷🇺 Russia - Anycast-Ip #5"
-    type: vless
-    server: 45.139.24.100
-    port: 443
-    uuid: a11213e8-a42f-4492-beaa-14084f6ae28a
-    network: tcp
-    udp: true
-    skip-cert-verify: true
-    tls: true
-    servername: www.pobeda.aero
-    flow: xtls-rprx-vision
-    client-fingerprint: edge
-    reality-opts:
-      public-key: "L4Aifg9Z38BOPDA_pr-zmfj0BweN9sM5m_oSNGsFKiE"
-      short-id: "ec2a6d77d897a2c3"
-
-  - name: "🇷🇺 Russia - Anycast-Ip #6"
-    type: vless
-    server: 194.58.109.206
-    port: 8443
-    uuid: 51a0af77-a60c-4d9b-81a4-f50e1b38d90b
-    network: ws
-    udp: true
-    skip-cert-verify: true
-    tls: true
-    servername: cf3.schzyc.cc.cd
-    client-fingerprint: chrome
-    ws-opts:
-      path: "%2Fproxyip%3DProxyIP.CMLiussss.net"
-      headers:
-        Host: "cf3.schzyc.cc.cd"
-
-  - name: "🇷🇺 Russia - Anycast-Ip #7"
-    type: vless
-    server: 89.110.89.118
-    port: 443
-    uuid: a11213e8-a42f-4492-beaa-14084f6ae28a
-    network: tcp
-    udp: true
-    skip-cert-verify: true
-    tls: true
-    servername: www.spbu.ru
-    flow: xtls-rprx-vision
-    client-fingerprint: firefox
-    reality-opts:
-      public-key: "2LWgemfg0df7tGt4icLbRG-Cz7QNPVr3g7xIdwbTTHQ"
-      short-id: "caa05b44ba5b7b3d"
-
-  - name: "🇷🇺 Russia - Sia"
-    type: vless
-    server: 213.171.30.206
-    port: 443
-    uuid: d86e6fda-e519-46ab-98eb-9ff9a9da5984
-    network: xhttp
-    udp: true
-    skip-cert-verify: true
-    tls: true
-    servername: trust-engage-876.cdn.cachefleet.com
-    client-fingerprint: ios
-
-  - name: "🇷🇺 Russia - Anycast-Ip #8"
-    type: vless
-    server: 77.232.135.122
+    server: ru3.radiolumens.uk
     port: 8444
     uuid: 36cf792c-f07d-4500-97ea-a395e5178deb
     network: grpc
@@ -428,9 +805,27 @@ proxies:
     skip-cert-verify: true
     tls: true
     servername: ru3.radiolumens.uk
-    client-fingerprint: chrome
+    client-fingerprint: ios
     grpc-opts:
       grpc-service-name: "beru-uk"
+
+  - name: "🇷🇺 Russia - United States"
+    type: vless
+    server: 89.221.203.206
+    port: 8452
+    uuid: a346c521-7a7f-452b-9356-a4893feb5982
+    network: grpc
+    udp: true
+    skip-cert-verify: true
+    tls: true
+    servername: github.com
+    flow: xtls-rprx-vision
+    client-fingerprint: firefox
+    reality-opts:
+      public-key: "FWitre1jinQR7qz5HQ0q2Q4Gg9xA9B0SyizCziN7Ch0"
+      short-id: "457fab2ac885dbe0"
+    grpc-opts:
+      grpc-service-name: "GunService"
 
   - name: "🇷🇺 Russia - 1"
     type: vless
@@ -456,19 +851,7 @@ proxies:
     servername: summerculture.net
     client-fingerprint: firefox
 
-  - name: "🇷🇺 Russia - 20"
-    type: vless
-    server: 78.159.246.85
-    port: 2053
-    uuid: 6a2aff19-ff1f-4a13-96c8-a4d8986a9699
-    network: xhttp
-    udp: true
-    skip-cert-verify: true
-    tls: true
-    servername: fitindoor.net
-    client-fingerprint: firefox
-
-  - name: "🇷🇺 Russia - 31"
+  - name: "🇷🇺 Russia - 30"
     type: vless
     server: 78.159.246.85
     port: 2053
@@ -480,19 +863,7 @@ proxies:
     servername: fitindoor.net
     client-fingerprint: firefox
 
-  - name: "🇷🇺 Russia - 36"
-    type: vless
-    server: 78.159.246.179
-    port: 2053
-    uuid: 6a2aff19-ff1f-4a13-96c8-a4d8986a9699
-    network: xhttp
-    udp: true
-    skip-cert-verify: true
-    tls: true
-    servername: randomquaint.net
-    client-fingerprint: firefox
-
-  - name: "🇷🇺 Russia - 52"
+  - name: "🇷🇺 Russia - 45"
     type: vless
     server: 78.159.246.85
     port: 2053
@@ -504,7 +875,7 @@ proxies:
     servername: fitindoor.net
     client-fingerprint: firefox
 
-  - name: "🇷🇺 Russia - 53"
+  - name: "🇷🇺 Russia - 46"
     type: vless
     server: 185.141.227.180
     port: 2053
@@ -516,7 +887,7 @@ proxies:
     servername: 185.141.227.180
     client-fingerprint: chrome
 
-  - name: "🇷🇺 Russia - 58"
+  - name: "🇷🇺 Russia - 51"
     type: vless
     server: 78.159.246.179
     port: 2053
@@ -528,7 +899,7 @@ proxies:
     servername: randomquaint.net
     client-fingerprint: firefox
 
-  - name: "🇷🇺 Russia - Beget 144"
+  - name: "🇷🇺 Russia - Beget 133"
     type: vless
     server: 45.12.75.242
     port: 26424
@@ -539,52 +910,16 @@ proxies:
     tls: true
     servername: ya.ru
     flow: xtls-rprx-vision
-    client-fingerprint: chrome
+    client-fingerprint: firefox
     reality-opts:
       public-key: "l8AubqcxQO-HRFJy4pZL1vbLOo-eXit69s-XulSELE0"
       short-id: "23103e1e"
 
-  - name: "🇦🇪 UAE - Selectel 147"
-    type: vless
-    server: 188.72.103.4
-    port: 443
-    uuid: 9737cc16-7266-45ce-94d9-6e05a45e0b9c
-    network: xhttp
-    udp: true
-    skip-cert-verify: true
-    tls: true
-    servername: ru.nnight.cfd
-    client-fingerprint: firefox
-
-  - name: "🇷🇺 Russia - Bulgaria 148"
-    type: vless
-    server: 78.159.246.85
-    port: 8443
-    uuid: 6a2aff19-ff1f-4a13-96c8-a4d8986a9699
-    network: xhttp
-    udp: true
-    skip-cert-verify: true
-    tls: true
-    servername: fitindoor.net
-    client-fingerprint: firefox
-
-  - name: "🇷🇺 Russia - Bulgaria 149"
-    type: vless
-    server: 78.159.250.84
-    port: 8443
-    uuid: 6a2aff19-ff1f-4a13-96c8-a4d8986a9699
-    network: xhttp
-    udp: true
-    skip-cert-verify: true
-    tls: true
-    servername: summerculture.net
-    client-fingerprint: firefox
-
-  - name: "🇷🇺 Russia - Bulgaria 150"
+  - name: "🇷🇺 Russia - Bulgaria 135"
     type: vless
     server: 78.159.246.179
     port: 8443
-    uuid: 6a2aff19-ff1f-4a13-96c8-a4d8986a9699
+    uuid: 2c634977-584e-4e1f-b501-1b70c77a6743
     network: xhttp
     udp: true
     skip-cert-verify: true
@@ -592,47 +927,23 @@ proxies:
     servername: randomquaint.net
     client-fingerprint: firefox
 
-  - name: "🇷🇺 Russia - Bulgaria 156"
+  - name: "🇷🇺 Russia - Germany 138"
     type: vless
-    server: 78.159.246.179
-    port: 8443
-    uuid: 2c634977-584e-4e1f-b501-1b70c77a6743
-    network: xhttp
+    server: 81.94.148.162
+    port: 9446
+    uuid: 8571b13c-96ae-480a-8b0d-8969ceda21f8
+    network: raw
     udp: true
     skip-cert-verify: true
     tls: true
-    servername: 78.159.246.179
-    client-fingerprint: chrome
-
-  - name: "🇷🇺 Russia - Bulgaria 167"
-    type: vless
-    server: 78.159.246.85
-    port: 8443
-    uuid: 2c634977-584e-4e1f-b501-1b70c77a6743
-    network: xhttp
-    udp: true
-    skip-cert-verify: true
-    tls: true
-    servername: fitindoor.net
+    servername: no.roskomnadzor.space
+    flow: xtls-rprx-vision
     client-fingerprint: firefox
+    reality-opts:
+      public-key: "kUxaKv4LfQZyhZgBSFVfVK1zSFCyn5zkQXDSipad1jM"
+      short-id: ""
 
-  - name: "🇷🇺 Russia - Germany 179"
-    type: vless
-    server: 185.141.227.223
-    port: 443
-    uuid: a443d7bf-f506-46ce-b64d-cf8891c0a9f7
-    network: ws
-    udp: true
-    skip-cert-verify: true
-    tls: true
-    servername: z1q3pv4g78.rucdncomp.pro
-    client-fingerprint: firefox
-    ws-opts:
-      path: "%2Fuseraction%2Fevents%2Fb892639b7195%2F"
-      headers:
-        Host: "z1q3pv4g78.rucdncomp.pro"
-
-  - name: "🇷🇺 Russia - Germany 180"
+  - name: "🇷🇺 Russia - Germany 141"
     type: vless
     server: 185.141.227.223
     port: 443
@@ -648,70 +959,154 @@ proxies:
       headers:
         Host: "z1q3pv4g78.rucdncomp.pro"
 
-  - name: "🇷🇺 Russia - Germany 182"
+  - name: "🇷🇺 Russia - Estonia 145"
     type: vless
-    server: 31.177.111.121
+    server: 188.225.72.65
+    port: 27443
+    uuid: 8dcc00cb-789c-4ddb-bdde-16db5bdc8929
+    network: grpc
+    udp: true
+    skip-cert-verify: true
+    tls: true
+    servername: static.polina.mom
+    flow: xtls-rprx-vision
+    client-fingerprint: firefox
+    reality-opts:
+      public-key: "zIF5SLjmd3gzvGPhEBKjqLv8_-7MOHMpJciVEehL0C8"
+      short-id: ""
+    grpc-opts:
+      grpc-service-name: "grpc"
+
+  - name: "🇷🇺 Russia - Estonia 146"
+    type: vless
+    server: 188.225.72.65
+    port: 27443
+    uuid: c415a098-fd00-4ae3-b39c-50a8c52e7414
+    network: grpc
+    udp: true
+    skip-cert-verify: true
+    tls: true
+    servername: static.polina.mom
+    flow: xtls-rprx-vision
+    client-fingerprint: firefox
+    reality-opts:
+      public-key: "zIF5SLjmd3gzvGPhEBKjqLv8_-7MOHMpJciVEehL0C8"
+      short-id: ""
+    grpc-opts:
+      grpc-service-name: "grpc"
+
+  - name: "🇷🇺 Russia - Estonia 147"
+    type: vless
+    server: 188.225.72.65
+    port: 27443
+    uuid: 19e0ff76-2eb3-4b17-842f-ac57094cb35e
+    network: grpc
+    udp: true
+    skip-cert-verify: true
+    tls: true
+    servername: static.polina.mom
+    flow: xtls-rprx-vision
+    client-fingerprint: firefox
+    reality-opts:
+      public-key: "zIF5SLjmd3gzvGPhEBKjqLv8_-7MOHMpJciVEehL0C8"
+      short-id: ""
+    grpc-opts:
+      grpc-service-name: "grpc"
+
+  - name: "🇷🇺 Russia - Estonia 148"
+    type: vless
+    server: 188.225.72.65
+    port: 27443
+    uuid: 3ce256d5-9bfa-4bf4-94b9-460f125b0b09
+    network: grpc
+    udp: true
+    skip-cert-verify: true
+    tls: true
+    servername: static.polina.mom
+    flow: xtls-rprx-vision
+    client-fingerprint: firefox
+    reality-opts:
+      public-key: "zIF5SLjmd3gzvGPhEBKjqLv8_-7MOHMpJciVEehL0C8"
+      short-id: ""
+    grpc-opts:
+      grpc-service-name: "grpc"
+
+  - name: "🇷🇺 Russia - Estonia 149"
+    type: vless
+    server: 188.225.72.65
+    port: 27443
+    uuid: d7895d82-be54-4ce5-b467-19f909a6645b
+    network: grpc
+    udp: true
+    skip-cert-verify: true
+    tls: true
+    servername: static.polina.mom
+    flow: xtls-rprx-vision
+    client-fingerprint: firefox
+    reality-opts:
+      public-key: "zIF5SLjmd3gzvGPhEBKjqLv8_-7MOHMpJciVEehL0C8"
+      short-id: ""
+    grpc-opts:
+      grpc-service-name: "grpc"
+
+  - name: "🇷🇺 Russia - Finland 150"
+    type: vless
+    server: 78.159.250.88
+    port: 2096
+    uuid: e667f5c7-6b38-48ef-ab89-40519713afb0
+    network: grpc
+    udp: true
+    skip-cert-verify: true
+    tls: true
+    servername: id.vk.com
+    flow: xtls-rprx-vision
+    client-fingerprint: firefox
+    reality-opts:
+      public-key: "SbVKOEMjK0sIlbwg4akyBg5mL5KZwwB-ed4eEE7YnRc"
+      short-id: ""
+    grpc-opts:
+      grpc-service-name: "vless-grpc-reality"
+
+  - name: "🇷🇺 Russia - Sweden 152"
+    type: vless
+    server: 45.10.246.169
     port: 443
-    uuid: 22d6aeac-771d-4a02-8237-3004d947e91e
+    uuid: aca886aa-9b51-4eb2-8d7a-12d6b89caf4d
     network: ws
     udp: true
     skip-cert-verify: true
     tls: true
-    servername: api.cdnrt.net
-    client-fingerprint: firefox
+    servername: cluster1.s3.infitycloudswagovo.best
+    client-fingerprint: chrome
     ws-opts:
-      path: "%2Fstatic%2Fmetrics%2F7c9b509840ad%2F"
+      path: "%2Fapi%2F53d53ac3%2Fa7fa61%2F096357bebc62"
       headers:
-        Host: "api.cdnrt.net"
-
-  - name: "🇷🇺 Russia - United Kingdom 187"
-    type: vless
-    server: 185.178.208.140
-    port: 443
-    uuid: c31589ca-9d14-4044-a732-bb810bad0bcc
-    network: xhttp
-    udp: true
-    skip-cert-verify: true
-    tls: true
-    servername: bakarova-top.ru
-    client-fingerprint: chrome
-
-  - name: "🇷🇺 Russia - United Kingdom 190"
-    type: vless
-    server: 185.178.208.140
-    port: 443
-    uuid: ccd0671b-a168-4151-8bc2-37dce0c5738c
-    network: xhttp
-    udp: true
-    skip-cert-verify: true
-    tls: true
-    servername: bakarova-top.ru
-    client-fingerprint: chrome
+        Host: "cluster1.s3.infitycloudswagovo.best"
 
 proxy-groups:
   - name: 🚀 Auto
     type: url-test
     proxies:
+      - "🇷🇺 Russia - Bulgaria"
+      - "🇷🇺 Russia - Croatia"
+      - "🇷🇺 Russia - Croatia #2"
+      - "🇷🇺 Russia - Czechia"
+      - "🇷🇺 Russia - Czechia #2"
+      - "🇷🇺 Russia - Estonia"
+      - "🇷🇺 Russia - Estonia #2"
       - "🇷🇺 Russia - Finland"
       - "🇷🇺 Russia - Finland #2"
       - "🇷🇺 Russia - France"
       - "🇷🇺 Russia - France #2"
+      - "🇷🇺 Russia - France #3"
       - "🇷🇺 Russia - Germany"
-      - "🇷🇺 Russia - Lithuania"
-      - "🇷🇺 Russia - Lithuania #2"
-      - "🇷🇺 Russia - Poland"
-      - "🇷🇺 Russia - Poland #2"
-      - "🇷🇺 Russia - Sweden"
-      - "🇷🇺 Russia - Sweden #2"
-      - "🇷🇺 Russia - Ne Rlands"
-      - "🇷🇺 Russia - Ne Rlands #2"
-      - "🇷🇺 Russia - Ne Rlands #3"
-      - "🇷🇺 Russia - United Kingdom"
-      - "🇷🇺 Russia - United Kingdom #2"
-      - "🇷🇺 Russia - United Kingdom #3"
-      - "🇷🇺 Russia - United States"
-      - "🇷🇺 Russia - Anycast-Ip"
-      - "🇷🇺 Russia - Anycast-Ip #2"
+      - "🇷🇺 Russia - Germany #2"
+      - "🇷🇺 Russia - Germany #3"
+      - "🇷🇺 Russia - Germany #4"
+      - "🇷🇺 Russia - Germany #5"
+      - "🇷🇺 Russia - Germany #6"
+      - "🇷🇺 Russia - Germany #7"
+      - "🇷🇺 Russia - Latvia"
     url: http://www.gstatic.com/generate_204
     interval: 300
 
@@ -719,110 +1114,144 @@ proxy-groups:
     type: select
     proxies:
       - 🚀 Auto
+      - "🇷🇺 Russia - Bulgaria"
+      - "🇷🇺 Russia - Croatia"
+      - "🇷🇺 Russia - Croatia #2"
+      - "🇷🇺 Russia - Czechia"
+      - "🇷🇺 Russia - Czechia #2"
+      - "🇷🇺 Russia - Estonia"
+      - "🇷🇺 Russia - Estonia #2"
       - "🇷🇺 Russia - Finland"
       - "🇷🇺 Russia - Finland #2"
       - "🇷🇺 Russia - France"
       - "🇷🇺 Russia - France #2"
+      - "🇷🇺 Russia - France #3"
       - "🇷🇺 Russia - Germany"
-      - "🇷🇺 Russia - Lithuania"
-      - "🇷🇺 Russia - Lithuania #2"
+      - "🇷🇺 Russia - Germany #2"
+      - "🇷🇺 Russia - Germany #3"
+      - "🇷🇺 Russia - Germany #4"
+      - "🇷🇺 Russia - Germany #5"
+      - "🇷🇺 Russia - Germany #6"
+      - "🇷🇺 Russia - Germany #7"
+      - "🇷🇺 Russia - Latvia"
+      - "🇷🇺 Russia - Latvia #2"
+      - "🇷🇺 Russia - Latvia #3"
+      - "🇷🇺 Russia - Latvia #4"
+      - "🇷🇺 Russia - Latvia #5"
+      - "🇷🇺 Russia - Latvia #6"
       - "🇷🇺 Russia - Poland"
       - "🇷🇺 Russia - Poland #2"
-      - "🇷🇺 Russia - Sweden"
-      - "🇷🇺 Russia - Sweden #2"
       - "🇷🇺 Russia - Ne Rlands"
       - "🇷🇺 Russia - Ne Rlands #2"
       - "🇷🇺 Russia - Ne Rlands #3"
+      - "🇷🇺 Russia - Ne Rlands #4"
+      - "🇷🇺 Russia - Ne Rlands #5"
+      - "🇷🇺 Russia - Ne Rlands #6"
+      - "🇷🇺 Russia - Ne Rlands #7"
+      - "🇷🇺 Russia - Ne Rlands #8"
+      - "🇷🇺 Russia - Ne Rlands #9"
+      - "🇷🇺 Russia - Ne Rlands #10"
+      - "🇷🇺 Russia - Ne Rlands #11"
+      - "🇷🇺 Russia - Ne Rlands #12"
+      - "🇷🇺 Russia - Ne Rlands Ya"
+      - "🇷🇺 Russia - Turkey"
+      - "🇷🇺 Russia - Turkey #2"
       - "🇷🇺 Russia - United Kingdom"
       - "🇷🇺 Russia - United Kingdom #2"
       - "🇷🇺 Russia - United Kingdom #3"
+      - "🇷🇺 Russia - United Kingdom #4"
       - "🇷🇺 Russia - United States"
-      - "🇷🇺 Russia - Anycast-Ip"
-      - "🇷🇺 Russia - Anycast-Ip #2"
-      - "🇷🇺 Russia - Anycast-Ip #3"
-      - "🇷🇺 Russia - Anycast-Ip #4"
-      - "🇷🇺 Russia - Anycast-Ip #5"
-      - "🇷🇺 Russia - Anycast-Ip #6"
-      - "🇷🇺 Russia - Anycast-Ip #7"
-      - "🇷🇺 Russia - Sia"
-      - "🇷🇺 Russia - Anycast-Ip #8"
       - "🇷🇺 Russia - 1"
       - "🇷🇺 Russia - 19"
-      - "🇷🇺 Russia - 20"
-      - "🇷🇺 Russia - 31"
-      - "🇷🇺 Russia - 36"
-      - "🇷🇺 Russia - 52"
-      - "🇷🇺 Russia - 53"
-      - "🇷🇺 Russia - 58"
-      - "🇷🇺 Russia - Beget 144"
-      - "🇦🇪 UAE - Selectel 147"
-      - "🇷🇺 Russia - Bulgaria 148"
-      - "🇷🇺 Russia - Bulgaria 149"
-      - "🇷🇺 Russia - Bulgaria 150"
-      - "🇷🇺 Russia - Bulgaria 156"
-      - "🇷🇺 Russia - Bulgaria 167"
-      - "🇷🇺 Russia - Germany 179"
-      - "🇷🇺 Russia - Germany 180"
-      - "🇷🇺 Russia - Germany 182"
-      - "🇷🇺 Russia - United Kingdom 187"
-      - "🇷🇺 Russia - United Kingdom 190"
+      - "🇷🇺 Russia - 30"
+      - "🇷🇺 Russia - 45"
+      - "🇷🇺 Russia - 46"
+      - "🇷🇺 Russia - 51"
+      - "🇷🇺 Russia - Beget 133"
+      - "🇷🇺 Russia - Bulgaria 135"
+      - "🇷🇺 Russia - Germany 138"
+      - "🇷🇺 Russia - Germany 141"
+      - "🇷🇺 Russia - Estonia 145"
+      - "🇷🇺 Russia - Estonia 146"
+      - "🇷🇺 Russia - Estonia 147"
+      - "🇷🇺 Russia - Estonia 148"
+      - "🇷🇺 Russia - Estonia 149"
+      - "🇷🇺 Russia - Finland 150"
+      - "🇷🇺 Russia - Sweden 152"
 
   - name: 🔒 Reality
     type: select
     proxies:
       - 🚀 Auto
+      - "🇷🇺 Russia - Croatia"
+      - "🇷🇺 Russia - Croatia #2"
+      - "🇷🇺 Russia - Estonia"
+      - "🇷🇺 Russia - Estonia #2"
       - "🇷🇺 Russia - Finland"
       - "🇷🇺 Russia - Finland #2"
+      - "🇷🇺 Russia - France"
+      - "🇷🇺 Russia - France #2"
       - "🇷🇺 Russia - Germany"
+      - "🇷🇺 Russia - Germany #2"
+      - "🇷🇺 Russia - Germany #3"
+      - "🇷🇺 Russia - Germany #4"
+      - "🇷🇺 Russia - Germany #5"
+      - "🇷🇺 Russia - Germany #6"
+      - "🇷🇺 Russia - Germany #7"
+      - "🇷🇺 Russia - Latvia"
+      - "🇷🇺 Russia - Latvia #2"
+      - "🇷🇺 Russia - Latvia #3"
+      - "🇷🇺 Russia - Latvia #4"
+      - "🇷🇺 Russia - Latvia #5"
+      - "🇷🇺 Russia - Latvia #6"
+      - "🇷🇺 Russia - Ne Rlands #3"
+      - "🇷🇺 Russia - Ne Rlands #4"
+      - "🇷🇺 Russia - Ne Rlands #5"
+      - "🇷🇺 Russia - Ne Rlands #6"
+      - "🇷🇺 Russia - Ne Rlands #7"
+      - "🇷🇺 Russia - Ne Rlands #8"
+      - "🇷🇺 Russia - Ne Rlands #9"
+      - "🇷🇺 Russia - Ne Rlands #10"
+      - "🇷🇺 Russia - Ne Rlands #11"
+      - "🇷🇺 Russia - Ne Rlands #12"
+      - "🇷🇺 Russia - Ne Rlands Ya"
+      - "🇷🇺 Russia - Turkey"
+      - "🇷🇺 Russia - Turkey #2"
       - "🇷🇺 Russia - United States"
-      - "🇷🇺 Russia - Anycast-Ip"
-      - "🇷🇺 Russia - Anycast-Ip #2"
-      - "🇷🇺 Russia - Anycast-Ip #5"
-      - "🇷🇺 Russia - Anycast-Ip #7"
-      - "🇷🇺 Russia - Beget 144"
+      - "🇷🇺 Russia - Beget 133"
+      - "🇷🇺 Russia - Germany 138"
+      - "🇷🇺 Russia - Estonia 145"
+      - "🇷🇺 Russia - Estonia 146"
+      - "🇷🇺 Russia - Estonia 147"
+      - "🇷🇺 Russia - Estonia 148"
+      - "🇷🇺 Russia - Estonia 149"
+      - "🇷🇺 Russia - Finland 150"
 
   - name: 🔐 TLS
     type: select
     proxies:
       - 🚀 Auto
-      - "🇷🇺 Russia - France"
-      - "🇷🇺 Russia - France #2"
-      - "🇷🇺 Russia - Lithuania"
-      - "🇷🇺 Russia - Lithuania #2"
+      - "🇷🇺 Russia - Bulgaria"
+      - "🇷🇺 Russia - Czechia"
+      - "🇷🇺 Russia - Czechia #2"
+      - "🇷🇺 Russia - France #3"
       - "🇷🇺 Russia - Poland"
       - "🇷🇺 Russia - Poland #2"
-      - "🇷🇺 Russia - Sweden"
-      - "🇷🇺 Russia - Sweden #2"
       - "🇷🇺 Russia - Ne Rlands"
       - "🇷🇺 Russia - Ne Rlands #2"
-      - "🇷🇺 Russia - Ne Rlands #3"
       - "🇷🇺 Russia - United Kingdom"
       - "🇷🇺 Russia - United Kingdom #2"
       - "🇷🇺 Russia - United Kingdom #3"
-      - "🇷🇺 Russia - Anycast-Ip #3"
-      - "🇷🇺 Russia - Anycast-Ip #4"
-      - "🇷🇺 Russia - Anycast-Ip #6"
-      - "🇷🇺 Russia - Sia"
-      - "🇷🇺 Russia - Anycast-Ip #8"
+      - "🇷🇺 Russia - United Kingdom #4"
       - "🇷🇺 Russia - 1"
       - "🇷🇺 Russia - 19"
-      - "🇷🇺 Russia - 20"
-      - "🇷🇺 Russia - 31"
-      - "🇷🇺 Russia - 36"
-      - "🇷🇺 Russia - 52"
-      - "🇷🇺 Russia - 53"
-      - "🇷🇺 Russia - 58"
-      - "🇦🇪 UAE - Selectel 147"
-      - "🇷🇺 Russia - Bulgaria 148"
-      - "🇷🇺 Russia - Bulgaria 149"
-      - "🇷🇺 Russia - Bulgaria 150"
-      - "🇷🇺 Russia - Bulgaria 156"
-      - "🇷🇺 Russia - Bulgaria 167"
-      - "🇷🇺 Russia - Germany 179"
-      - "🇷🇺 Russia - Germany 180"
-      - "🇷🇺 Russia - Germany 182"
-      - "🇷🇺 Russia - United Kingdom 187"
-      - "🇷🇺 Russia - United Kingdom 190"
+      - "🇷🇺 Russia - 30"
+      - "🇷🇺 Russia - 45"
+      - "🇷🇺 Russia - 46"
+      - "🇷🇺 Russia - 51"
+      - "🇷🇺 Russia - Bulgaria 135"
+      - "🇷🇺 Russia - Germany 141"
+      - "🇷🇺 Russia - Sweden 152"
 
 rules:
   - DOMAIN-SUFFIX,local,DIRECT
