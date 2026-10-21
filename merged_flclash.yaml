@@ -1,6 +1,6 @@
 # FLClashX Subscription
-# Updated: 2026-10-21 19:12:56
-# Servers: 18 (Reality: 8, TLS: 10)
+# Updated: 2026-10-21 23:06:03
+# Servers: 53 (Reality: 39, TLS: 14)
 
 mixed-port: 7890
 port: 7890
@@ -23,6 +23,24 @@ dns:
     - https://dns.cloudflare.com/dns-query
 
 proxies:
+  - name: "🇷🇺 Russia - Austria"
+    type: vless
+    server: 168.113.255.82
+    port: 9831
+    uuid: 5d16ac22-6eea-426f-b778-6f4c2961faef
+    network: grpc
+    udp: true
+    skip-cert-verify: true
+    tls: true
+    servername: dl.google.com
+    flow: xtls-rprx-vision
+    client-fingerprint: android
+    reality-opts:
+      public-key: "bnRIb3Er1i-K6NGGByCO9UbGfOvu43ZoiK7ulPd1SzU"
+      short-id: ""
+    grpc-opts:
+      grpc-service-name: "grpc-tunnel"
+
   - name: "🇷🇺 Russia - Bulgaria Cdn"
     type: vless
     server: 37.18.14.43
@@ -33,7 +51,43 @@ proxies:
     skip-cert-verify: true
     tls: true
     servername: summerculture.net
+    client-fingerprint: chrome
+
+  - name: "🇷🇺 Russia - Denmark"
+    type: vless
+    server: 168.113.252.62
+    port: 9881
+    uuid: 5d16ac22-6eea-426f-b778-6f4c2961faef
+    network: grpc
+    udp: true
+    skip-cert-verify: true
+    tls: true
+    servername: dl.google.com
+    flow: xtls-rprx-vision
     client-fingerprint: firefox
+    reality-opts:
+      public-key: "Dfgu8Ey0M8Hz4gXGZAwQ3H9jLt2HByVsjAOTWiuKDB0"
+      short-id: ""
+    grpc-opts:
+      grpc-service-name: "grpc-tunnel"
+
+  - name: "🇷🇺 Russia - Estonia"
+    type: vless
+    server: 45.132.179.12
+    port: 9881
+    uuid: 5d16ac22-6eea-426f-b778-6f4c2961faef
+    network: grpc
+    udp: true
+    skip-cert-verify: true
+    tls: true
+    servername: dl.google.com
+    flow: xtls-rprx-vision
+    client-fingerprint: firefox
+    reality-opts:
+      public-key: "Dfgu8Ey0M8Hz4gXGZAwQ3H9jLt2HByVsjAOTWiuKDB0"
+      short-id: "aabb"
+    grpc-opts:
+      grpc-service-name: "grpc-tunnel"
 
   - name: "🇷🇺 Russia - Finland"
     type: vless
@@ -46,7 +100,7 @@ proxies:
     tls: true
     servername: 263651t.fi3.h1clayd.click
     flow: xtls-rprx-vision
-    client-fingerprint: qq
+    client-fingerprint: edge
     reality-opts:
       public-key: "nNe5Y8_G7L0_VO5lqlee3h5UmRH4RXjaRYGCDUkbQz4"
       short-id: "2892e611785bafd1"
@@ -62,7 +116,7 @@ proxies:
     tls: true
     servername: 8fc752g.fi3.h1clayd.click
     flow: xtls-rprx-vision
-    client-fingerprint: ios
+    client-fingerprint: chrome
     reality-opts:
       public-key: "GJzag9Wrvz_bO9AQaA-Oq0P1kV9btmxxAdzPV-uQB18"
       short-id: "09d0a94a1c6fc9d5"
@@ -85,41 +139,27 @@ proxies:
       public-key: "iZD9niaCQZpjG_ndVq8N2pY4hLNg0n7_oT7qJUMkDEI"
       short-id: "248965340b604f9c"
 
+  - name: "🇷🇺 Russia - France"
+    type: vless
+    server: 168.113.252.137
+    port: 9880
+    uuid: 5d16ac22-6eea-426f-b778-6f4c2961faef
+    network: grpc
+    udp: true
+    skip-cert-verify: true
+    tls: true
+    servername: dl.google.com
+    flow: xtls-rprx-vision
+    client-fingerprint: firefox
+    reality-opts:
+      public-key: "bnRIb3Er1i-K6NGGByCO9UbGfOvu43ZoiK7ulPd1SzU"
+      short-id: ""
+    grpc-opts:
+      grpc-service-name: "grpc-tunnel"
+
   - name: "🇷🇺 Russia - Germany"
     type: vless
-    server: 135.106.172.192
-    port: 443
-    uuid: bab5c9d1-dce7-4dc2-905c-caa983db6f30
-    network: tcp
-    udp: true
-    skip-cert-verify: true
-    tls: true
-    servername: ir-2.ozone.ru
-    flow: xtls-rprx-vision
-    client-fingerprint: chrome
-    reality-opts:
-      public-key: "ii7KJJgAWI45izIWYggcvwif4XFApDETGym_Fq-UEFc"
-      short-id: "364d3f8603b1504a"
-
-  - name: "🇷🇺 Russia - Germany #2"
-    type: vless
-    server: 78.17.98.90
-    port: 443
-    uuid: 0bf8538b-6299-46b0-9775-8b00939dccb5
-    network: xhttp
-    udp: true
-    skip-cert-verify: true
-    tls: true
-    servername: www.kinopoisk.ru
-    flow: xtls-rprx-vision
-    client-fingerprint: chrome
-    reality-opts:
-      public-key: "mNRV3HSLM37qsRRPHZ0VUA4DZ1Sk8l57kFXE-oom-hE"
-      short-id: "fc7856ec48d53138"
-
-  - name: "🇷🇺 Russia - Germany #3"
-    type: vless
-    server: 213.171.24.54
+    server: 45.150.9.191
     port: 8643
     uuid: 0d55ea1d-5587-4c17-9e85-3ee9b279aa8f
     network: tcp
@@ -128,32 +168,490 @@ proxies:
     tls: true
     servername: travel.yandex.ru
     flow: xtls-rprx-vision
-    client-fingerprint: android
+    client-fingerprint: qq
     reality-opts:
       public-key: "kmLlM6u12bptp7icPOL3fkUJucwvYTRVMkXz2AGAN2A"
       short-id: "ca6703afd42cadcd"
 
-  - name: "🇷🇺 Russia - Ne Rlands"
+  - name: "🇷🇺 Russia - Germany #2"
     type: vless
-    server: 78.17.98.140
+    server: edge1.mskedge.ru
     port: 443
-    uuid: 0bf8538b-6299-46b0-9775-8b00939dccb5
+    uuid: 34a39a68-e7bf-4aa7-8340-a1a3126be65b
+    network: tcp
+    udp: true
+    skip-cert-verify: true
+    tls: true
+    servername: eh.vk.com
+    flow: xtls-rprx-vision
+    client-fingerprint: chrome
+    reality-opts:
+      public-key: "N8FJu1pfVv7wRY1AqkCUT_XOcaxFaH4oXh1tzuVNcB0"
+      short-id: "a77377d70de13390"
+
+  - name: "🇷🇺 Russia - Germany #3"
+    type: vless
+    server: 113.30.154.228
+    port: 443
+    uuid: 261160d5-0343-4b85-8c28-3d40dd681559
+    network: tcp
+    udp: true
+    skip-cert-verify: true
+    tls: true
+    servername: ai.ozon.ru
+    flow: xtls-rprx-vision
+    client-fingerprint: firefox
+    reality-opts:
+      public-key: "SbVKOEMjK0sIlbwg4akyBg5mL5KZwwB-ed4eEE7YnRc"
+      short-id: ""
+
+  - name: "🇷🇺 Russia - Germany #4"
+    type: vless
+    server: 186.246.51.226
+    port: 2087
+    uuid: deba253c-fceb-4efb-b1b8-f7295ef2ec36
+    network: tcp
+    udp: true
+    skip-cert-verify: true
+    tls: true
+    servername: assets.blogspot.com
+    flow: xtls-rprx-vision
+    client-fingerprint: firefox
+    reality-opts:
+      public-key: "1ZjjxRjaJlzXQOupvNZ5pyK5xbaZGskjC6HkXGzMjys"
+      short-id: "1ec515b87b68eab9"
+
+  - name: "🇷🇺 Russia - Germany #5"
+    type: vless
+    server: 186.246.51.226
+    port: 443
+    uuid: deba253c-fceb-4efb-b1b8-f7295ef2ec36
+    network: tcp
+    udp: true
+    skip-cert-verify: true
+    tls: true
+    servername: assets.blogspot.com
+    flow: xtls-rprx-vision
+    client-fingerprint: firefox
+    reality-opts:
+      public-key: "1ZjjxRjaJlzXQOupvNZ5pyK5xbaZGskjC6HkXGzMjys"
+      short-id: "1ec515b87b68eab9"
+
+  - name: "🇷🇺 Russia - Germany #6"
+    type: vless
+    server: 186.246.51.226
+    port: 8443
+    uuid: deba253c-fceb-4efb-b1b8-f7295ef2ec36
+    network: tcp
+    udp: true
+    skip-cert-verify: true
+    tls: true
+    servername: assets.blogspot.com
+    flow: xtls-rprx-vision
+    client-fingerprint: firefox
+    reality-opts:
+      public-key: "1ZjjxRjaJlzXQOupvNZ5pyK5xbaZGskjC6HkXGzMjys"
+      short-id: "1ec515b87b68eab9"
+
+  - name: "🇷🇺 Russia - Germany #7"
+    type: vless
+    server: cdnhaven.com
+    port: 3443
+    uuid: 34a39a68-e7bf-4aa7-8340-a1a3126be65b
+    network: grpc
+    udp: true
+    skip-cert-verify: true
+    tls: true
+    servername: stats.vk-portal.net
+    flow: xtls-rprx-vision
+    client-fingerprint: edge
+    reality-opts:
+      public-key: "Q1Fjb64H0fakerSZHytJ7WQkuKeMs13l9kQJ0nywoFo"
+      short-id: "d3e4f5a6b7c8d9e0"
+    grpc-opts:
+      grpc-service-name: "grpc"
+
+  - name: "🇷🇺 Russia - Germany #8"
+    type: vless
+    server: cdnhaven.com
+    port: 443
+    uuid: 34a39a68-e7bf-4aa7-8340-a1a3126be65b
+    network: tcp
+    udp: true
+    skip-cert-verify: true
+    tls: true
+    servername: www.dell.com
+    flow: xtls-rprx-vision
+    client-fingerprint: edge
+    reality-opts:
+      public-key: "Q1Fjb64H0fakerSZHytJ7WQkuKeMs13l9kQJ0nywoFo"
+      short-id: "d3e4f5a6b7c8d9e0"
+
+  - name: "🇷🇺 Russia - Germany #9"
+    type: vless
+    server: cdnhaven.com
+    port: 5443
+    uuid: 34a39a68-e7bf-4aa7-8340-a1a3126be65b
+    network: tcp
+    udp: true
+    skip-cert-verify: true
+    tls: true
+    servername: www.philips.com
+    flow: xtls-rprx-vision
+    client-fingerprint: chrome
+    reality-opts:
+      public-key: "Q1Fjb64H0fakerSZHytJ7WQkuKeMs13l9kQJ0nywoFo"
+      short-id: "d3e4f5a6b7c8d9e0"
+
+  - name: "🇷🇺 Russia - Germany #10"
+    type: vless
+    server: cdnpoint.ru
+    port: 2087
+    uuid: 34a39a68-e7bf-4aa7-8340-a1a3126be65b
+    network: tcp
+    udp: true
+    skip-cert-verify: true
+    tls: true
+    servername: m.vk.ru
+    flow: xtls-rprx-vision
+    client-fingerprint: android
+    reality-opts:
+      public-key: "_yfkAlX_g-2LBB3CpNqI9sDKz-1OyqwyvbDwD7F8gRo"
+      short-id: "c2d3e4f5a6b7c8d9"
+
+  - name: "🇷🇺 Russia - Germany #11"
+    type: vless
+    server: cdnpoint.ru
+    port: 7443
+    uuid: 34a39a68-e7bf-4aa7-8340-a1a3126be65b
+    network: tcp
+    udp: true
+    skip-cert-verify: true
+    tls: true
+    servername: www.acer.com
+    flow: xtls-rprx-vision
+    client-fingerprint: edge
+    reality-opts:
+      public-key: "Q1Fjb64H0fakerSZHytJ7WQkuKeMs13l9kQJ0nywoFo"
+      short-id: "d3e4f5a6b7c8d9e0"
+
+  - name: "🇷🇺 Russia - Germany #12"
+    type: vless
+    server: edge2.cdnpoint.ru
+    port: 1553
+    uuid: 34a39a68-e7bf-4aa7-8340-a1a3126be65b
+    network: tcp
+    udp: true
+    skip-cert-verify: true
+    tls: true
+    servername: www.dell.com
+    flow: xtls-rprx-vision
+    client-fingerprint: android
+    reality-opts:
+      public-key: "Q1Fjb64H0fakerSZHytJ7WQkuKeMs13l9kQJ0nywoFo"
+      short-id: "d3e4f5a6b7c8d9e0"
+
+  - name: "🇷🇺 Russia - Germany #13"
+    type: vless
+    server: edge2.cdnpoint.ru
+    port: 2083
+    uuid: 34a39a68-e7bf-4aa7-8340-a1a3126be65b
+    network: tcp
+    udp: true
+    skip-cert-verify: true
+    tls: true
+    servername: api-maps.yandex.ru
+    flow: xtls-rprx-vision
+    client-fingerprint: android
+    reality-opts:
+      public-key: "q5R5iCDA5tM9IjPTK3OS-n8xFbWKZgcgKKg95NRRSCg"
+      short-id: "b1c2d3e4f5a6b7c8"
+
+  - name: "🇷🇺 Russia - Germany #14"
+    type: vless
+    server: edge2.cdnpoint.ru
+    port: 2443
+    uuid: 34a39a68-e7bf-4aa7-8340-a1a3126be65b
+    network: tcp
+    udp: true
+    skip-cert-verify: true
+    tls: true
+    servername: www.lenovo.com
+    flow: xtls-rprx-vision
+    client-fingerprint: edge
+    reality-opts:
+      public-key: "Q1Fjb64H0fakerSZHytJ7WQkuKeMs13l9kQJ0nywoFo"
+      short-id: "d3e4f5a6b7c8d9e0"
+
+  - name: "🇷🇺 Russia - Germany #15"
+    type: vless
+    server: edge2.cdnpoint.ru
+    port: 2653
+    uuid: 34a39a68-e7bf-4aa7-8340-a1a3126be65b
+    network: tcp
+    udp: true
+    skip-cert-verify: true
+    tls: true
+    servername: www.siemens.com
+    flow: xtls-rprx-vision
+    client-fingerprint: edge
+    reality-opts:
+      public-key: "Q1Fjb64H0fakerSZHytJ7WQkuKeMs13l9kQJ0nywoFo"
+      short-id: "d3e4f5a6b7c8d9e0"
+
+  - name: "🇷🇺 Russia - Germany #16"
+    type: vless
+    server: edge2.cdnpoint.ru
+    port: 3443
+    uuid: 34a39a68-e7bf-4aa7-8340-a1a3126be65b
+    network: grpc
+    udp: true
+    skip-cert-verify: true
+    tls: true
+    servername: stats.vk-portal.net
+    flow: xtls-rprx-vision
+    client-fingerprint: edge
+    reality-opts:
+      public-key: "Q1Fjb64H0fakerSZHytJ7WQkuKeMs13l9kQJ0nywoFo"
+      short-id: "d3e4f5a6b7c8d9e0"
+    grpc-opts:
+      grpc-service-name: "grpc"
+
+  - name: "🇷🇺 Russia - Germany #17"
+    type: vless
+    server: edge2.cdnpoint.ru
+    port: 6553
+    uuid: 34a39a68-e7bf-4aa7-8340-a1a3126be65b
+    network: tcp
+    udp: true
+    skip-cert-verify: true
+    tls: true
+    servername: www.logitech.com
+    flow: xtls-rprx-vision
+    client-fingerprint: edge
+    reality-opts:
+      public-key: "Q1Fjb64H0fakerSZHytJ7WQkuKeMs13l9kQJ0nywoFo"
+      short-id: "d3e4f5a6b7c8d9e0"
+
+  - name: "🇷🇺 Russia - Germany #18"
+    type: vless
+    server: edge2.mskedge.ru
+    port: 2443
+    uuid: 34a39a68-e7bf-4aa7-8340-a1a3126be65b
+    network: tcp
+    udp: true
+    skip-cert-verify: true
+    tls: true
+    servername: www.lenovo.com
+    flow: xtls-rprx-vision
+    client-fingerprint: edge
+    reality-opts:
+      public-key: "Q1Fjb64H0fakerSZHytJ7WQkuKeMs13l9kQJ0nywoFo"
+      short-id: "d3e4f5a6b7c8d9e0"
+
+  - name: "🇷🇺 Russia - Germany #19"
+    type: vless
+    server: edge2.mskedge.ru
+    port: 443
+    uuid: 34a39a68-e7bf-4aa7-8340-a1a3126be65b
+    network: tcp
+    udp: true
+    skip-cert-verify: true
+    tls: true
+    servername: eh.vk.com
+    flow: xtls-rprx-vision
+    client-fingerprint: chrome
+    reality-opts:
+      public-key: "N8FJu1pfVv7wRY1AqkCUT_XOcaxFaH4oXh1tzuVNcB0"
+      short-id: "a77377d70de13390"
+
+  - name: "🇷🇺 Russia - Italy"
+    type: vless
+    server: 168.113.252.7
+    port: 9892
+    uuid: 5d16ac22-6eea-426f-b778-6f4c2961faef
+    network: grpc
+    udp: true
+    skip-cert-verify: true
+    tls: true
+    servername: dl.google.com
+    flow: xtls-rprx-vision
+    client-fingerprint: firefox
+    reality-opts:
+      public-key: "ycPIUcY6ci2yi7YA_OHc20e4gzxEdJTqpmeShxSuHRU"
+      short-id: ""
+    grpc-opts:
+      grpc-service-name: "grpc-tunnel"
+
+  - name: "🇷🇺 Russia - Kazakhstan"
+    type: vless
+    server: 168.113.254.253
+    port: 9882
+    uuid: 5d16ac22-6eea-426f-b778-6f4c2961faef
+    network: grpc
+    udp: true
+    skip-cert-verify: true
+    tls: true
+    servername: dl.google.com
+    flow: xtls-rprx-vision
+    client-fingerprint: chrome
+    reality-opts:
+      public-key: "bnRIb3Er1i-K6NGGByCO9UbGfOvu43ZoiK7ulPd1SzU"
+      short-id: ""
+    grpc-opts:
+      grpc-service-name: "grpc-tunnel"
+
+  - name: "🇷🇺 Russia - Norway"
+    type: vless
+    server: 168.113.252.128
+    port: 9881
+    uuid: 5d16ac22-6eea-426f-b778-6f4c2961faef
+    network: grpc
+    udp: true
+    skip-cert-verify: true
+    tls: true
+    servername: dl.google.com
+    flow: xtls-rprx-vision
+    client-fingerprint: firefox
+    reality-opts:
+      public-key: "Dfgu8Ey0M8Hz4gXGZAwQ3H9jLt2HByVsjAOTWiuKDB0"
+      short-id: ""
+    grpc-opts:
+      grpc-service-name: "grpc-tunnel"
+
+  - name: "🇷🇺 Russia - Ne Rlands Ya"
+    type: vless
+    server: 84.201.180.13
+    port: 443
+    uuid: 1e2b9c0c-4f9b-56f5-a062-1c4f2d2aa200
     network: xhttp
     udp: true
     skip-cert-verify: true
     tls: true
-    servername: www.kinopoisk.ru
+    servername: api-maps.yandex.ru
     flow: xtls-rprx-vision
     client-fingerprint: edge
     reality-opts:
-      public-key: "sapNNbl_WY4Ya6Exv1UtDC6KShf_ivUFLbseliIVOAY"
-      short-id: "1ec5187f1f007c88"
+      public-key: "DuxQy3KWEZTU_sBhXSfeo_1Q0-0lMcSnx21bWvUi5hQ"
+      short-id: ""
+
+  - name: "🇷🇺 Russia - United States"
+    type: vless
+    server: cdnhaven.com
+    port: 9160
+    uuid: 34a39a68-e7bf-4aa7-8340-a1a3126be65b
+    network: tcp
+    udp: true
+    skip-cert-verify: true
+    tls: true
+    servername: www.lenovo.com
+    flow: xtls-rprx-vision
+    client-fingerprint: chrome
+    reality-opts:
+      public-key: "d9MBweFofyB-i5NAXciQ9zlgR82g4cJKoxIhtVeceg8"
+      short-id: "6996674003b59ad3"
+
+  - name: "🇷🇺 Russia - United States #2"
+    type: vless
+    server: cdnhaven.com
+    port: 9166
+    uuid: 34a39a68-e7bf-4aa7-8340-a1a3126be65b
+    network: tcp
+    udp: true
+    skip-cert-verify: true
+    tls: true
+    servername: www.asus.com
+    flow: xtls-rprx-vision
+    client-fingerprint: edge
+    reality-opts:
+      public-key: "d9MBweFofyB-i5NAXciQ9zlgR82g4cJKoxIhtVeceg8"
+      short-id: "6996674003b59ad3"
+
+  - name: "🇷🇺 Russia - United States #3"
+    type: vless
+    server: cdnpoint.ru
+    port: 9160
+    uuid: 34a39a68-e7bf-4aa7-8340-a1a3126be65b
+    network: tcp
+    udp: true
+    skip-cert-verify: true
+    tls: true
+    servername: www.lenovo.com
+    flow: xtls-rprx-vision
+    client-fingerprint: edge
+    reality-opts:
+      public-key: "d9MBweFofyB-i5NAXciQ9zlgR82g4cJKoxIhtVeceg8"
+      short-id: "6996674003b59ad3"
+
+  - name: "🇷🇺 Russia - United States #4"
+    type: vless
+    server: cdnpoint.ru
+    port: 9163
+    uuid: 34a39a68-e7bf-4aa7-8340-a1a3126be65b
+    network: tcp
+    udp: true
+    skip-cert-verify: true
+    tls: true
+    servername: www.siemens.com
+    flow: xtls-rprx-vision
+    client-fingerprint: edge
+    reality-opts:
+      public-key: "d9MBweFofyB-i5NAXciQ9zlgR82g4cJKoxIhtVeceg8"
+      short-id: "6996674003b59ad3"
+
+  - name: "🇷🇺 Russia - United States #5"
+    type: vless
+    server: cdnpoint.ru
+    port: 9164
+    uuid: 34a39a68-e7bf-4aa7-8340-a1a3126be65b
+    network: tcp
+    udp: true
+    skip-cert-verify: true
+    tls: true
+    servername: www.lenovo.com
+    flow: xtls-rprx-vision
+    client-fingerprint: edge
+    reality-opts:
+      public-key: "d9MBweFofyB-i5NAXciQ9zlgR82g4cJKoxIhtVeceg8"
+      short-id: "6996674003b59ad3"
+
+  - name: "🇷🇺 Russia - United States #6"
+    type: vless
+    server: cdnpoint.ru
+    port: 9166
+    uuid: 34a39a68-e7bf-4aa7-8340-a1a3126be65b
+    network: tcp
+    udp: true
+    skip-cert-verify: true
+    tls: true
+    servername: www.asus.com
+    flow: xtls-rprx-vision
+    client-fingerprint: edge
+    reality-opts:
+      public-key: "d9MBweFofyB-i5NAXciQ9zlgR82g4cJKoxIhtVeceg8"
+      short-id: "6996674003b59ad3"
+
+  - name: "🇷🇺 Russia - United States #7"
+    type: vless
+    server: edge2.cdnpoint.ru
+    port: 9164
+    uuid: 34a39a68-e7bf-4aa7-8340-a1a3126be65b
+    network: tcp
+    udp: true
+    skip-cert-verify: true
+    tls: true
+    servername: www.lenovo.com
+    flow: xtls-rprx-vision
+    client-fingerprint: android
+    reality-opts:
+      public-key: "d9MBweFofyB-i5NAXciQ9zlgR82g4cJKoxIhtVeceg8"
+      short-id: "6996674003b59ad3"
 
   - name: "🇷🇺 Russia - 1"
     type: vless
     server: 78.159.246.85
     port: 2053
-    uuid: 95a608b6-bff1-4e10-bb61-0a39f221bb7d
+    uuid: 6a2aff19-ff1f-4a13-96c8-a4d8986a9699
     network: xhttp
     udp: true
     skip-cert-verify: true
@@ -173,7 +671,31 @@ proxies:
     servername: summerculture.net
     client-fingerprint: firefox
 
-  - name: "🇷🇺 Russia - 9"
+  - name: "🇷🇺 Russia - 3"
+    type: vless
+    server: 78.159.246.85
+    port: 2053
+    uuid: 95a608b6-bff1-4e10-bb61-0a39f221bb7d
+    network: xhttp
+    udp: true
+    skip-cert-verify: true
+    tls: true
+    servername: fitindoor.net
+    client-fingerprint: firefox
+
+  - name: "🇷🇺 Russia - 5"
+    type: vless
+    server: 78.159.246.179
+    port: 2053
+    uuid: 6a2aff19-ff1f-4a13-96c8-a4d8986a9699
+    network: xhttp
+    udp: true
+    skip-cert-verify: true
+    tls: true
+    servername: randomquaint.net
+    client-fingerprint: firefox
+
+  - name: "🇷🇺 Russia - 16"
     type: vless
     server: 78.159.246.85
     port: 2053
@@ -185,7 +707,7 @@ proxies:
     servername: fitindoor.net
     client-fingerprint: firefox
 
-  - name: "🇷🇺 Russia - 11"
+  - name: "🇷🇺 Russia - 18"
     type: vless
     server: 78.159.246.179
     port: 2053
@@ -197,7 +719,7 @@ proxies:
     servername: randomquaint.net
     client-fingerprint: firefox
 
-  - name: "🇷🇺 Russia - 61"
+  - name: "🇷🇺 Russia - 78"
     type: vless
     server: 81.94.148.232
     port: 2053
@@ -209,7 +731,7 @@ proxies:
     servername: windytrout.net
     client-fingerprint: firefox
 
-  - name: "🇷🇺 Russia - Beget 66"
+  - name: "🇷🇺 Russia - Beget 81"
     type: vless
     server: 45.12.75.242
     port: 26424
@@ -225,7 +747,7 @@ proxies:
       public-key: "l8AubqcxQO-HRFJy4pZL1vbLOo-eXit69s-XulSELE0"
       short-id: "23103e1e"
 
-  - name: "🇦🇪 UAE - Selectel 68"
+  - name: "🇦🇪 UAE - Selectel 85"
     type: vless
     server: 188.72.103.4
     port: 443
@@ -237,7 +759,49 @@ proxies:
     servername: ru.nnight.cfd
     client-fingerprint: firefox
 
-  - name: "🇷🇺 Russia - Bulgaria 69"
+  - name: "🇷🇺 Russia - Timeweb 86"
+    type: vless
+    server: 188.225.83.133
+    port: 443
+    uuid: 4c346148-ece9-487a-bffb-ba5a399b2d71
+    network: grpc
+    udp: true
+    skip-cert-verify: true
+    tls: true
+    servername: xnodtwx.artemida.live
+    flow: xtls-rprx-vision
+    client-fingerprint: firefox
+    reality-opts:
+      public-key: "JqmkP6Fys7jN2Fu1iDJuWKVNPhlgHfy_pj1DHFVKVhw"
+      short-id: "a1b2c3d4e5f6a7b8"
+    grpc-opts:
+      grpc-service-name: ""
+
+  - name: "🇷🇺 Russia - Bulgaria 93"
+    type: vless
+    server: 78.159.246.179
+    port: 8443
+    uuid: 6a2aff19-ff1f-4a13-96c8-a4d8986a9699
+    network: xhttp
+    udp: true
+    skip-cert-verify: true
+    tls: true
+    servername: randomquaint.net
+    client-fingerprint: firefox
+
+  - name: "🇷🇺 Russia - Bulgaria 95"
+    type: vless
+    server: 78.159.246.85
+    port: 8443
+    uuid: 6a2aff19-ff1f-4a13-96c8-a4d8986a9699
+    network: xhttp
+    udp: true
+    skip-cert-verify: true
+    tls: true
+    servername: fitindoor.net
+    client-fingerprint: chrome
+
+  - name: "🇷🇺 Russia - Bulgaria 98"
     type: vless
     server: 78.159.246.179
     port: 8443
@@ -249,7 +813,7 @@ proxies:
     servername: randomquaint.net
     client-fingerprint: firefox
 
-  - name: "🇷🇺 Russia - Bulgaria 71"
+  - name: "🇷🇺 Russia - Bulgaria 102"
     type: vless
     server: 78.159.246.85
     port: 8443
@@ -259,9 +823,9 @@ proxies:
     skip-cert-verify: true
     tls: true
     servername: fitindoor.net
-    client-fingerprint: chrome
+    client-fingerprint: firefox
 
-  - name: "🇷🇺 Russia - Bulgaria 77"
+  - name: "🇷🇺 Russia - Bulgaria 109"
     type: vless
     server: 81.94.148.232
     port: 8443
@@ -277,24 +841,26 @@ proxy-groups:
   - name: 🚀 Auto
     type: url-test
     proxies:
+      - "🇷🇺 Russia - Austria"
       - "🇷🇺 Russia - Bulgaria Cdn"
+      - "🇷🇺 Russia - Denmark"
+      - "🇷🇺 Russia - Estonia"
       - "🇷🇺 Russia - Finland"
       - "🇷🇺 Russia - Finland #2"
       - "🇷🇺 Russia - Finland #3"
+      - "🇷🇺 Russia - France"
       - "🇷🇺 Russia - Germany"
       - "🇷🇺 Russia - Germany #2"
       - "🇷🇺 Russia - Germany #3"
-      - "🇷🇺 Russia - Ne Rlands"
-      - "🇷🇺 Russia - 1"
-      - "🇷🇺 Russia - 2"
-      - "🇷🇺 Russia - 9"
-      - "🇷🇺 Russia - 11"
-      - "🇷🇺 Russia - 61"
-      - "🇷🇺 Russia - Beget 66"
-      - "🇦🇪 UAE - Selectel 68"
-      - "🇷🇺 Russia - Bulgaria 69"
-      - "🇷🇺 Russia - Bulgaria 71"
-      - "🇷🇺 Russia - Bulgaria 77"
+      - "🇷🇺 Russia - Germany #4"
+      - "🇷🇺 Russia - Germany #5"
+      - "🇷🇺 Russia - Germany #6"
+      - "🇷🇺 Russia - Germany #7"
+      - "🇷🇺 Russia - Germany #8"
+      - "🇷🇺 Russia - Germany #9"
+      - "🇷🇺 Russia - Germany #10"
+      - "🇷🇺 Russia - Germany #11"
+      - "🇷🇺 Russia - Germany #12"
     url: http://www.gstatic.com/generate_204
     interval: 300
 
@@ -302,37 +868,103 @@ proxy-groups:
     type: select
     proxies:
       - 🚀 Auto
+      - "🇷🇺 Russia - Austria"
       - "🇷🇺 Russia - Bulgaria Cdn"
+      - "🇷🇺 Russia - Denmark"
+      - "🇷🇺 Russia - Estonia"
       - "🇷🇺 Russia - Finland"
       - "🇷🇺 Russia - Finland #2"
       - "🇷🇺 Russia - Finland #3"
+      - "🇷🇺 Russia - France"
       - "🇷🇺 Russia - Germany"
       - "🇷🇺 Russia - Germany #2"
       - "🇷🇺 Russia - Germany #3"
-      - "🇷🇺 Russia - Ne Rlands"
+      - "🇷🇺 Russia - Germany #4"
+      - "🇷🇺 Russia - Germany #5"
+      - "🇷🇺 Russia - Germany #6"
+      - "🇷🇺 Russia - Germany #7"
+      - "🇷🇺 Russia - Germany #8"
+      - "🇷🇺 Russia - Germany #9"
+      - "🇷🇺 Russia - Germany #10"
+      - "🇷🇺 Russia - Germany #11"
+      - "🇷🇺 Russia - Germany #12"
+      - "🇷🇺 Russia - Germany #13"
+      - "🇷🇺 Russia - Germany #14"
+      - "🇷🇺 Russia - Germany #15"
+      - "🇷🇺 Russia - Germany #16"
+      - "🇷🇺 Russia - Germany #17"
+      - "🇷🇺 Russia - Germany #18"
+      - "🇷🇺 Russia - Germany #19"
+      - "🇷🇺 Russia - Italy"
+      - "🇷🇺 Russia - Kazakhstan"
+      - "🇷🇺 Russia - Norway"
+      - "🇷🇺 Russia - Ne Rlands Ya"
+      - "🇷🇺 Russia - United States"
+      - "🇷🇺 Russia - United States #2"
+      - "🇷🇺 Russia - United States #3"
+      - "🇷🇺 Russia - United States #4"
+      - "🇷🇺 Russia - United States #5"
+      - "🇷🇺 Russia - United States #6"
+      - "🇷🇺 Russia - United States #7"
       - "🇷🇺 Russia - 1"
       - "🇷🇺 Russia - 2"
-      - "🇷🇺 Russia - 9"
-      - "🇷🇺 Russia - 11"
-      - "🇷🇺 Russia - 61"
-      - "🇷🇺 Russia - Beget 66"
-      - "🇦🇪 UAE - Selectel 68"
-      - "🇷🇺 Russia - Bulgaria 69"
-      - "🇷🇺 Russia - Bulgaria 71"
-      - "🇷🇺 Russia - Bulgaria 77"
+      - "🇷🇺 Russia - 3"
+      - "🇷🇺 Russia - 5"
+      - "🇷🇺 Russia - 16"
+      - "🇷🇺 Russia - 18"
+      - "🇷🇺 Russia - 78"
+      - "🇷🇺 Russia - Beget 81"
+      - "🇦🇪 UAE - Selectel 85"
+      - "🇷🇺 Russia - Timeweb 86"
+      - "🇷🇺 Russia - Bulgaria 93"
+      - "🇷🇺 Russia - Bulgaria 95"
+      - "🇷🇺 Russia - Bulgaria 98"
+      - "🇷🇺 Russia - Bulgaria 102"
+      - "🇷🇺 Russia - Bulgaria 109"
 
   - name: 🔒 Reality
     type: select
     proxies:
       - 🚀 Auto
+      - "🇷🇺 Russia - Austria"
+      - "🇷🇺 Russia - Denmark"
+      - "🇷🇺 Russia - Estonia"
       - "🇷🇺 Russia - Finland"
       - "🇷🇺 Russia - Finland #2"
       - "🇷🇺 Russia - Finland #3"
+      - "🇷🇺 Russia - France"
       - "🇷🇺 Russia - Germany"
       - "🇷🇺 Russia - Germany #2"
       - "🇷🇺 Russia - Germany #3"
-      - "🇷🇺 Russia - Ne Rlands"
-      - "🇷🇺 Russia - Beget 66"
+      - "🇷🇺 Russia - Germany #4"
+      - "🇷🇺 Russia - Germany #5"
+      - "🇷🇺 Russia - Germany #6"
+      - "🇷🇺 Russia - Germany #7"
+      - "🇷🇺 Russia - Germany #8"
+      - "🇷🇺 Russia - Germany #9"
+      - "🇷🇺 Russia - Germany #10"
+      - "🇷🇺 Russia - Germany #11"
+      - "🇷🇺 Russia - Germany #12"
+      - "🇷🇺 Russia - Germany #13"
+      - "🇷🇺 Russia - Germany #14"
+      - "🇷🇺 Russia - Germany #15"
+      - "🇷🇺 Russia - Germany #16"
+      - "🇷🇺 Russia - Germany #17"
+      - "🇷🇺 Russia - Germany #18"
+      - "🇷🇺 Russia - Germany #19"
+      - "🇷🇺 Russia - Italy"
+      - "🇷🇺 Russia - Kazakhstan"
+      - "🇷🇺 Russia - Norway"
+      - "🇷🇺 Russia - Ne Rlands Ya"
+      - "🇷🇺 Russia - United States"
+      - "🇷🇺 Russia - United States #2"
+      - "🇷🇺 Russia - United States #3"
+      - "🇷🇺 Russia - United States #4"
+      - "🇷🇺 Russia - United States #5"
+      - "🇷🇺 Russia - United States #6"
+      - "🇷🇺 Russia - United States #7"
+      - "🇷🇺 Russia - Beget 81"
+      - "🇷🇺 Russia - Timeweb 86"
 
   - name: 🔐 TLS
     type: select
@@ -341,13 +973,17 @@ proxy-groups:
       - "🇷🇺 Russia - Bulgaria Cdn"
       - "🇷🇺 Russia - 1"
       - "🇷🇺 Russia - 2"
-      - "🇷🇺 Russia - 9"
-      - "🇷🇺 Russia - 11"
-      - "🇷🇺 Russia - 61"
-      - "🇦🇪 UAE - Selectel 68"
-      - "🇷🇺 Russia - Bulgaria 69"
-      - "🇷🇺 Russia - Bulgaria 71"
-      - "🇷🇺 Russia - Bulgaria 77"
+      - "🇷🇺 Russia - 3"
+      - "🇷🇺 Russia - 5"
+      - "🇷🇺 Russia - 16"
+      - "🇷🇺 Russia - 18"
+      - "🇷🇺 Russia - 78"
+      - "🇦🇪 UAE - Selectel 85"
+      - "🇷🇺 Russia - Bulgaria 93"
+      - "🇷🇺 Russia - Bulgaria 95"
+      - "🇷🇺 Russia - Bulgaria 98"
+      - "🇷🇺 Russia - Bulgaria 102"
+      - "🇷🇺 Russia - Bulgaria 109"
 
 rules:
   - DOMAIN-SUFFIX,local,DIRECT
