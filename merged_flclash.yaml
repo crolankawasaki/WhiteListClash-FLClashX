@@ -1,6 +1,6 @@
 # FLClashX Subscription
-# Updated: 2026-10-28 23:00:51
-# Servers: 19 (Reality: 4, TLS: 15)
+# Updated: 2026-10-29 05:02:52
+# Servers: 30 (Reality: 4, TLS: 26)
 
 mixed-port: 7890
 port: 7890
@@ -33,9 +33,87 @@ proxies:
     skip-cert-verify: true
     tls: true
     servername: broadcast.liveflow.space
-    client-fingerprint: chrome
+    client-fingerprint: ios
     ws-opts:
       path: "%2Flive.stream.v1.Broadcast%2F"
+      headers:
+        Host: "broadcast.liveflow.space"
+
+  - name: "🇷🇺 Russia - Finland"
+    type: vless
+    server: 87.242.95.193
+    port: 6003
+    uuid: ddc27ad2-631e-4431-b380-0045547acef4
+    network: xhttp
+    udp: true
+    skip-cert-verify: true
+    tls: true
+    servername: fin1.centermass.net
+    client-fingerprint: firefox
+
+  - name: "🇷🇺 Russia - Moldova"
+    type: vless
+    server: 87.228.71.195
+    port: 443
+    uuid: 2f9107cb-9af0-4c94-a89d-50437218e5fa
+    network: ws
+    udp: true
+    skip-cert-verify: true
+    tls: true
+    servername: ap2.directly.chat
+    client-fingerprint: safari
+    ws-opts:
+      path: "%2Fmd%2F1"
+      headers:
+        Host: "ap2.directly.chat"
+
+  - name: "🇷🇺 Russia - Moldova #2"
+    type: vless
+    server: 87.228.71.196
+    port: 443
+    uuid: 2f9107cb-9af0-4c94-a89d-50437218e5fa
+    network: ws
+    udp: true
+    skip-cert-verify: true
+    tls: true
+    servername: ap2.directly.chat
+    client-fingerprint: chrome
+    ws-opts:
+      path: "%2Fmd%2F1"
+      headers:
+        Host: "ap2.directly.chat"
+
+  - name: "🇷🇺 Russia - Moldova #3"
+    type: vless
+    server: 87.228.71.197
+    port: 443
+    uuid: 2f9107cb-9af0-4c94-a89d-50437218e5fa
+    network: ws
+    udp: true
+    skip-cert-verify: true
+    tls: true
+    servername: ap2.directly.chat
+    client-fingerprint: qq
+    ws-opts:
+      path: "%2Fmd%2F1"
+      headers:
+        Host: "ap2.directly.chat"
+
+  - name: "🇷🇺 Russia - Moldova #4"
+    type: vless
+    server: 87.228.71.198
+    port: 443
+    uuid: 2f9107cb-9af0-4c94-a89d-50437218e5fa
+    network: ws
+    udp: true
+    skip-cert-verify: true
+    tls: true
+    servername: ap2.directly.chat
+    client-fingerprint: safari
+    ws-opts:
+      path: "%2Fmd%2F1"
+      headers:
+        Host: "ap2.directly.chat"
 
   - name: "🇷🇺 Russia - Poland"
     type: vless
@@ -49,37 +127,103 @@ proxies:
     servername: static.bakarova-top.ru
     client-fingerprint: edge
 
-  - name: "🇳🇱 Netherlands - Ne Rlands"
+  - name: "🇷🇺 Russia - Ne Rlands"
     type: vless
-    server: nl3.undeadcorporation.art
-    port: 8443
-    uuid: ee78c844-83b6-4508-b1f9-b3f00c8e0556
+    server: 189.74.114.93
+    port: 443
+    uuid: c6628db6-025d-40e8-b79d-033f4372a6b7
+    network: grpc
+    udp: true
+    skip-cert-verify: true
+    tls: true
+    servername: api.mediaklenov.cc
+    client-fingerprint: chrome
+    grpc-opts:
+      grpc-service-name: "3e99d50d5740985d"
+
+  - name: "🇷🇺 Russia - Ne Rlands #2"
+    type: vless
+    server: 91.198.220.83
+    port: 443
+    uuid: ddc27ad2-631e-4431-b380-0045547acef4
     network: xhttp
     udp: true
     skip-cert-verify: true
     tls: true
-    servername: twitch.tv
-    flow: xtls-rprx-vision
-    client-fingerprint: android
-    reality-opts:
-      public-key: "qlE96V8EuBoDsWz4DaeGYx5XEUbOcs-o0aK-Z9U4cC8"
-      short-id: "fd0ccc8b9788b8aa"
+    servername: nld.centermass.net
+    client-fingerprint: firefox
 
-  - name: "🇷🇺 Russia - Ne Rlands"
+  - name: "🇷🇺 Russia - Ne Rlands #3"
     type: vless
-    server: 185.86.145.183
+    server: 185.86.145.37
     port: 443
-    uuid: 872a2c34-23f4-4dc8-89c8-79e8817415c5
+    uuid: 34ec30ca-c499-46c5-a0b9-20638e5197e9
     network: ws
     udp: true
     skip-cert-verify: true
     tls: true
-    servername: cdns2.wyre-file.ru
-    client-fingerprint: android
+    servername: pulse-resume.pro
+    client-fingerprint: chrome
     ws-opts:
-      path: "%2Fnl7ws"
+      path: "%2Famws"
       headers:
-        Host: "cdns2.wyre-file.ru"
+        Host: "pulse-resume.pro"
+
+  - name: "🇷🇺 Russia - Ne Rlands #4"
+    type: vless
+    server: pulse-resume.pro
+    port: 443
+    uuid: 34ec30ca-c499-46c5-a0b9-20638e5197e9
+    network: ws
+    udp: true
+    skip-cert-verify: true
+    tls: true
+    servername: pulse-resume.pro
+    client-fingerprint: chrome
+    ws-opts:
+      path: "%2Famws"
+      headers:
+        Host: "pulse-resume.pro"
+
+  - name: "🇷🇺 Russia - Ne Rlands #5"
+    type: vless
+    server: 185.86.145.142
+    port: 2096
+    uuid: 9b560e60-0e08-4ee7-af43-1cb0f02e6cef
+    network: xhttp
+    udp: true
+    skip-cert-verify: true
+    tls: true
+    servername: apis.heoleti.pro
+    client-fingerprint: chrome
+
+  - name: "🇷🇺 Russia - Ne Rlands #6"
+    type: vless
+    server: apis.heoleti.pro
+    port: 2096
+    uuid: 9b560e60-0e08-4ee7-af43-1cb0f02e6cef
+    network: xhttp
+    udp: true
+    skip-cert-verify: true
+    tls: true
+    servername: apis.heoleti.pro
+    client-fingerprint: chrome
+
+  - name: "🇷🇺 Russia - Ne Rlands Ya"
+    type: vless
+    server: 84.201.146.8
+    port: 443
+    uuid: 1e2b9c0c-4f9b-56f5-a062-1c4f2d2aa200
+    network: xhttp
+    udp: true
+    skip-cert-verify: true
+    tls: true
+    servername: max.ru
+    flow: xtls-rprx-vision
+    client-fingerprint: chrome
+    reality-opts:
+      public-key: "biyXF3Egpu0ul4Jyf04Vh1Zl6u3JGXJ2k5y5y7pDjgo"
+      short-id: ""
 
   - name: "🇷🇺 Russia - United Kingdom"
     type: vless
@@ -93,6 +237,34 @@ proxies:
     servername: ru2.radiolumens.uk
     client-fingerprint: edge
 
+  - name: "🇷🇺 Russia - United Kingdom #2"
+    type: vless
+    server: 82.202.157.123
+    port: 5002
+    uuid: ddc27ad2-631e-4431-b380-0045547acef4
+    network: ws
+    udp: true
+    skip-cert-verify: true
+    tls: true
+    servername: br1.centermass.net
+    client-fingerprint: edge
+    ws-opts:
+      path: "media.playback.v1.SessionGateway"
+      headers:
+        Host: "br1.centermass.net"
+
+  - name: "🇷🇺 Russia - United Kingdom #3"
+    type: vless
+    server: 77.232.135.123
+    port: 9444
+    uuid: 36cf792c-f07d-4500-97ea-a395e5178deb
+    network: xhttp
+    udp: true
+    skip-cert-verify: true
+    tls: true
+    servername: ru2.radiolumens.uk
+    client-fingerprint: chrome
+
   - name: "🇷🇺 Russia - 1"
     type: vless
     server: 78.159.246.85
@@ -105,7 +277,7 @@ proxies:
     servername: fitindoor.net
     client-fingerprint: firefox
 
-  - name: "🇷🇺 Russia - 7"
+  - name: "🇷🇺 Russia - 8"
     type: vless
     server: 78.159.246.85
     port: 2053
@@ -117,7 +289,7 @@ proxies:
     servername: fitindoor.net
     client-fingerprint: firefox
 
-  - name: "🇷🇺 Russia - 9"
+  - name: "🇷🇺 Russia - 10"
     type: vless
     server: 78.159.246.179
     port: 2053
@@ -129,7 +301,7 @@ proxies:
     servername: randomquaint.net
     client-fingerprint: firefox
 
-  - name: "🇷🇺 Russia - 57"
+  - name: "🇷🇺 Russia - 56"
     type: vless
     server: 81.94.148.232
     port: 2053
@@ -141,19 +313,7 @@ proxies:
     servername: windytrout.net
     client-fingerprint: firefox
 
-  - name: "🇷🇺 Russia - 70"
-    type: vless
-    server: 37.18.14.43
-    port: 2053
-    uuid: 2c634977-584e-4e1f-b501-1b70c77a6743
-    network: xhttp
-    udp: true
-    skip-cert-verify: true
-    tls: true
-    servername: flatcrest.net
-    client-fingerprint: chrome
-
-  - name: "🇷🇺 Russia - Beget 73"
+  - name: "🇷🇺 Russia - Beget 71"
     type: vless
     server: 45.12.75.242
     port: 26424
@@ -164,12 +324,28 @@ proxies:
     tls: true
     servername: ya.ru
     flow: xtls-rprx-vision
-    client-fingerprint: qq
+    client-fingerprint: chrome
     reality-opts:
       public-key: "l8AubqcxQO-HRFJy4pZL1vbLOo-eXit69s-XulSELE0"
       short-id: "23103e1e"
 
-  - name: "🇦🇪 UAE - Selectel 76"
+  - name: "🇷🇺 Russia - Delta 75"
+    type: vless
+    server: 185.229.9.135
+    port: 443
+    uuid: d9833bab-0a4d-4ebf-9d80-1f6ab04f3964
+    network: ws
+    udp: true
+    skip-cert-verify: true
+    tls: true
+    servername: app.lesotorg-kirov.ru
+    client-fingerprint: chrome
+    ws-opts:
+      path: "%2Fchws"
+      headers:
+        Host: "app.lesotorg-kirov.ru"
+
+  - name: "🇦🇪 UAE - Selectel 78"
     type: vless
     server: 188.72.103.4
     port: 443
@@ -181,7 +357,7 @@ proxies:
     servername: ru.nnight.cfd
     client-fingerprint: firefox
 
-  - name: "🇷🇺 Russia - Bulgaria 78"
+  - name: "🇷🇺 Russia - Bulgaria 80"
     type: vless
     server: 78.159.246.179
     port: 8443
@@ -193,7 +369,7 @@ proxies:
     servername: randomquaint.net
     client-fingerprint: firefox
 
-  - name: "🇷🇺 Russia - Bulgaria 81"
+  - name: "🇷🇺 Russia - Bulgaria 83"
     type: vless
     server: 78.159.246.85
     port: 8443
@@ -205,7 +381,7 @@ proxies:
     servername: fitindoor.net
     client-fingerprint: chrome
 
-  - name: "🇷🇺 Russia - Bulgaria 87"
+  - name: "🇷🇺 Russia - Bulgaria 89"
     type: vless
     server: 81.94.148.232
     port: 8443
@@ -217,7 +393,7 @@ proxies:
     servername: windytrout.net
     client-fingerprint: firefox
 
-  - name: "🇷🇺 Russia - Germany 101"
+  - name: "🇷🇺 Russia - Germany 106"
     type: vless
     server: 217.19.122.156
     port: 443
@@ -233,19 +409,7 @@ proxies:
       headers:
         Host: "z1q3pv4g78.rucdncomp.pro"
 
-  - name: "🇦🇪 UAE - Germany 110"
-    type: vless
-    server: 188.72.103.4
-    port: 443
-    uuid: 000187a2-924b-8be4-b475-485a4699c80d
-    network: xhttp
-    udp: true
-    skip-cert-verify: true
-    tls: true
-    servername: pl-cdn.fius.dev
-    client-fingerprint: firefox
-
-  - name: "🇷🇺 Russia - Ne Rlands 114"
+  - name: "🇷🇺 Russia - Ne Rlands 118"
     type: vless
     server: 84.201.180.13
     port: 443
@@ -261,7 +425,7 @@ proxies:
       public-key: "DuxQy3KWEZTU_sBhXSfeo_1Q0-0lMcSnx21bWvUi5hQ"
       short-id: ""
 
-  - name: "🇷🇺 Russia - Sweden 132"
+  - name: "🇷🇺 Russia - Sweden 137"
     type: vless
     server: 188.225.77.254
     port: 8443
@@ -284,24 +448,25 @@ proxy-groups:
     type: url-test
     proxies:
       - "🇷🇺 Russia - Estonia"
+      - "🇷🇺 Russia - Finland"
+      - "🇷🇺 Russia - Moldova"
+      - "🇷🇺 Russia - Moldova #2"
+      - "🇷🇺 Russia - Moldova #3"
+      - "🇷🇺 Russia - Moldova #4"
       - "🇷🇺 Russia - Poland"
-      - "🇳🇱 Netherlands - Ne Rlands"
       - "🇷🇺 Russia - Ne Rlands"
+      - "🇷🇺 Russia - Ne Rlands #2"
+      - "🇷🇺 Russia - Ne Rlands #3"
+      - "🇷🇺 Russia - Ne Rlands #4"
+      - "🇷🇺 Russia - Ne Rlands #5"
+      - "🇷🇺 Russia - Ne Rlands #6"
+      - "🇷🇺 Russia - Ne Rlands Ya"
       - "🇷🇺 Russia - United Kingdom"
+      - "🇷🇺 Russia - United Kingdom #2"
+      - "🇷🇺 Russia - United Kingdom #3"
       - "🇷🇺 Russia - 1"
-      - "🇷🇺 Russia - 7"
-      - "🇷🇺 Russia - 9"
-      - "🇷🇺 Russia - 57"
-      - "🇷🇺 Russia - 70"
-      - "🇷🇺 Russia - Beget 73"
-      - "🇦🇪 UAE - Selectel 76"
-      - "🇷🇺 Russia - Bulgaria 78"
-      - "🇷🇺 Russia - Bulgaria 81"
-      - "🇷🇺 Russia - Bulgaria 87"
-      - "🇷🇺 Russia - Germany 101"
-      - "🇦🇪 UAE - Germany 110"
-      - "🇷🇺 Russia - Ne Rlands 114"
-      - "🇷🇺 Russia - Sweden 132"
+      - "🇷🇺 Russia - 8"
+      - "🇷🇺 Russia - 10"
     url: http://www.gstatic.com/generate_204
     interval: 300
 
@@ -310,53 +475,75 @@ proxy-groups:
     proxies:
       - 🚀 Auto
       - "🇷🇺 Russia - Estonia"
+      - "🇷🇺 Russia - Finland"
+      - "🇷🇺 Russia - Moldova"
+      - "🇷🇺 Russia - Moldova #2"
+      - "🇷🇺 Russia - Moldova #3"
+      - "🇷🇺 Russia - Moldova #4"
       - "🇷🇺 Russia - Poland"
-      - "🇳🇱 Netherlands - Ne Rlands"
       - "🇷🇺 Russia - Ne Rlands"
+      - "🇷🇺 Russia - Ne Rlands #2"
+      - "🇷🇺 Russia - Ne Rlands #3"
+      - "🇷🇺 Russia - Ne Rlands #4"
+      - "🇷🇺 Russia - Ne Rlands #5"
+      - "🇷🇺 Russia - Ne Rlands #6"
+      - "🇷🇺 Russia - Ne Rlands Ya"
       - "🇷🇺 Russia - United Kingdom"
+      - "🇷🇺 Russia - United Kingdom #2"
+      - "🇷🇺 Russia - United Kingdom #3"
       - "🇷🇺 Russia - 1"
-      - "🇷🇺 Russia - 7"
-      - "🇷🇺 Russia - 9"
-      - "🇷🇺 Russia - 57"
-      - "🇷🇺 Russia - 70"
-      - "🇷🇺 Russia - Beget 73"
-      - "🇦🇪 UAE - Selectel 76"
-      - "🇷🇺 Russia - Bulgaria 78"
-      - "🇷🇺 Russia - Bulgaria 81"
-      - "🇷🇺 Russia - Bulgaria 87"
-      - "🇷🇺 Russia - Germany 101"
-      - "🇦🇪 UAE - Germany 110"
-      - "🇷🇺 Russia - Ne Rlands 114"
-      - "🇷🇺 Russia - Sweden 132"
+      - "🇷🇺 Russia - 8"
+      - "🇷🇺 Russia - 10"
+      - "🇷🇺 Russia - 56"
+      - "🇷🇺 Russia - Beget 71"
+      - "🇷🇺 Russia - Delta 75"
+      - "🇦🇪 UAE - Selectel 78"
+      - "🇷🇺 Russia - Bulgaria 80"
+      - "🇷🇺 Russia - Bulgaria 83"
+      - "🇷🇺 Russia - Bulgaria 89"
+      - "🇷🇺 Russia - Germany 106"
+      - "🇷🇺 Russia - Ne Rlands 118"
+      - "🇷🇺 Russia - Sweden 137"
 
   - name: 🔒 Reality
     type: select
     proxies:
       - 🚀 Auto
-      - "🇳🇱 Netherlands - Ne Rlands"
-      - "🇷🇺 Russia - Beget 73"
-      - "🇷🇺 Russia - Ne Rlands 114"
-      - "🇷🇺 Russia - Sweden 132"
+      - "🇷🇺 Russia - Ne Rlands Ya"
+      - "🇷🇺 Russia - Beget 71"
+      - "🇷🇺 Russia - Ne Rlands 118"
+      - "🇷🇺 Russia - Sweden 137"
 
   - name: 🔐 TLS
     type: select
     proxies:
       - 🚀 Auto
       - "🇷🇺 Russia - Estonia"
+      - "🇷🇺 Russia - Finland"
+      - "🇷🇺 Russia - Moldova"
+      - "🇷🇺 Russia - Moldova #2"
+      - "🇷🇺 Russia - Moldova #3"
+      - "🇷🇺 Russia - Moldova #4"
       - "🇷🇺 Russia - Poland"
       - "🇷🇺 Russia - Ne Rlands"
+      - "🇷🇺 Russia - Ne Rlands #2"
+      - "🇷🇺 Russia - Ne Rlands #3"
+      - "🇷🇺 Russia - Ne Rlands #4"
+      - "🇷🇺 Russia - Ne Rlands #5"
+      - "🇷🇺 Russia - Ne Rlands #6"
       - "🇷🇺 Russia - United Kingdom"
+      - "🇷🇺 Russia - United Kingdom #2"
+      - "🇷🇺 Russia - United Kingdom #3"
       - "🇷🇺 Russia - 1"
-      - "🇷🇺 Russia - 7"
-      - "🇷🇺 Russia - 9"
-      - "🇷🇺 Russia - 57"
-      - "🇷🇺 Russia - 70"
-      - "🇦🇪 UAE - Selectel 76"
-      - "🇷🇺 Russia - Bulgaria 78"
-      - "🇷🇺 Russia - Bulgaria 81"
-      - "🇷🇺 Russia - Bulgaria 87"
-      - "🇷🇺 Russia - Germany 101"
-      - "🇦🇪 UAE - Germany 110"
+      - "🇷🇺 Russia - 8"
+      - "🇷🇺 Russia - 10"
+      - "🇷🇺 Russia - 56"
+      - "🇷🇺 Russia - Delta 75"
+      - "🇦🇪 UAE - Selectel 78"
+      - "🇷🇺 Russia - Bulgaria 80"
+      - "🇷🇺 Russia - Bulgaria 83"
+      - "🇷🇺 Russia - Bulgaria 89"
+      - "🇷🇺 Russia - Germany 106"
 
 rules:
   - DOMAIN-SUFFIX,local,DIRECT
