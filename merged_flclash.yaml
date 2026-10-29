@@ -1,6 +1,6 @@
 # FLClashX Subscription
-# Updated: 2026-10-29 18:50:42
-# Servers: 14 (Reality: 2, TLS: 12)
+# Updated: 2026-10-29 23:08:31
+# Servers: 16 (Reality: 5, TLS: 11)
 
 mixed-port: 7890
 port: 7890
@@ -23,31 +23,7 @@ dns:
     - https://dns.cloudflare.com/dns-query
 
 proxies:
-  - name: "🇷🇺 Russia - Bulgaria Cdn"
-    type: vless
-    server: 37.18.14.43
-    port: 8443
-    uuid: 7dd69047-047e-422e-a2ba-ed773c34fd1a
-    network: xhttp
-    udp: true
-    skip-cert-verify: true
-    tls: true
-    servername: flatcrest.net
-    client-fingerprint: firefox
-
-  - name: "🇷🇺 Russia - Bulgaria Cdn #2"
-    type: vless
-    server: flatcrest.net
-    port: 8443
-    uuid: 7dd69047-047e-422e-a2ba-ed773c34fd1a
-    network: xhttp
-    udp: true
-    skip-cert-verify: true
-    tls: true
-    servername: flatcrest.net
-    client-fingerprint: firefox
-
-  - name: "🇷🇺 Russia - Estonia"
+  - name: "🇷🇺 Russia - .𖥔 ."
     type: vless
     server: ee.h1cloud.net
     port: 25895
@@ -58,7 +34,7 @@ proxies:
     tls: true
     servername: www.samsung.com
     flow: xtls-rprx-vision
-    client-fingerprint: ios
+    client-fingerprint: chrome
     reality-opts:
       public-key: "jOVKSP-bS9OkILJ8Epz8hadh6qhavCrOiJYeF0NCn0k"
       short-id: "a73f0410d728c823"
@@ -73,7 +49,7 @@ proxies:
     skip-cert-verify: true
     tls: true
     servername: static.bakarova-top.ru
-    client-fingerprint: chrome
+    client-fingerprint: edge
 
   - name: "🇷🇺 Russia - Ne Rlands"
     type: vless
@@ -91,6 +67,20 @@ proxies:
 
   - name: "🇷🇺 Russia - Ne Rlands #2"
     type: vless
+    server: 189.74.114.119
+    port: 443
+    uuid: abd5755a-8b77-4ed4-afbd-f2ccbc08e6f5
+    network: grpc
+    udp: true
+    skip-cert-verify: true
+    tls: true
+    servername: api.mediaklenov.cc
+    client-fingerprint: firefox
+    grpc-opts:
+      grpc-service-name: "3e99d50d5740985d"
+
+  - name: "🇷🇺 Russia - Ne Rlands #3"
+    type: vless
     server: 185.86.145.37
     port: 443
     uuid: 04b7c62b-762e-4a8c-ba37-8328d25c8d74
@@ -99,13 +89,27 @@ proxies:
     skip-cert-verify: true
     tls: true
     servername: ararat.rtkdvbr.cc
-    client-fingerprint: ios
+    client-fingerprint: firefox
     ws-opts:
       path: "%2Famws"
       headers:
         Host: "ararat.rtkdvbr.cc"
 
-  - name: "🇷🇺 Russia - Ne Rlands #3"
+  - name: "🇷🇺 Russia - Ne Rlands #4"
+    type: vless
+    server: ararat.rtkdvbr.cc
+    port: 443
+    uuid: 04b7c62b-762e-4a8c-ba37-8328d25c8d74
+    network: ws
+    udp: true
+    skip-cert-verify: true
+    tls: true
+    servername: ararat.rtkdvbr.cc
+    client-fingerprint: edge
+    ws-opts:
+      path: "%2Famws"
+
+  - name: "🇷🇺 Russia - Ne Rlands #5"
     type: vless
     server: 185.86.145.142
     port: 2096
@@ -115,9 +119,9 @@ proxies:
     skip-cert-verify: true
     tls: true
     servername: apis.repotraffic.org
-    client-fingerprint: ios
+    client-fingerprint: firefox
 
-  - name: "🇷🇺 Russia - Ne Rlands #4"
+  - name: "Ne Rlands"
     type: vless
     server: apis.repotraffic.org
     port: 2096
@@ -129,35 +133,39 @@ proxies:
     servername: apis.repotraffic.org
     client-fingerprint: android
 
-  - name: "🇷🇺 Russia - Ne Rlands #5"
+  - name: "🇷🇺 Russia - Ne Rlands Ya"
     type: vless
-    server: ararat.rtkdvbr.cc
+    server: 84.201.146.8
     port: 443
-    uuid: 04b7c62b-762e-4a8c-ba37-8328d25c8d74
-    network: ws
-    udp: true
-    skip-cert-verify: true
-    tls: true
-    servername: ararat.rtkdvbr.cc
-    client-fingerprint: ios
-    ws-opts:
-      path: "%2Famws"
-      headers:
-        Host: "ararat.rtkdvbr.cc"
-
-  - name: "🇷🇺 Russia - 1"
-    type: vless
-    server: 37.18.14.43
-    port: 2053
-    uuid: 7dd69047-047e-422e-a2ba-ed773c34fd1a
+    uuid: 1e2b9c0c-4f9b-56f5-a062-1c4f2d2aa200
     network: xhttp
     udp: true
     skip-cert-verify: true
     tls: true
-    servername: flatcrest.net
-    client-fingerprint: firefox
+    servername: max.ru
+    flow: xtls-rprx-vision
+    client-fingerprint: chrome
+    reality-opts:
+      public-key: "biyXF3Egpu0ul4Jyf04Vh1Zl6u3JGXJ2k5y5y7pDjgo"
+      short-id: ""
 
-  - name: "🇷🇺 Russia - Beget 5"
+  - name: "🇷🇺 Russia - United States"
+    type: vless
+    server: 213.165.60.187
+    port: 443
+    uuid: 1fe01c8a-ab37-4e95-bbfc-95d4a608931e
+    network: tcp
+    udp: true
+    skip-cert-verify: true
+    tls: true
+    servername: xpc2.waspnest.space
+    flow: xtls-rprx-vision
+    client-fingerprint: ios
+    reality-opts:
+      public-key: "3yddqUiJeYh6absBxMNR6OSMRjvi_-wVXy1GGS5K-y0"
+      short-id: "ae97223a8f799872"
+
+  - name: "🇷🇺 Russia - Beget 1"
     type: vless
     server: 45.12.75.242
     port: 26424
@@ -173,7 +181,7 @@ proxies:
       public-key: "l8AubqcxQO-HRFJy4pZL1vbLOo-eXit69s-XulSELE0"
       short-id: "23103e1e"
 
-  - name: "🇦🇪 UAE - Czechia 11"
+  - name: "🇦🇪 UAE - Selectel 5"
     type: vless
     server: 188.72.103.4
     port: 443
@@ -182,10 +190,10 @@ proxies:
     udp: true
     skip-cert-verify: true
     tls: true
-    servername: czech.nnight.cfd
+    servername: ru.nnight.cfd
     client-fingerprint: firefox
 
-  - name: "🇷🇺 Russia - Germany 12"
+  - name: "🇷🇺 Russia - Germany 8"
     type: vless
     server: 217.19.122.156
     port: 443
@@ -201,7 +209,37 @@ proxies:
       headers:
         Host: "z1q3pv4g78.rucdncomp.pro"
 
-  - name: "🇦🇪 UAE - United States 50"
+  - name: "🇷🇺 Russia - Estonia 21"
+    type: vless
+    server: 188.72.110.3
+    port: 443
+    uuid: 092573fd-82d0-4ac2-bc85-7813dfaa884c
+    network: xhttp
+    udp: true
+    skip-cert-verify: true
+    tls: true
+    servername: rsvnor.6924l9t655.h1cloud.lol
+    client-fingerprint: firefox
+
+  - name: "🇷🇺 Russia - Sweden 49"
+    type: vless
+    server: 188.225.77.254
+    port: 8443
+    uuid: d1f0c6cb-0d8b-4f13-8104-b7c8e8c57110
+    network: grpc
+    udp: true
+    skip-cert-verify: true
+    tls: true
+    servername: io.ozone.ru
+    flow: xtls-rprx-vision
+    client-fingerprint: firefox
+    reality-opts:
+      public-key: "rJ-fFNYXh7WW9LuYe1N71fh7nAEe5i09Pi5ZDSDlH1s"
+      short-id: "4951a2313524dd8f"
+    grpc-opts:
+      grpc-service-name: "ozone"
+
+  - name: "🇦🇪 UAE - United States 52"
     type: vless
     server: 188.72.103.4
     port: 443
@@ -210,27 +248,29 @@ proxies:
     udp: true
     skip-cert-verify: true
     tls: true
-    servername: ch-cdn.fius.dev
+    servername: se-cdn.fius.dev
     client-fingerprint: firefox
 
 proxy-groups:
   - name: 🚀 Auto
     type: url-test
     proxies:
-      - "🇷🇺 Russia - Bulgaria Cdn"
-      - "🇷🇺 Russia - Bulgaria Cdn #2"
-      - "🇷🇺 Russia - Estonia"
+      - "🇷🇺 Russia - .𖥔 ."
       - "🇷🇺 Russia - Poland"
       - "🇷🇺 Russia - Ne Rlands"
       - "🇷🇺 Russia - Ne Rlands #2"
       - "🇷🇺 Russia - Ne Rlands #3"
       - "🇷🇺 Russia - Ne Rlands #4"
       - "🇷🇺 Russia - Ne Rlands #5"
-      - "🇷🇺 Russia - 1"
-      - "🇷🇺 Russia - Beget 5"
-      - "🇦🇪 UAE - Czechia 11"
-      - "🇷🇺 Russia - Germany 12"
-      - "🇦🇪 UAE - United States 50"
+      - "Ne Rlands"
+      - "🇷🇺 Russia - Ne Rlands Ya"
+      - "🇷🇺 Russia - United States"
+      - "🇷🇺 Russia - Beget 1"
+      - "🇦🇪 UAE - Selectel 5"
+      - "🇷🇺 Russia - Germany 8"
+      - "🇷🇺 Russia - Estonia 21"
+      - "🇷🇺 Russia - Sweden 49"
+      - "🇦🇪 UAE - United States 52"
     url: http://www.gstatic.com/generate_204
     interval: 300
 
@@ -238,44 +278,48 @@ proxy-groups:
     type: select
     proxies:
       - 🚀 Auto
-      - "🇷🇺 Russia - Bulgaria Cdn"
-      - "🇷🇺 Russia - Bulgaria Cdn #2"
-      - "🇷🇺 Russia - Estonia"
+      - "🇷🇺 Russia - .𖥔 ."
       - "🇷🇺 Russia - Poland"
       - "🇷🇺 Russia - Ne Rlands"
       - "🇷🇺 Russia - Ne Rlands #2"
       - "🇷🇺 Russia - Ne Rlands #3"
       - "🇷🇺 Russia - Ne Rlands #4"
       - "🇷🇺 Russia - Ne Rlands #5"
-      - "🇷🇺 Russia - 1"
-      - "🇷🇺 Russia - Beget 5"
-      - "🇦🇪 UAE - Czechia 11"
-      - "🇷🇺 Russia - Germany 12"
-      - "🇦🇪 UAE - United States 50"
+      - "Ne Rlands"
+      - "🇷🇺 Russia - Ne Rlands Ya"
+      - "🇷🇺 Russia - United States"
+      - "🇷🇺 Russia - Beget 1"
+      - "🇦🇪 UAE - Selectel 5"
+      - "🇷🇺 Russia - Germany 8"
+      - "🇷🇺 Russia - Estonia 21"
+      - "🇷🇺 Russia - Sweden 49"
+      - "🇦🇪 UAE - United States 52"
 
   - name: 🔒 Reality
     type: select
     proxies:
       - 🚀 Auto
-      - "🇷🇺 Russia - Estonia"
-      - "🇷🇺 Russia - Beget 5"
+      - "🇷🇺 Russia - .𖥔 ."
+      - "🇷🇺 Russia - Ne Rlands Ya"
+      - "🇷🇺 Russia - United States"
+      - "🇷🇺 Russia - Beget 1"
+      - "🇷🇺 Russia - Sweden 49"
 
   - name: 🔐 TLS
     type: select
     proxies:
       - 🚀 Auto
-      - "🇷🇺 Russia - Bulgaria Cdn"
-      - "🇷🇺 Russia - Bulgaria Cdn #2"
       - "🇷🇺 Russia - Poland"
       - "🇷🇺 Russia - Ne Rlands"
       - "🇷🇺 Russia - Ne Rlands #2"
       - "🇷🇺 Russia - Ne Rlands #3"
       - "🇷🇺 Russia - Ne Rlands #4"
       - "🇷🇺 Russia - Ne Rlands #5"
-      - "🇷🇺 Russia - 1"
-      - "🇦🇪 UAE - Czechia 11"
-      - "🇷🇺 Russia - Germany 12"
-      - "🇦🇪 UAE - United States 50"
+      - "Ne Rlands"
+      - "🇦🇪 UAE - Selectel 5"
+      - "🇷🇺 Russia - Germany 8"
+      - "🇷🇺 Russia - Estonia 21"
+      - "🇦🇪 UAE - United States 52"
 
 rules:
   - DOMAIN-SUFFIX,local,DIRECT
